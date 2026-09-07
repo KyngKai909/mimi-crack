@@ -16,12 +16,12 @@ const shots: Shot[] = [
     alt: "The MiMi Crack jar upright, cream label and terracotta lid",
   },
   {
-    src: "/product/jar-open.webp",
-    alt: "The jar open with the lid resting in front, showing the pale green grease",
+    src: "/product/jar-open-top.webp",
+    alt: "Looking straight down into the open jar at the pale green grease",
   },
   {
-    src: "/product/jar-open-top.webp",
-    alt: "Looking straight down into the open jar",
+    src: "/product/jar-open.webp",
+    alt: "The jar open with the lid resting in front, showing the top label",
   },
   {
     src: "/product/jar-group.webp",

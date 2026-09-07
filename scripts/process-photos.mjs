@@ -378,7 +378,14 @@ async function main() {
     front.clone().resize({ height: 1600 }).webp({ ...webp, alphaQuality: 100 }));
 
   // --- Open jar, lid resting below: shows texture + top label -------------
-  const open = await cutout(p("image-1788819909712.jpg"), { erodePx: 3 });
+  // The lid in this shot is black plastic sitting on dark felt, so its rim
+  // and the backdrop share a shadow. A deeper peel and a softer feather stop
+  // that boundary reading as a hard, ragged outline once it's on cream.
+  const open = await cutout(p("image-1788819909712.jpg"), {
+    erodePx: 6,
+    feather: 2.4,
+    fringeDepth: 14,
+  });
   await emit("jar-open.webp",
     (await onCream(open, { width: 1400, height: 1750, scale: 0.86 })).webp(webp));
 

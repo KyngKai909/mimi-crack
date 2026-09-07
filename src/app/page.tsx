@@ -105,8 +105,8 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-6xl items-start gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.1fr]">
           <div className="relative aspect-square overflow-hidden rounded-[2rem] bg-parchment ring-1 ring-ink/10">
             <Image
-              src="/product/jar-open.webp"
-              alt="An open jar of MiMi Crack showing the pale green grease, with the lid resting beside it"
+              src="/product/jar-open-top.webp"
+              alt="An open jar of MiMi Crack showing the pale green grease"
               fill
               sizes="(max-width: 1024px) 90vw, 32rem"
               className="object-contain"
@@ -174,8 +174,8 @@ export default function HomePage() {
 
           <div className="relative aspect-4/5 overflow-hidden rounded-[2rem] bg-parchment ring-1 ring-ink/10">
             <Image
-              src="/product/jar-open-top.webp"
-              alt="Looking down into an open jar of MiMi Crack grease"
+              src="/product/jar-open.webp"
+              alt="An open jar of MiMi Crack with its lid resting in front"
               fill
               sizes="(max-width: 1024px) 90vw, 28rem"
               className="object-contain"
