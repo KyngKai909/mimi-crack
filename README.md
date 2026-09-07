@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MiMi Crack
 
-## Getting Started
+Single-product storefront for **MiMi Crack — Hair Fertilizer**, a 9.5 oz
+scalp-first conditioning grease.
 
-First, run the development server:
+Next.js 15 (App Router) · Tailwind v4 · Stripe Checkout · Shippo live rates.
+
+---
+
+## Pages
+
+| Route      | What it does |
+|------------|--------------|
+| `/`        | Marketing landing page — hero, benefits, how-to-use, ingredients, FAQ |
+| `/product` | Product detail — gallery, price, add to cart, directions, FAQ |
+| `/cart`    | Cart, shipping address, live carrier rates, hand-off to Stripe |
+| `/success` | Post-payment confirmation; clears the cart |
+
+API routes:
+
+| Route                    | What it does |
+|--------------------------|--------------|
+| `POST /api/shipping/rates` | Quotes live rates from Shippo for a destination + quantity |
+| `POST /api/checkout`       | Creates a Stripe Checkout Session and returns its URL |
+| `POST /api/webhooks/stripe`| Fulfilment: verifies the signature, logs the order, optionally buys the label |
+
+## Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill it in
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Every key in `.env.example` is documented inline. The site renders fine with no
+keys at all — it's only the rate quote and the checkout hand-off that need
+them, and both fail with a readable message rather than a stack trace.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Stripe webhooks locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+stripe listen --forward-to localhost:3310/api/webhooks/stripe
+```
 
-## Learn More
+Paste the `whsec_...` it prints into `STRIPE_WEBHOOK_SECRET`.
 
-To learn more about Next.js, take a look at the following resources:
+## How checkout fits together
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Stripe Checkout can't call out for live shipping rates mid-flow, so the order
+of operations is inverted: the cart page collects the destination address,
+quotes Shippo directly, and lets the customer pick a rate **before** payment.
+The chosen rate goes into the Checkout Session as its single shipping option,
+and its Shippo rate id rides along in session metadata so fulfilment can buy
+exactly the label that was quoted.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Prices are never taken from the browser. `/api/checkout` builds the line item
+from `src/lib/product.ts` server-side, so a tampered request can't discount
+anything.
 
-## Deploy on Vercel
+### Buying labels
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`POST /api/webhooks/stripe` will buy the Shippo label automatically, but only
+when `SHIPPO_AUTO_BUY_LABEL=true`. It ships off by default because label
+purchase debits the Shippo account for real money — leave it off until you've
+watched a few orders come through, then flip it.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Editing the product
+
+Nearly everything a shop owner would want to change lives in
+[`src/lib/product.ts`](src/lib/product.ts): price, size, copy, benefits,
+directions, FAQ, cautions, and the parcel dimensions used for rate quotes.
+
+**Before launch:** the ingredient list in that file was transcribed from the
+product photography and is incomplete. Replace it with the full declaration
+from the physical jar and set `ingredientsAreComplete: true` — until you do,
+the product page renders a visible note saying so.
+
+## Product photography
+
+`public/product/*` is generated from the raw jar photos, not hand-edited:
+
+```bash
+node scripts/process-photos.mjs --src ~/Downloads/mimi-crack
+```
+
+The raws were shot on dark green felt. The script keys it out on
+*chromaticity* rather than hue — the felt is lit unevenly, and the grease
+itself is pale green, so anything keyed on brightness or plain RGB distance
+eats the product. It only removes backdrop reachable from the frame border, so
+pale green enclosed by the jar is safe by construction. See the comments in
+[`scripts/process-photos.mjs`](scripts/process-photos.mjs).
+
+Re-run it any time you shoot new photos; drop the new files in and adjust the
+filenames in `main()`.
+
+## Deploying
+
+Vercel is the path of least resistance. Set the same environment variables in
+the project settings, point `NEXT_PUBLIC_SITE_URL` at the real domain, and add
+a Stripe webhook endpoint for `https://yourdomain/api/webhooks/stripe`
+subscribed to `checkout.session.completed`.
+
+## Still to do
+
+- Persist orders somewhere durable; right now Stripe's dashboard is the record
+  of truth, which works at low volume but can't be queried.
+- Sales tax — `automatic_tax` is off. Turn on Stripe Tax when you know your
+  nexus.
+- Confirm the parcel weight and dimensions in `src/lib/product.ts` against a
+  real packed order on a scale.
