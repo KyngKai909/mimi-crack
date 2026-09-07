@@ -1,26 +1,82 @@
 @import "tailwindcss";
 
+@theme {
+  /* --- Brand palette -------------------------------------------------
+     Pulled from the physical jar: cream label stock, botanical ink,
+     the pistachio grease itself, and the terracotta/black lids.       */
+  --color-cream: #f8f5ed;
+  --color-cream-deep: #efe9db;
+  --color-parchment: #fdfbf6;
+  --color-ink: #1c1b17;
+  --color-ink-soft: #4a4741;
+  --color-ink-faint: #85806f;
+
+  --color-pistachio: #cbe0a4;
+  --color-pistachio-light: #dcebc4;
+  --color-pistachio-deep: #a9c47c;
+
+  --color-botanical: #4c6238;
+  --color-botanical-deep: #33422a;
+  --color-terracotta: #8d4b30;
+  --color-terracotta-light: #b0664a;
+
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-script: var(--font-parisienne), "Snell Roundhand", cursive;
+
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  /* clip, not hidden — `hidden` on a scroll container silently kills
+     position:sticky for every descendant. */
+  overflow-x: clip;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer utilities {
+  /* The arched, wide-tracked wordmark treatment from the label. */
+  .tracking-label {
+    letter-spacing: 0.24em;
+  }
+  .tracking-label-sm {
+    letter-spacing: 0.16em;
+  }
+  .text-balance-tight {
+    text-wrap: balance;
+  }
+  /* Fine botanical rule used between label sections. */
+  .rule-botanical {
+    background-image: linear-gradient(
+      to right,
+      transparent,
+      var(--color-ink-faint) 15%,
+      var(--color-ink-faint) 85%,
+      transparent
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
