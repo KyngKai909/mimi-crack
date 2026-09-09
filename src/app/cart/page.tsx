@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function CartPage() {
-  return (
-    <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
-      <CartClient />
-    </div>
-  );
+  return <CartClient />;
 }

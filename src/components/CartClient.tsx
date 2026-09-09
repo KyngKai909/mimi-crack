@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MAX_QUANTITY, PRODUCT, formatPrice } from "@/lib/product";
+import { Slot } from "./Slot";
 import { useCart } from "@/lib/cart";
 
 type Quote = {
@@ -39,8 +39,8 @@ const EMPTY: Address = {
 };
 
 const field =
-  "w-full rounded-xl border border-ink/15 bg-parchment px-4 py-3 text-[0.95rem] text-ink outline-none transition-colors placeholder:text-ink-faint/70 focus:border-botanical focus:ring-2 focus:ring-botanical/20";
-const labelCls = "block text-[0.7rem] tracking-label-sm text-ink-faint uppercase";
+  "w-full border border-ink bg-bone px-3 py-3 text-sm text-ink outline-none transition-colors duration-[120ms] placeholder:text-ink/35 focus:bg-acid focus:placeholder:text-ink/50";
+const labelCls = "mono-micro block text-ink/45";
 
 export function CartClient() {
   const { quantity, setQuantity, remove, subtotalCents, ready } = useCart();
@@ -135,79 +135,77 @@ export function CartClient() {
   }
 
   if (!ready) {
-    return (
-      <div className="py-24 text-center text-ink-faint">Loading your cart…</div>
-    );
+    return <div className="mono-label px-4 py-24 text-ink/45">Loading cart…</div>;
   }
 
   if (quantity === 0) {
     return (
-      <div className="py-20 text-center">
-        <h1 className="font-display text-4xl font-semibold text-ink">
-          Your cart is empty
-        </h1>
-        <p className="mt-4 text-ink-soft">
-          There&rsquo;s only one thing to put in it.
-        </p>
-        <Link
-          href="/product"
-          className="mt-8 inline-block rounded-full bg-ink px-8 py-3.5 text-[0.78rem] tracking-label-sm text-cream uppercase transition-colors hover:bg-botanical-deep"
-        >
-          Shop the jar
-        </Link>
+      <div className="border-b border-ink">
+        <div className="overflow-hidden">
+          <h1 className="display display-mega -mb-[0.09em] whitespace-nowrap px-2">
+            Empty
+          </h1>
+        </div>
+        <div className="flex flex-col justify-between gap-5 border-t border-ink p-4 sm:flex-row sm:items-center">
+          <p className="mono-label text-ink/60">
+            There&rsquo;s only one thing to put in it.
+          </p>
+          <Link
+            href="/product"
+            className="mono-label inline-flex items-center justify-between gap-8 border border-ink bg-ink px-7 py-4 text-bone transition-colors duration-[120ms] hover:bg-acid hover:text-ink"
+          >
+            <span>Shop the jar</span>
+            <span>{formatPrice(PRODUCT.priceCents)} →</span>
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid gap-12 lg:grid-cols-[1.25fr_1fr] lg:gap-16">
+    <div className="grid lg:grid-cols-[1.3fr_1fr]">
       {/* ------------------------------------------------- left column */}
-      <div>
-        <h1 className="font-display text-4xl font-semibold text-ink">Cart</h1>
+      <div className="border-ink lg:border-r">
+        <div className="overflow-hidden border-b border-ink">
+          <h1 className="display display-mega -mb-[0.09em] whitespace-nowrap px-2">
+            Cart
+          </h1>
+        </div>
 
         {/* line item */}
-        <div className="mt-8 flex gap-5 border-y border-ink/10 py-6">
-          <div className="relative h-28 w-24 shrink-0 overflow-hidden rounded-xl bg-parchment ring-1 ring-ink/10">
-            <Image
-              src="/product/jar-front.webp"
-              alt=""
-              fill
-              sizes="6rem"
-              className="object-contain"
-            />
+        <div className="flex gap-4 border-b border-ink p-4 md:gap-6 md:p-6">
+          <div className="w-24 shrink-0 md:w-32">
+            <Slot label="Packshot" ratio="4 / 5" />
           </div>
-          <div className="flex flex-1 flex-col justify-between gap-3">
+          <div className="flex flex-1 flex-col justify-between gap-4">
             <div>
-              <h2 className="font-display text-lg font-semibold text-ink">
+              <h2 className="display text-2xl leading-[0.95] md:text-3xl">
                 {PRODUCT.shortName}
               </h2>
-              <p className="text-sm text-ink-faint">{PRODUCT.size.label}</p>
+              <p className="mono-micro mt-2 text-ink/50">{PRODUCT.size.label}</p>
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <label className="flex items-center gap-2.5 text-sm text-ink-soft">
-                <span className="sr-only">Quantity</span>
+              <div className="flex items-stretch border border-ink">
+                <label className="sr-only" htmlFor="qty">Quantity</label>
                 <select
+                  id="qty"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="rounded-lg border border-ink/15 bg-parchment px-3 py-2 text-ink"
+                  className="mono-label appearance-none bg-bone px-3 py-2 pr-6"
                 >
-                  {Array.from({ length: MAX_QUANTITY }, (_, i) => i + 1).map(
-                    (n) => (
-                      <option key={n} value={n}>
-                        {n}
-                      </option>
-                    ),
-                  )}
+                  {Array.from({ length: MAX_QUANTITY }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>{String(n).padStart(2, "0")}</option>
+                  ))}
                 </select>
                 <button
                   type="button"
                   onClick={remove}
-                  className="text-ink-faint underline underline-offset-4 hover:text-terracotta"
+                  className="invert-hover mono-label border-l border-ink px-3"
                 >
                   Remove
                 </button>
-              </label>
-              <p className="font-display text-lg text-ink tabular-nums">
+              </div>
+              <p className="display text-2xl tabular-nums">
                 {formatPrice(subtotalCents)}
               </p>
             </div>
@@ -215,11 +213,12 @@ export function CartClient() {
         </div>
 
         {/* ------------------------------------------------ ship to */}
-        <section className="mt-10">
-          <h2 className="font-display text-xl font-semibold text-ink">
-            Ship to
-          </h2>
-          <p className="mt-1.5 text-sm text-ink-soft">
+        <section className="border-b border-ink p-4 md:p-6">
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="display text-2xl leading-none">Ship to</h2>
+            <span className="mono-micro text-ink/45">[ Live rates ]</span>
+          </div>
+          <p className="mono-micro mt-3 text-ink/55">
             We quote live carrier rates for your address before you pay.
           </p>
 
@@ -361,7 +360,7 @@ export function CartClient() {
             type="button"
             onClick={getRates}
             disabled={!addressComplete || loadingRates}
-            className="mt-6 rounded-full border border-ink/25 px-7 py-3 text-[0.75rem] tracking-label-sm text-ink uppercase transition-colors hover:bg-ink/5 disabled:cursor-not-allowed disabled:opacity-40"
+            className="invert-hover mono-label mt-6 w-full border border-ink px-7 py-4 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink sm:w-auto"
           >
             {loadingRates ? "Checking carriers…" : "Get shipping rates"}
           </button>
@@ -369,18 +368,14 @@ export function CartClient() {
 
         {/* ------------------------------------------------- rates */}
         {quotes && quotes.length > 0 && (
-          <fieldset className="mt-10">
-            <legend className="font-display text-xl font-semibold text-ink">
-              Shipping method
-            </legend>
-            <div className="mt-5 space-y-3">
+          <fieldset className="border-b border-ink p-4 md:p-6">
+            <legend className="display text-2xl leading-none">Shipping method</legend>
+            <div className="mt-5">
               {quotes.map((q) => (
                 <label
                   key={q.rateId}
-                  className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border px-5 py-4 transition-colors ${
-                    chosen === q.rateId
-                      ? "border-botanical bg-pistachio-light/30"
-                      : "border-ink/15 hover:border-ink/30"
+                  className={`mt-[-1px] flex cursor-pointer items-center justify-between gap-4 border border-ink px-4 py-4 transition-colors duration-[120ms] ${
+                    chosen === q.rateId ? "bg-acid" : "hover:bg-bone-dim"
                   }`}
                 >
                   <span className="flex items-center gap-3.5">
@@ -390,13 +385,13 @@ export function CartClient() {
                       value={q.rateId}
                       checked={chosen === q.rateId}
                       onChange={() => setChosen(q.rateId)}
-                      className="h-4 w-4 accent-botanical"
+                      className="h-3.5 w-3.5 accent-ink"
                     />
                     <span>
-                      <span className="block text-[0.95rem] text-ink">
+                      <span className="mono-label block normal-case tracking-normal">
                         {q.provider} · {q.service}
                       </span>
-                      <span className="block text-sm text-ink-faint">
+                      <span className="mono-micro block text-ink/50">
                         {q.estimatedDays
                           ? `About ${q.estimatedDays} business ${
                               q.estimatedDays === 1 ? "day" : "days"
@@ -405,7 +400,7 @@ export function CartClient() {
                       </span>
                     </span>
                   </span>
-                  <span className="shrink-0 text-[0.95rem] text-ink tabular-nums">
+                  <span className="mono-label shrink-0 tabular-nums">
                     {formatPrice(q.amountCents, q.currency)}
                   </span>
                 </label>
@@ -416,75 +411,69 @@ export function CartClient() {
       </div>
 
       {/* ------------------------------------------------ right column */}
-      <aside className="lg:sticky lg:top-28 lg:self-start">
-        <div className="rounded-[1.75rem] border border-ink/10 bg-parchment p-7">
-          <h2 className="font-display text-xl font-semibold text-ink">
-            Order summary
-          </h2>
+      <aside className="lg:sticky lg:top-14 lg:h-fit">
+        <p className="mono-micro border-b border-ink px-4 py-3 text-ink/45">
+          [ Order summary ]
+        </p>
 
-          <dl className="mt-6 space-y-3 text-[0.95rem]">
-            <div className="flex justify-between gap-4">
-              <dt className="text-ink-soft">
-                {PRODUCT.shortName} × {quantity}
-              </dt>
-              <dd className="text-ink tabular-nums">
-                {formatPrice(subtotalCents)}
-              </dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-ink-soft">Shipping</dt>
-              <dd className="text-right text-ink tabular-nums">
-                {selected ? (
-                  formatPrice(selected.amountCents, selected.currency)
-                ) : (
-                  <span className="text-ink-faint">Calculated above</span>
-                )}
-              </dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-ink-soft">Taxes</dt>
-              <dd className="text-ink-faint">Shown at payment</dd>
-            </div>
-          </dl>
-
-          <div className="mt-5 flex justify-between gap-4 border-t border-ink/10 pt-5">
-            <span className="font-display text-lg text-ink">Total</span>
-            <span className="font-display text-lg text-ink tabular-nums">
-              {formatPrice(totalCents)}
-            </span>
+        <dl className="px-4 pt-4 md:px-6">
+          <div className="flex justify-between gap-4 border-b border-ink/15 py-2.5">
+            <dt className="mono-micro text-ink/55">
+              {PRODUCT.shortName} × {String(quantity).padStart(2, "0")}
+            </dt>
+            <dd className="mono-micro tabular-nums">{formatPrice(subtotalCents)}</dd>
           </div>
+          <div className="flex justify-between gap-4 border-b border-ink/15 py-2.5">
+            <dt className="mono-micro text-ink/55">Shipping</dt>
+            <dd className="mono-micro text-right tabular-nums">
+              {selected ? (
+                formatPrice(selected.amountCents, selected.currency)
+              ) : (
+                <span className="text-ink/35">Calculated left</span>
+              )}
+            </dd>
+          </div>
+          <div className="flex justify-between gap-4 border-b border-ink/15 py-2.5">
+            <dt className="mono-micro text-ink/55">Taxes</dt>
+            <dd className="mono-micro text-ink/35">Shown at payment</dd>
+          </div>
+        </dl>
 
-          {error && (
-            <p
-              role="alert"
-              className="mt-5 rounded-xl bg-terracotta/10 px-4 py-3 text-sm text-terracotta"
-            >
-              {error}
-            </p>
-          )}
-
-          <button
-            type="button"
-            onClick={checkout}
-            disabled={!selected || !email || submitting}
-            className="mt-6 w-full rounded-full bg-ink px-8 py-4 text-[0.78rem] tracking-label-sm text-cream uppercase transition-colors hover:bg-botanical-deep disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            {submitting ? "Redirecting…" : "Continue to payment"}
-          </button>
-
-          <p className="mt-4 text-center text-xs leading-relaxed text-ink-faint">
-            {!selected
-              ? "Add your address and pick a shipping method to continue."
-              : "You'll pay securely on Stripe. Card details never touch this site."}
-          </p>
-
-          <Link
-            href="/product"
-            className="mt-5 block text-center text-sm text-ink-soft underline underline-offset-4 hover:text-ink"
-          >
-            Keep shopping
-          </Link>
+        <div className="flex items-end justify-between gap-4 px-4 py-5 md:px-6">
+          <span className="mono-micro text-ink/45">Total</span>
+          <span className="display text-4xl tabular-nums">
+            {formatPrice(totalCents)}
+          </span>
         </div>
+
+        {error && (
+          <p role="alert" className="mono-micro border-y border-ink bg-ink px-4 py-3 text-bone md:px-6">
+            ✳ {error}
+          </p>
+        )}
+
+        <button
+          type="button"
+          onClick={checkout}
+          disabled={!selected || !email || submitting}
+          className="mono-label flex w-full items-center justify-between gap-6 border-y border-ink bg-ink px-4 py-5 text-bone transition-colors duration-[120ms] hover:bg-acid hover:text-ink disabled:cursor-not-allowed disabled:bg-bone-dim disabled:text-ink/35 md:px-6"
+        >
+          <span>{submitting ? "Redirecting…" : "Continue to payment"}</span>
+          <span aria-hidden="true">→</span>
+        </button>
+
+        <p className="mono-micro px-4 py-4 text-ink/50 md:px-6">
+          {!selected
+            ? "Add your address and pick a shipping method to continue."
+            : "You'll pay securely on Stripe. Card details never touch this site."}
+        </p>
+
+        <Link
+          href="/product"
+          className="invert-hover mono-label block border-t border-ink px-4 py-4 md:px-6"
+        >
+          ← Keep shopping
+        </Link>
       </aside>
     </div>
   );

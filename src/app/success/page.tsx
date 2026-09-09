@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { getStripe, isStripeConfigured } from "@/lib/stripe";
 import { ClearCartOnMount } from "@/components/ClearCartOnMount";
-import { Sprig } from "@/components/Sprig";
-import { formatPrice } from "@/lib/product";
+import { Marquee } from "@/components/Marquee";
+import { PRODUCT, formatPrice } from "@/lib/product";
 
 export const metadata: Metadata = {
   title: "Order confirmed",
@@ -43,57 +42,74 @@ export default async function SuccessPage({
   const summary = await loadSummary(session_id);
 
   return (
-    <div className="mx-auto max-w-2xl px-5 py-20 text-center sm:px-8 sm:py-28">
+    <>
       <ClearCartOnMount />
 
-      <div className="relative mx-auto h-44 w-40">
-        <Image
-          src="/product/jar-front.webp"
-          alt=""
-          fill
-          sizes="10rem"
-          className="object-contain"
-        />
+      <div className="mono-micro flex items-center justify-between border-b border-ink px-4 py-2 text-ink/50">
+        <span>Order received</span>
+        <span>[ ✳ ]</span>
       </div>
 
-      <Sprig className="mx-auto mt-8 h-6 w-28 text-ink-faint" />
+      <div className="overflow-hidden border-b border-ink bg-acid">
+        <h1 className="display display-mega -mb-[0.09em] whitespace-nowrap px-2">
+          Thank you
+        </h1>
+      </div>
 
-      <h1 className="mt-6 font-display text-4xl font-semibold text-ink sm:text-5xl">
-        Thank you
-      </h1>
+      <div className="grid border-b border-ink md:grid-cols-2">
+        <div className="border-b border-ink p-4 md:border-b-0 md:border-r md:p-8">
+          <p className="text-lg leading-snug">
+            Your order is in.{" "}
+            {summary?.paid && summary.email && (
+              <>
+                A receipt is on its way to{" "}
+                <span className="bg-acid px-1">{summary.email}</span>.{" "}
+              </>
+            )}
+            We pack and hand off to the carrier within 1–2 business days, and
+            you&rsquo;ll get tracking by email as soon as the label is made.
+          </p>
 
-      {summary?.paid ? (
-        <p className="mt-5 leading-relaxed text-ink-soft">
-          Your order is in.{" "}
-          {summary.email && (
-            <>
-              A receipt is on its way to{" "}
-              <span className="text-ink">{summary.email}</span>.{" "}
-            </>
+          {summary?.total != null && (
+            <p className="display mt-8 text-6xl tabular-nums">
+              {formatPrice(summary.total, summary.currency)}
+            </p>
           )}
-          We pack and hand off to the carrier within 1–2 business days, and
-          you&rsquo;ll get tracking by email as soon as the label is made.
-        </p>
-      ) : (
-        <p className="mt-5 leading-relaxed text-ink-soft">
-          Your order is in. We pack and hand off to the carrier within 1–2
-          business days, and you&rsquo;ll get tracking by email as soon as the
-          label is made.
-        </p>
-      )}
 
-      {summary?.total != null && (
-        <p className="mt-6 font-display text-2xl text-ink tabular-nums">
-          {formatPrice(summary.total, summary.currency)}
-        </p>
-      )}
+          <p className="font-script mt-8 text-4xl">{PRODUCT.scriptLine}</p>
+        </div>
 
-      <Link
-        href="/"
-        className="mt-10 inline-block rounded-full bg-ink px-8 py-3.5 text-[0.78rem] tracking-label-sm text-cream uppercase transition-colors hover:bg-botanical-deep"
-      >
-        Back to the shop
-      </Link>
-    </div>
+        <div className="flex flex-col">
+          <p className="mono-micro border-b border-ink px-4 py-3 text-ink/45 md:px-8">
+            [ While you wait ]
+          </p>
+          <ol className="flex-1">
+            {PRODUCT.howToUse.slice(0, 3).map((s, i) => (
+              <li
+                key={s.step}
+                className="invert-hover flex gap-5 border-b border-ink px-4 py-4 md:px-8"
+              >
+                <span className="display shrink-0 text-3xl leading-none text-ink/25">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h2 className="display text-xl leading-none">{s.step}</h2>
+                  <p className="mt-2 text-sm leading-relaxed text-ink/70">{s.body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Link
+            href="/"
+            className="mono-label flex items-center justify-between gap-6 bg-ink px-4 py-5 text-bone transition-colors duration-[120ms] hover:bg-acid hover:text-ink md:px-8"
+          >
+            <span>Back to the shop</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </div>
+
+      <Marquee items={["Order received", "Packing", "Shipping in 1–2 days"]} duration={22} />
+    </>
   );
 }

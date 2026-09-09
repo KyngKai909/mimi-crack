@@ -1,76 +1,204 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   MIMI CRACK — botanical brutalist
+   Bone ground, hard 1px black rules, one acid accent. No radii anywhere, no
+   soft shadows, no gradients. Structure is visible on purpose: the grid, the
+   numbering and the image slots are all part of the look.
+   ========================================================================= */
+
 @theme {
-  /* --- Brand palette -------------------------------------------------
-     Pulled from the physical jar: cream label stock, botanical ink,
-     the pistachio grease itself, and the terracotta/black lids.       */
-  --color-cream: #f8f5ed;
-  --color-cream-deep: #efe9db;
-  --color-parchment: #fdfbf6;
-  --color-ink: #1c1b17;
-  --color-ink-soft: #4a4741;
-  --color-ink-faint: #85806f;
+  --color-bone: #f2efe4;
+  --color-bone-dim: #e6e2d4;
+  --color-ink: #0a0a0a;
+  --color-ink-60: #0a0a0a99;
+  --color-acid: #b4ff39;
+  --color-acid-deep: #9ae01f;
 
-  --color-pistachio: #cbe0a4;
-  --color-pistachio-light: #dcebc4;
-  --color-pistachio-deep: #a9c47c;
-
-  --color-botanical: #4c6238;
-  --color-botanical-deep: #33422a;
-  --color-terracotta: #8d4b30;
-  --color-terracotta-light: #b0664a;
-
-  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-anton), "Haettenschweiler", "Arial Narrow", sans-serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, "SF Mono", monospace;
   --font-script: var(--font-parisienne), "Snell Roundhand", cursive;
 
-  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Brutalist motion: arrival, not choreography. */
+  --snap: 120ms;
+  --ease-snap: cubic-bezier(0.2, 0, 0, 1);
 }
 
 :root {
   color-scheme: light;
+  --rule: 1px solid var(--color-ink);
 }
 
 html {
-  scroll-behavior: smooth;
   /* clip, not hidden — `hidden` on a scroll container silently kills
      position:sticky for every descendant. */
   overflow-x: clip;
+  scroll-behavior: smooth;
+  background: var(--color-bone);
 }
 
 body {
-  background: var(--color-cream);
+  background: var(--color-bone);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-acid);
+  color: var(--color-ink);
+}
+
+/* Focus is loud here — it suits the aesthetic and it's honest. */
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
 }
 
 @layer utilities {
-  /* The arched, wide-tracked wordmark treatment from the label. */
-  .tracking-label {
+  /* --- type ------------------------------------------------------------ */
+  .display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    line-height: 0.82;
+    letter-spacing: -0.01em;
+    font-weight: 400;
+  }
+  /* Oversized poster type. Clamped so it never reflows into soup on small
+     screens but still runs edge to edge on large ones. */
+  .display-mega {
+    font-size: clamp(3.6rem, 19vw, 19rem);
+  }
+  .display-xl {
+    font-size: clamp(2.6rem, 9vw, 8rem);
+  }
+  .display-lg {
+    font-size: clamp(2rem, 5.4vw, 4.5rem);
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .mono-micro {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
     letter-spacing: 0.24em;
+    text-transform: uppercase;
   }
-  .tracking-label-sm {
-    letter-spacing: 0.16em;
+
+  /* --- structure ------------------------------------------------------- */
+  .rule-t { border-top: var(--rule); }
+  .rule-b { border-bottom: var(--rule); }
+  .rule-l { border-left: var(--rule); }
+  .rule-r { border-right: var(--rule); }
+  .rule-all { border: var(--rule); }
+
+  /* Instant colour inversion on hover — the core interaction of the system. */
+  .invert-hover {
+    transition:
+      background-color var(--snap) var(--ease-snap),
+      color var(--snap) var(--ease-snap),
+      border-color var(--snap) var(--ease-snap);
   }
-  .text-balance-tight {
-    text-wrap: balance;
+  .invert-hover:hover,
+  .invert-hover:focus-visible {
+    background-color: var(--color-ink);
+    color: var(--color-bone);
   }
-  /* Fine botanical rule used between label sections. */
-  .rule-botanical {
-    background-image: linear-gradient(
-      to right,
-      transparent,
-      var(--color-ink-faint) 15%,
-      var(--color-ink-faint) 85%,
-      transparent
-    );
+  .invert-hover-acid:hover,
+  .invert-hover-acid:focus-visible {
+    background-color: var(--color-acid);
+    color: var(--color-ink);
+  }
+
+  /* --- scroll reveal --------------------------------------------------- */
+  /* Applied by IntersectionObserver in useReveal. Masked wipe upward: the
+     element is clipped to nothing and slides in, so it reads as a card being
+     dealt rather than a fade. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.75rem);
+    transition:
+      opacity 380ms var(--ease-snap),
+      transform 380ms var(--ease-snap);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-clip > * {
+    display: block;
+    transform: translateY(105%);
+    transition: transform 520ms var(--ease-snap);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal-clip.is-in > * {
+    transform: none;
+  }
+
+  /* --- marquee --------------------------------------------------------- */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 28s) linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    to {
+      /* The track holds two identical runs; -50% lands exactly on the seam. */
+      transform: translateX(-50%);
+    }
+  }
+
+  /* --- horizontal rail ------------------------------------------------- */
+  .rail {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+  .rail > * {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+  }
+
+  /* --- film grain ------------------------------------------------------ */
+  .grain::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.32;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
+  .reveal,
+  .reveal-clip > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
   *,
   *::before,

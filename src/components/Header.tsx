@@ -1,72 +1,117 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart";
+import { PRODUCT, formatPrice } from "@/lib/product";
 
 const links = [
   { href: "/product", label: "The Jar" },
-  { href: "/#how-to-use", label: "How to Use" },
+  { href: "/#uses", label: "Directions" },
   { href: "/#faq", label: "FAQ" },
 ];
 
 export function Header() {
   const { quantity, ready } = useCart();
-  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  // Lock the page behind the mobile sheet.
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:h-[4.5rem] sm:px-8">
-        <Link href="/" className="group flex flex-col leading-none">
-          <span className="font-display text-[1.05rem] font-semibold tracking-label text-ink sm:text-[1.2rem]">
-            MIMI CRACK
-          </span>
-          <span className="mt-[3px] text-[0.5rem] tracking-label-sm text-ink-faint sm:text-[0.55rem]">
-            HAIR FERTILIZER
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-[0.8rem] tracking-label-sm text-ink-soft uppercase transition-colors hover:text-ink"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
+    <>
+      <header className="sticky top-0 z-50 border-b border-ink bg-bone">
+        <div className="grid grid-cols-[1fr_auto] items-stretch md:grid-cols-[auto_1fr_auto]">
           <Link
-            href="/cart"
-            className="relative rounded-full border border-ink/15 px-4 py-2 text-[0.72rem] tracking-label-sm text-ink uppercase transition-colors hover:border-ink/40 hover:bg-ink/5"
-            aria-label={
-              ready && quantity > 0
-                ? `Cart, ${quantity} ${quantity === 1 ? "jar" : "jars"}`
-                : "Cart, empty"
-            }
+            href="/"
+            className="invert-hover flex items-center gap-3 border-r border-ink px-4 py-3 md:px-6"
           >
-            Cart
-            {/* Hidden until the persisted cart is read, so the server and
-                client markup match on first paint. */}
-            {ready && quantity > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-botanical px-1 text-[0.65rem] font-semibold text-cream">
-                {quantity}
-              </span>
-            )}
+            <span className="display text-xl leading-none md:text-2xl">MIMI CRACK</span>
+            <span className="mono-micro hidden text-ink/50 sm:inline">®</span>
           </Link>
-          {pathname !== "/cart" && (
+
+          <nav className="hidden items-stretch md:flex" aria-label="Main">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="invert-hover mono-label flex items-center border-r border-ink px-6"
+              >
+                {l.label}
+              </Link>
+            ))}
+            <span className="mono-micro flex flex-1 items-center px-6 text-ink/45">
+              {PRODUCT.size.label} · {PRODUCT.badge}
+            </span>
+          </nav>
+
+          <div className="flex items-stretch">
+            <Link
+              href="/cart"
+              className="invert-hover mono-label flex items-center gap-2 border-l border-ink px-4 md:px-6"
+            >
+              Cart
+              <span
+                className={`grid h-5 min-w-5 place-items-center px-1 text-[0.625rem] ${
+                  ready && quantity > 0 ? "bg-acid text-ink" : "text-ink/40"
+                }`}
+              >
+                {ready ? quantity : 0}
+              </span>
+            </Link>
+
             <Link
               href="/product"
-              className="hidden rounded-full bg-ink px-5 py-2.5 text-[0.72rem] tracking-label-sm text-cream uppercase transition-colors hover:bg-botanical-deep sm:inline-block"
+              className="mono-label hidden items-center border-l border-ink bg-ink px-6 text-bone transition-colors duration-[120ms] hover:bg-acid hover:text-ink sm:flex"
             >
-              Shop
+              Buy {formatPrice(PRODUCT.priceCents)}
             </Link>
-          )}
+
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+              className="invert-hover mono-label flex items-center border-l border-ink px-4 md:hidden"
+            >
+              {open ? "Close" : "Menu"}
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* mobile sheet */}
+      {open && (
+        <div className="fixed inset-0 z-40 flex flex-col bg-bone pt-[3.25rem] md:hidden">
+          <nav className="flex flex-col border-t border-ink" aria-label="Mobile">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="invert-hover display display-lg border-b border-ink px-4 py-6"
+              >
+                {l.label}
+              </Link>
+            ))}
+            <Link
+              href="/cart"
+              onClick={() => setOpen(false)}
+              className="invert-hover display display-lg border-b border-ink px-4 py-6"
+            >
+              Cart [{ready ? quantity : 0}]
+            </Link>
+          </nav>
+          <div className="mt-auto border-t border-ink p-4">
+            <p className="font-script text-4xl text-ink">{PRODUCT.scriptLine}</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
