@@ -10,7 +10,7 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
-  axes: ["SOFT", "WONK", "opsz"],
+  axes: ["SOFT", "opsz"],
 });
 
 const inter = Inter({
@@ -19,7 +19,7 @@ const inter = Inter({
   display: "swap",
 });
 
-// Matches the "Stimulates Scalp" script on the jar.
+// The script from the jar label, used two or three times on the whole site.
 const parisienne = Parisienne({
   variable: "--font-parisienne",
   subsets: ["latin"],
@@ -27,7 +27,7 @@ const parisienne = Parisienne({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3310";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -36,20 +36,18 @@ export const metadata: Metadata = {
     template: "%s · MiMi Crack",
   },
   description:
-    "A scalp-first conditioning grease. Castor, olive and rosemary oils in a shea butter base — 9.5 oz of the stuff that keeps parts soft and ends intact.",
+    "A scalp-first conditioning grease. Castor, olive and rosemary in a shea butter base. 9.5 oz, made in small batches.",
   openGraph: {
-    title: `${PRODUCT.name}`,
+    title: PRODUCT.name,
     description: PRODUCT.tagline,
     url: siteUrl,
     siteName: "MiMi Crack",
-    images: [{ url: "/product/og.jpg", width: 1200, height: 630 }],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: PRODUCT.name,
     description: PRODUCT.tagline,
-    images: ["/product/og.jpg"],
   },
 };
 
@@ -57,21 +55,21 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    // The font variables go on <html>, not <body>: Tailwind resolves
-    // --default-font-family at the root element, so variables scoped to <body>
-    // are undefined exactly where the base font-family is computed.
+    // Font variables belong on <html>, not <body>: Tailwind resolves
+    // --default-font-family at the root, so body-scoped variables are
+    // undefined exactly where the base font-family is computed.
     <html
       lang="en"
       className={`${fraunces.variable} ${inter.variable} ${parisienne.variable}`}
     >
       <body className="antialiased">
+        <a
+          href="#main"
+          className="eyebrow sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-50 focus:rounded-full focus:bg-ink focus:px-6 focus:py-3 focus:text-shell"
+        >
+          Skip to content
+        </a>
         <CartProvider>
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-5 focus:py-2 focus:text-cream"
-          >
-            Skip to content
-          </a>
           <Header />
           <main id="main">{children}</main>
           <Footer />

@@ -1,30 +1,39 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   MIMI CRACK
+   One product, given room. Big confident type, a warm off-white ground, and
+   space doing the work that borders and boxes would otherwise do.
+   Motion is slow and soft — nothing snaps.
+   ========================================================================= */
+
 @theme {
-  /* --- Brand palette -------------------------------------------------
-     Pulled from the physical jar: cream label stock, botanical ink,
-     the pistachio grease itself, and the terracotta/black lids.       */
-  --color-cream: #f8f5ed;
-  --color-cream-deep: #efe9db;
-  --color-parchment: #fdfbf6;
-  --color-ink: #1c1b17;
-  --color-ink-soft: #4a4741;
-  --color-ink-faint: #85806f;
+  /* Warm cream ground, espresso ink. Warmer than a neutral off-white —
+     it reads as skin-and-hair adjacent rather than clinical. */
+  --color-shell: #fbf8f3;
+  --color-shell-warm: #f5efe5;
+  --color-paper: #ffffff;
+  --color-ink: #1a1613;
+  --color-ink-soft: #5f574e;
+  --color-ink-mute: #948b80;
+  --color-hairline: #1a161314;
 
-  --color-pistachio: #cbe0a4;
-  --color-pistachio-light: #dcebc4;
-  --color-pistachio-deep: #a9c47c;
+  /* The product's own green, kept as the one true accent. */
+  --color-pistachio: #cbe3a4;
+  --color-pistachio-soft: #eaf2dc;
+  --color-pistachio-deep: #a8c97a;
+  --color-forest: #2b3a1f;
 
-  --color-botanical: #4c6238;
-  --color-botanical-deep: #33422a;
-  --color-terracotta: #8d4b30;
-  --color-terracotta-light: #b0664a;
+  /* A soft clay for tint blocks — warmth without another loud colour. */
+  --color-clay: #e8dccd;
+  --color-clay-soft: #f3ebe0;
 
   --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-script: var(--font-parisienne), "Snell Roundhand", cursive;
 
-  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Long, soft easing. Everything here breathes. */
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
@@ -32,45 +41,171 @@
 }
 
 html {
-  scroll-behavior: smooth;
   /* clip, not hidden — `hidden` on a scroll container silently kills
      position:sticky for every descendant. */
   overflow-x: clip;
+  scroll-behavior: smooth;
+  background: var(--color-shell);
 }
 
 body {
-  background: var(--color-cream);
+  background: var(--color-shell);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-pistachio);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
 }
 
 @layer utilities {
-  /* The arched, wide-tracked wordmark treatment from the label. */
-  .tracking-label {
-    letter-spacing: 0.24em;
+  /* --- display type ---------------------------------------------------
+     Large, but never cramped. Negative tracking and sub-1 leading keep big
+     sizes from feeling loose; the surrounding space does the rest. */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 0.98;
   }
-  .tracking-label-sm {
-    letter-spacing: 0.16em;
+  .display-hero {
+    font-size: clamp(3.1rem, 8.4vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
   }
-  .text-balance-tight {
-    text-wrap: balance;
+  .display-xl {
+    font-size: clamp(2.4rem, 5.4vw, 4.75rem);
   }
-  /* Fine botanical rule used between label sections. */
-  .rule-botanical {
-    background-image: linear-gradient(
-      to right,
-      transparent,
-      var(--color-ink-faint) 15%,
-      var(--color-ink-faint) 85%,
-      transparent
-    );
+  .display-lg {
+    font-size: clamp(1.9rem, 3.4vw, 3rem);
+  }
+  .display-md {
+    font-size: clamp(1.45rem, 2vw, 1.85rem);
+    line-height: 1.1;
+  }
+
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-ink-mute);
+  }
+
+  /* Body copy gets real leading — this is most of what "airy" means. */
+  .prose-airy {
+    font-size: clamp(1.0625rem, 1.15vw, 1.1875rem);
+    line-height: 1.72;
+    color: var(--color-ink-soft);
+  }
+
+  /* --- rhythm ---------------------------------------------------------- */
+  .section-y {
+    padding-top: clamp(5rem, 13vh, 10.5rem);
+    padding-bottom: clamp(5rem, 13vh, 10.5rem);
+  }
+  .shell-x {
+    padding-left: clamp(1.25rem, 5vw, 5rem);
+    padding-right: clamp(1.25rem, 5vw, 5rem);
+  }
+  .hairline {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  /* --- reveal ----------------------------------------------------------
+     Slow rise. Applied by IntersectionObserver in <Reveal>. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.9rem);
+    transition:
+      opacity 900ms var(--ease-soft),
+      transform 900ms var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Masked line wipe for headline copy. */
+  .reveal-line > * {
+    display: block;
+    transform: translateY(102%);
+    transition: transform 1100ms var(--ease-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal-line.is-in > * {
+    transform: none;
+  }
+
+  /* --- controls -------------------------------------------------------- */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border-radius: 9999px;
+    padding: 1.05rem 2.1rem;
+    font-size: 0.83rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+      background-color 420ms var(--ease-soft),
+      color 420ms var(--ease-soft),
+      border-color 420ms var(--ease-soft),
+      transform 420ms var(--ease-soft);
+  }
+  .pill:hover {
+    transform: translateY(-2px);
+  }
+  .pill-solid {
+    background: var(--color-ink);
+    color: var(--color-shell);
+  }
+  .pill-solid:hover {
+    background: var(--color-forest);
+  }
+  .pill-quiet {
+    border: 1px solid var(--color-ink);
+    color: var(--color-ink);
+  }
+  .pill-quiet:hover {
+    background: var(--color-ink);
+    color: var(--color-shell);
+  }
+
+  /* Understated underline that draws itself on hover. */
+  .link-draw {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 460ms var(--ease-soft);
+  }
+  .link-draw:hover {
+    background-size: 100% 1px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .reveal,
+  .reveal-line > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
   *,
   *::before,

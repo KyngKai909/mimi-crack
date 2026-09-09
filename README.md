@@ -13,7 +13,7 @@ Next.js 15 (App Router) · Tailwind v4 · Stripe Checkout · Shippo live rates.
 |------------|--------------|
 | `/`        | Marketing landing page — hero, benefits, how-to-use, ingredients, FAQ |
 | `/product` | Product detail — gallery, price, add to cart, directions, FAQ |
-| `/cart`    | Cart, shipping address, live carrier rates, hand-off to Stripe |
+| `/cart`    | Checkout — bag, shipping address, live carrier rates, hand-off to Stripe |
 | `/success` | Post-payment confirmation; clears the cart |
 
 API routes:
@@ -75,23 +75,40 @@ product photography and is incomplete. Replace it with the full declaration
 from the physical jar and set `ingredientsAreComplete: true` — until you do,
 the product page renders a visible note saying so.
 
-## Product photography
+## Art direction — the shot list
 
-`public/product/*` is generated from the raw jar photos, not hand-edited:
+The site ships before the photography exists. Every image is a `<Shot/>`
+placeholder: a quiet tinted panel captioned with the shot that belongs there.
+Swapping one in is a one-line change — replace `<Shot/>` with
+`<Image fill className="object-cover"/>` inside the same wrapper.
 
-```bash
-node scripts/process-photos.mjs --src ~/Downloads/mimi-crack
-```
+| Where | Shot |
+|-------|------|
+| Home hero | Jar three-quarter, soft daylight, warm surface |
+| Home / benefits | Jar in hand, soft daylight |
+| Home / formula | Texture — grease surface, macro, raking light |
+| Home / ritual ×4 | One per step, 16:9 |
+| Product gallery | Packshot upright · open jar top-down · open jar with lid · in use |
+| Checkout | Small packshot |
 
-The raws were shot on dark green felt. The script keys it out on
-*chromaticity* rather than hue — the felt is lit unevenly, and the grease
-itself is pale green, so anything keyed on brightness or plain RGB distance
-eats the product. It only removes backdrop reachable from the frame border, so
-pale green enclosed by the jar is safe by construction. See the comments in
-[`scripts/process-photos.mjs`](scripts/process-photos.mjs).
+Older photography shot on green felt lives in git history on the
+`feat/brutalist-redesign` branch, along with `scripts/process-photos.mjs`
+(a chromaticity-based background key) if it's ever wanted again.
 
-Re-run it any time you shoot new photos; drop the new files in and adjust the
-filenames in `main()`.
+## Layout notes
+
+Three pieces of the layout are load-bearing and easy to break:
+
+- **`<FitText>`** scales a line to fill its container exactly. It *iterates*
+  three times rather than scaling by one ratio, because Fraunces has an
+  optical-size axis — glyph widths are not linear in font-size, and a
+  single-ratio fit overshoots by 10-20% at phone sizes and clips the line.
+- **`<RitualScroll>`** pins a scene and drives it sideways from scroll
+  position. It falls back to an ordinary swipeable rail below `lg` and under
+  `prefers-reduced-motion` — no scroll hijacking on touch.
+- **`useScrollProgress`** returns a *callback* ref, not an object ref, because
+  the element it measures is conditionally rendered. With an object ref the
+  effect runs once at mount, finds `null`, and never attaches.
 
 ## Deploying
 

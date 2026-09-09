@@ -1,49 +1,64 @@
 import Link from "next/link";
-import { PRODUCT } from "@/lib/product";
+import { PRODUCT, formatPrice } from "@/lib/product";
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-ink/10 bg-cream-deep/60">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr]">
-        <div>
-          <p className="font-display text-lg font-semibold tracking-label text-ink">
-            MIMI CRACK
-          </p>
-          <p className="mt-1 font-script text-2xl text-botanical">
-            {PRODUCT.scriptLine}
-          </p>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-soft">
-            One jar, made properly. {PRODUCT.size.label} of scalp-first
-            conditioning grease.
-          </p>
+    <footer className="bg-forest text-shell">
+      <div className="shell-x py-20 sm:py-24">
+        <div className="grid gap-14 md:grid-cols-[1.5fr_1fr_1fr]">
+          <div>
+            <p className="display display-lg">MiMi Crack</p>
+            <p className="font-script mt-2 text-4xl text-pistachio">
+              {PRODUCT.scriptLine}
+            </p>
+            <p className="mt-7 max-w-xs leading-relaxed text-shell/60">
+              One jar, made properly. {PRODUCT.size.label} of scalp-first
+              conditioning grease.
+            </p>
+          </div>
+
+          <nav aria-label="Shop">
+            <p className="eyebrow text-shell/45">Shop</p>
+            <ul className="mt-6 space-y-3.5">
+              {[
+                { href: "/product", label: "The Jar" },
+                { href: "/cart", label: "Cart" },
+                { href: "/#ritual", label: "The Ritual" },
+                { href: "/#faq", label: "FAQ" },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="link-draw text-shell/80 hover:text-shell">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div>
+            <p className="eyebrow text-shell/45">Good to know</p>
+            <p className="mt-6 text-sm leading-relaxed text-shell/60">
+              {PRODUCT.cautions}
+            </p>
+          </div>
         </div>
 
-        <nav aria-label="Shop">
-          <h2 className="text-[0.7rem] tracking-label-sm text-ink-faint uppercase">
-            Shop
-          </h2>
-          <ul className="mt-4 space-y-2.5 text-sm text-ink-soft">
-            <li><Link className="hover:text-ink" href="/product">The Jar</Link></li>
-            <li><Link className="hover:text-ink" href="/cart">Cart</Link></li>
-            <li><Link className="hover:text-ink" href="/#how-to-use">How to Use</Link></li>
-            <li><Link className="hover:text-ink" href="/#faq">FAQ</Link></li>
-          </ul>
-        </nav>
-
-        <div>
-          <h2 className="text-[0.7rem] tracking-label-sm text-ink-faint uppercase">
-            Good to know
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-ink-soft">
-            {PRODUCT.cautions}
-          </p>
+        <div className="mt-16 border-t border-shell/15 pt-10">
+          <Link
+            href="/product"
+            className="display display-lg group inline-flex items-baseline gap-4 text-shell"
+          >
+            Get the jar
+            <span className="text-pistachio">{formatPrice(PRODUCT.priceCents)}</span>
+            <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-x-2">
+              →
+            </span>
+          </Link>
         </div>
-      </div>
 
-      <div className="border-t border-ink/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-5 py-6 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <p>© {new Date().getFullYear()} MiMi Crack. All rights reserved.</p>
-          <p>
+        <div className="mt-14 flex flex-col gap-3 text-xs text-shell/40 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} MiMi Crack</p>
+          <p className="max-w-md sm:text-right">
             Cosmetic product. Not evaluated by the FDA and not intended to
             diagnose, treat or prevent any condition.
           </p>
