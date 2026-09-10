@@ -29,7 +29,7 @@ function Unit({ value, label }: { value: number; label: string }) {
   const [tens, ones] = String(value).padStart(2, "0").split("").map(Number);
   return (
     <div className="flex flex-col items-center">
-      <span className="display flex text-[clamp(2.15rem,min(10.5vw,13vh),8rem)] leading-none">
+      <span className="display flex text-[clamp(1.9rem,min(10.5vw,12vh),7.5rem)] leading-none">
         <Digit value={tens} />
         <Digit value={ones} />
       </span>
@@ -81,7 +81,7 @@ export function LaunchCountdown() {
           {i > 0 && (
             <span
               aria-hidden="true"
-              className="display hidden select-none text-[clamp(2.15rem,min(10.5vw,13vh),8rem)] leading-none text-ink/15 sm:inline"
+              className="display hidden select-none text-[clamp(1.9rem,min(10.5vw,12vh),7.5rem)] leading-none text-ink/15 sm:inline"
             >
               :
             </span>

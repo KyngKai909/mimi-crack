@@ -69,19 +69,19 @@ export function NotifyForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
-          className="min-h-[3.25rem] flex-1 rounded-full border border-hairline bg-paper px-6 text-[0.95rem] text-ink outline-none transition-colors duration-300 placeholder:text-ink-mute/70 focus:border-forest"
+          className="min-h-[clamp(2.85rem,6vh,3.25rem)] flex-1 rounded-full border border-hairline bg-paper px-6 text-[0.95rem] text-ink outline-none transition-colors duration-300 placeholder:text-ink-mute/70 focus:border-forest"
         />
         <button
           type="submit"
           disabled={state === "sending"}
-          className="pill pill-solid min-h-[3.25rem] whitespace-nowrap disabled:opacity-50"
+          className="pill pill-solid min-h-[clamp(2.85rem,6vh,3.25rem)] whitespace-nowrap py-0 disabled:opacity-50"
         >
           {state === "sending" ? "Adding you…" : "Notify me"}
         </button>
       </div>
 
       <p
-        className={`mt-3 text-center text-sm ${state === "error" ? "text-ink" : "text-ink-mute"}`}
+        className={`mt-[clamp(0.5rem,1.4vh,0.85rem)] text-center text-[0.8rem] sm:text-sm ${state === "error" ? "text-ink" : "text-ink-mute"}`}
         role={state === "error" ? "alert" : undefined}
       >
         {message ?? "Launch news, early access and the occasional discount. No spam, leave whenever."}

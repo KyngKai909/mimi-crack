@@ -26,7 +26,7 @@ export default function SoonPage() {
       {/* Chrome passes pointer events through to the canvas; only the things
           you need to touch opt back in. */}
       <div className="pointer-events-none relative z-10 flex min-h-[100svh] flex-col">
-        <header className="shell-x flex items-center justify-between gap-4 py-4 sm:py-5">
+        <header className="shell-x flex items-center justify-between gap-4 py-[clamp(0.7rem,1.7vh,1.15rem)]">
           <p className="eyebrow">{PRODUCT.shortName}</p>
           <p className="eyebrow">{PRODUCT.size.label}</p>
         </header>
@@ -38,17 +38,19 @@ export default function SoonPage() {
           </div>
 
           {/* 02 — the clock, immediately beneath it */}
-          <div className="mt-6 border-y border-hairline py-7 sm:mt-8 sm:py-8">
+          <div className="mt-[clamp(0.9rem,3vh,2.25rem)] border-y border-hairline py-[clamp(0.9rem,2.7vh,2rem)]">
             <LaunchCountdown />
           </div>
 
           {/* 03 — everything else, one centred column */}
-          <div className="shell-x mx-auto mt-6 flex w-full max-w-xl flex-col items-center gap-5 text-center sm:mt-8">
+          <div className="shell-x mx-auto mt-[clamp(0.9rem,3vh,2.25rem)] flex w-full max-w-xl flex-col items-center gap-[clamp(0.65rem,2vh,1.25rem)] text-center">
             <div className="flex flex-col items-center gap-2">
-              <p className="font-script text-4xl text-pistachio-deep sm:text-5xl">
+              <p className="font-script text-[clamp(1.7rem,min(9vw,5vh),3.25rem)] leading-tight text-pistachio-deep">
                 {PRODUCT.scriptLine}
               </p>
-              <p className="display display-md">Opens {LAUNCH_LABEL}</p>
+              <p className="display text-[clamp(1rem,min(3.4vw,2.5vh),1.6rem)] leading-snug">
+                Opens {LAUNCH_LABEL}
+              </p>
             </div>
 
             <div className="pointer-events-auto w-full">
@@ -57,7 +59,7 @@ export default function SoonPage() {
           </div>
         </main>
 
-        <footer className="shell-x flex flex-col items-center gap-3 py-4 sm:flex-row sm:justify-between sm:py-5">
+        <footer className="shell-x flex flex-col items-center gap-2 py-[clamp(0.7rem,1.7vh,1.15rem)] sm:flex-row sm:justify-between sm:gap-3">
           <p className="eyebrow">© {new Date().getFullYear()} MiMi Crack</p>
           <ul className="pointer-events-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             {BRAND.socials.filter((s) => s.href).map((s) => (

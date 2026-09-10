@@ -40,7 +40,7 @@ export function LaunchWordmark({ className = "" }: { className?: string }) {
     // width-fitted mark pushes the countdown and the form below the fold, so
     // cap it against viewport height too and let width win on tall screens.
     const LEADING = 0.86;
-    const maxByHeight = (window.innerHeight * 0.29) / LEADING;
+    const maxByHeight = (window.innerHeight * 0.26) / LEADING;
     s.style.fontSize = `${Math.min(size, maxByHeight)}px`;
   }, []);
 

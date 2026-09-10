@@ -1,14 +1,11 @@
 /**
  * Launch timing and the pre-launch gate.
  *
- * NOTE ON THE TIME ZONE: the brief said "2:00pm September 22nd, 2026 PST".
- * California is on PDT (UTC−7) in September, not PST (UTC−8) — PST resumes in
- * November. This is set to 2pm Pacific *daylight* time, which is what "2pm on
- * the 22nd" means to anyone in California on that date. If UTC−8 was meant
- * literally, change the offset below to -08:00.
+ * TIME ZONE: southern California is on PDT (UTC−7) in September — PST doesn't
+ * resume until November. 5pm Pacific on the 22nd is 2026-09-23T00:00:00Z.
  */
 export const LAUNCH_ISO =
-  process.env.NEXT_PUBLIC_LAUNCH_AT ?? "2026-09-22T14:00:00-07:00";
+  process.env.NEXT_PUBLIC_LAUNCH_AT ?? "2026-09-22T17:00:00-07:00";
 
 export const LAUNCH_AT = new Date(LAUNCH_ISO);
 
