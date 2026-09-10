@@ -81,7 +81,7 @@ export function NotifyForm() {
       </div>
 
       <p
-        className={`mt-4 text-center text-sm ${state === "error" ? "text-ink" : "text-ink-mute"}`}
+        className={`mt-3 text-center text-sm ${state === "error" ? "text-ink" : "text-ink-mute"}`}
         role={state === "error" ? "alert" : undefined}
       >
         {message ?? "Launch news, early access and the occasional discount. No spam, leave whenever."}

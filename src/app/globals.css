@@ -239,7 +239,36 @@ body {
   }
 }
 
+@layer utilities {
+  /* Wordmark entrance: one slow rise, staggered per letter, then done. */
+  .wordmark-letter {
+    transform: translateY(110%);
+    animation: wordmark-rise 1150ms var(--ease-soft) forwards;
+  }
+  @keyframes wordmark-rise {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* A warm bloom behind the mark so the composition has a centre of gravity
+     instead of floating on flat cream. */
+  .launch-bloom {
+    background: radial-gradient(
+      60% 55% at 50% 42%,
+      rgba(203, 227, 164, 0.5) 0%,
+      rgba(232, 220, 205, 0.28) 45%,
+      transparent 72%
+    );
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .wordmark-letter {
+    transform: none;
+    animation: none;
+  }
+
   html {
     scroll-behavior: auto;
   }
