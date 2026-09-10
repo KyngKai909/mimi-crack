@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { share } from "@/lib/seo";
 import { PRODUCT } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
@@ -7,10 +8,11 @@ import { Faq } from "@/components/Faq";
 import { Reveal } from "@/components/Reveal";
 import { FitText } from "@/components/FitText";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = share({
   title: PRODUCT.shortName,
   description: `${PRODUCT.tagline}. ${PRODUCT.size.label} of premium scalp-first hair grease.`,
-};
+  banner: "product",
+});
 
 const shots: ShotSpec[] = [
   { label: "Packshot — jar upright, soft daylight", tone: "pistachio" },

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MiMi Crack — brand assets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,100..900&family=Inter:wght@400..600&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 2rem;
+        background: #f3efe8;
+        color: #1a1613;
+        font: 14px/1.6 "Inter", system-ui, sans-serif;
+      }
+      h1 { font-family: "Fraunces", serif; font-weight: 600; margin: 0 0 0.25rem; }
+      p.lede { color: #5f574e; margin: 0 0 1.5rem; max-width: 60ch; }
+      button {
+        border: 0; border-radius: 999px; background: #1a1613; color: #fbf8f3;
+        padding: 0.8rem 1.6rem; font: inherit; letter-spacing: 0.08em;
+        text-transform: uppercase; font-size: 0.78rem; cursor: pointer;
+      }
+      #status { margin-left: 1rem; color: #5f574e; }
+      section { margin-top: 2rem; }
+      h2 { font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+           color: #948b80; font-weight: 500; margin: 0 0 0.75rem; }
+      .row { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-end; }
+      figure { margin: 0; }
+      figcaption { color: #948b80; font-size: 0.7rem; margin-top: 0.4rem; }
+      canvas { background: #fff; box-shadow: 0 1px 0 rgba(26,22,19,0.12); }
+      canvas.og { width: 480px; height: auto; }
+    </style>
+  </head>
+  <body>
+    <h1>Brand assets</h1>
+    <p class="lede">
+      Drawn here rather than in Node because Fraunces is a variable font: the
+      browser is the only thing that applies its weight and optical-size axes
+      correctly. Each favicon size is drawn at its own size rather than scaled
+      down from one big one, so the optical-size axis gives the small ones
+      sturdier stems instead of hairlines that disappear.
+    </p>
+    <button id="save">Generate &amp; save</button>
+    <span id="status"></span>
+
+    <section>
+      <h2>Icon — the wordmark’s M</h2>
+      <div class="row" id="icons"></div>
+    </section>
+
+    <section>
+      <h2>Share banners — 1200 × 630</h2>
+      <div class="row" id="ogs"></div>
+    </section>
+
+    <script type="module">
+      const INK = "#1a1613";
+      const MUTE = "#948b80";
+      const SHELL = "#fbf8f3";
+      const PISTACHIO = "#cbe3a4";
+      const CLAY = "#e8dccd";
+
+      /** Icon sizes. 16/32/48 become favicon.ico; 180 and 512 stand alone. */
+      const ICON_SIZES = [16, 32, 48, 180, 512];
+
+      const BANNERS = [
+        { file: "public/og/default.png", line: "Feed the soil." },
+        { file: "public/og/product.png", line: "Revitalizing & Nourishing Hair Grease" },
+        { file: "public/og/about.png", line: "Commit with Carmel" },
+        { file: "public/og/soon.png", line: "Opens Tuesday, September 22 at 5:00 PM PDT" },
+      ];
+
+      const EYEBROW = "HAIR FERTILIZER · 9.5 OZ | 269G";
+
+      /**
+       * Fraunces' optical-size axis makes glyph width non-linear in font
+       * size, so one ratio overshoots. Converge instead.
+       */
+      function fitSize(ctx, text, { weight, family, targetWidth, cap }) {
+        let size = cap;
+        for (let pass = 0; pass < 4; pass++) {
+          ctx.font = `${weight} ${size}px ${family}`;
+          const width = ctx.measureText(text).width;
+          if (!width) break;
+          size = Math.min(cap, size * (targetWidth / width));
+        }
+        ctx.font = `${weight} ${size}px ${family}`;
+        return size;
+      }
+
+      /** Deterministic, so regenerating doesn't reshuffle the seed field. */
+      function rng(seed) {
+        let s = seed >>> 0;
+        return () => {
+          s = (s * 1664525 + 1013904223) >>> 0;
+          return s / 4294967296;
+        };
+      }
+
+      function drawSeeds(ctx, w, h, seed, count) {
+        const rand = rng(seed);
+        for (let i = 0; i < count; i++) {
+          const x = rand() * w;
+          const y = rand() * h;
+          const r = 5 + rand() * 9;
+          ctx.save();
+          ctx.translate(x, y);
+          ctx.rotate(rand() * Math.PI * 2);
+          ctx.globalAlpha = 0.16 + rand() * 0.28;
+          ctx.fillStyle = rand() > 0.45 ? PISTACHIO : CLAY;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, r, r * 0.42, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      function drawIcon(canvas, size) {
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = SHELL;
+        ctx.fillRect(0, 0, size, size);
+
+        // Cap height, not font size, is what makes a tile look evenly padded.
+        let fontSize = size;
+        for (let pass = 0; pass < 4; pass++) {
+          ctx.font = `700 ${fontSize}px Fraunces`;
+          const m = ctx.measureText("M");
+          const inkH = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+          if (!inkH) break;
+          fontSize = fontSize * ((size * 0.62) / inkH);
+        }
+        ctx.font = `700 ${fontSize}px Fraunces`;
+
+        const m = ctx.measureText("M");
+        const inkW = m.actualBoundingBoxLeft + m.actualBoundingBoxRight;
+        const inkH = m.actualBoundingBoxAscent + m.actualBoundingBoxDescent;
+        ctx.fillStyle = INK;
+        ctx.textAlign = "left";
+        ctx.textBaseline = "alphabetic";
+        ctx.fillText(
+          "M",
+          (size - inkW) / 2 + m.actualBoundingBoxLeft,
+          (size - inkH) / 2 + m.actualBoundingBoxAscent,
+        );
+        return canvas;
+      }
+
+      function drawBanner(canvas, line) {
+        const W = 1200;
+        const H = 630;
+        canvas.width = W;
+        canvas.height = H;
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = SHELL;
+        ctx.fillRect(0, 0, W, H);
+
+        // The teaser's bloom: wider than it is tall, sitting high.
+        ctx.save();
+        ctx.translate(W / 2, H * 0.42);
+        ctx.scale(1, 0.78);
+        const bloom = ctx.createRadialGradient(0, 0, 0, 0, 0, 720);
+        bloom.addColorStop(0, "rgba(203,227,164,0.5)");
+        bloom.addColorStop(0.45, "rgba(232,220,205,0.28)");
+        bloom.addColorStop(0.72, "rgba(232,220,205,0)");
+        ctx.fillStyle = bloom;
+        ctx.fillRect(-W, -H, W * 2, H * 2);
+        ctx.restore();
+
+        drawSeeds(ctx, W, H, 7, 44);
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "alphabetic";
+
+        const markSize = fitSize(ctx, "MiMi Crack", {
+          weight: 600,
+          family: "Fraunces",
+          targetWidth: 880,
+          cap: 200,
+        });
+        const mark = ctx.measureText("MiMi Crack");
+        const lineSize = fitSize(ctx, line, {
+          weight: 600,
+          family: "Fraunces",
+          targetWidth: 860,
+          cap: 46,
+        });
+
+        const GAP_EYEBROW = 66;
+        const GAP_LINE = 78;
+        const blockH = mark.actualBoundingBoxAscent + GAP_EYEBROW + GAP_LINE;
+        const markBaseline = (H - blockH) / 2 + mark.actualBoundingBoxAscent;
+
+        ctx.font = `600 ${markSize}px Fraunces`;
+        ctx.fillStyle = INK;
+        ctx.fillText("MiMi Crack", W / 2, markBaseline);
+
+        const eyebrowBaseline = markBaseline + GAP_EYEBROW;
+        ctx.font = `500 21px Inter`;
+        ctx.letterSpacing = "4.6px";
+        ctx.fillStyle = MUTE;
+        ctx.fillText(EYEBROW, W / 2 + 2.3, eyebrowBaseline);
+        ctx.letterSpacing = "0px";
+
+        // A hairline the width of the eyebrow, to seat the line below it.
+        const rule = ctx.measureText(EYEBROW).width;
+        ctx.fillStyle = "rgba(26,22,19,0.14)";
+        ctx.fillRect(W / 2 - rule / 2, eyebrowBaseline + 26, rule, 1);
+
+        ctx.font = `600 ${lineSize}px Fraunces`;
+        ctx.fillStyle = INK;
+        ctx.fillText(line, W / 2, markBaseline + GAP_EYEBROW + GAP_LINE);
+
+        return canvas;
+      }
+
+      function figure(parent, canvas, caption) {
+        const fig = document.createElement("figure");
+        const cap = document.createElement("figcaption");
+        cap.textContent = caption;
+        fig.append(canvas, cap);
+        parent.append(fig);
+      }
+
+      const icons = new Map();
+      const banners = new Map();
+
+      async function render() {
+        await Promise.all([
+          document.fonts.load("700 200px Fraunces"),
+          document.fonts.load("600 200px Fraunces"),
+          document.fonts.load("500 21px Inter"),
+        ]);
+        await document.fonts.ready;
+
+        const iconRow = document.getElementById("icons");
+        iconRow.textContent = "";
+        for (const size of ICON_SIZES) {
+          const canvas = drawIcon(document.createElement("canvas"), size);
+          icons.set(size, canvas);
+          figure(iconRow, canvas, `${size}px`);
+        }
+
+        const ogRow = document.getElementById("ogs");
+        ogRow.textContent = "";
+        for (const banner of BANNERS) {
+          const canvas = drawBanner(document.createElement("canvas"), banner.line);
+          canvas.className = "og";
+          banners.set(banner.file, canvas);
+          figure(ogRow, canvas, banner.file.replace("public/og/", ""));
+        }
+      }
+
+      document.getElementById("save").addEventListener("click", async () => {
+        const status = document.getElementById("status");
+        status.textContent = "saving…";
+        const files = {
+          "src/app/icon.png": icons.get(512).toDataURL("image/png"),
+          "src/app/apple-icon.png": icons.get(180).toDataURL("image/png"),
+        };
+        for (const [file, canvas] of banners) files[file] = canvas.toDataURL("image/png");
+        const ico = {};
+        for (const size of [16, 32, 48]) ico[size] = icons.get(size).toDataURL("image/png");
+
+        const res = await fetch("/save", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ files, ico }),
+        });
+        const data = await res.json();
+        status.textContent = data.ok ? `saved ${data.written.length} files` : `failed: ${data.error}`;
+      });
+
+      await render();
+      window.__ready = true;
+    </script>
+  </body>
+</html>

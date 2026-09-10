@@ -5,6 +5,7 @@ import {
   LAUNCH_WEEKDAY,
   LAUNCH_ZONE,
 } from "@/lib/launch";
+import { share } from "@/lib/seo";
 import { PRODUCT } from "@/lib/product";
 import { BRAND } from "@/lib/brand";
 import { LaunchWordmark } from "@/components/LaunchWordmark";
@@ -13,14 +14,12 @@ import { NotifyForm } from "@/components/NotifyForm";
 import { SeedField } from "@/components/SeedField";
 import { UnlockForm } from "@/components/UnlockForm";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = share({
   title: "Coming soon",
   description: `${PRODUCT.name} — ${PRODUCT.tagline}. Launching ${LAUNCH_LABEL}.`,
-  openGraph: {
-    title: `${PRODUCT.name} — coming soon`,
-    description: `Launching ${LAUNCH_LABEL}.`,
-  },
-};
+  banner: "soon",
+  alt: `MiMi Crack — opens ${LAUNCH_LABEL}`,
+});
 
 export default function SoonPage() {
   return (

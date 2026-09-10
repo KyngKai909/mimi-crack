@@ -133,6 +133,49 @@ Two gotchas worth keeping:
   widths, so a line fitted at rest overflows its container the moment a letter
   thickens under the pointer.
 
+## Icons and link previews
+
+The favicon is the uppercase **M** from the wordmark — Fraunces, weight 700,
+on the same cream the site is built on. Every size is drawn at its own size
+rather than scaled down from one large one, so Fraunces' optical-size axis
+gives the 16px version sturdier stems instead of hairlines that disappear in a
+browser tab.
+
+| File | What it is |
+|---|---|
+| `src/app/favicon.ico` | 16 / 32 / 48, for `/favicon.ico` |
+| `src/app/icon.png` | 512, for high-DPI and install prompts |
+| `src/app/apple-icon.png` | 180, iOS home screen |
+| `public/og/*.png` | 1200x630 share banners |
+
+Four banners: `default` (the site, home, and anything without its own),
+`product`, `about` and `soon` for the teaser, which carries the launch time.
+`src/lib/seo.ts` attaches them. It builds both the Open Graph and Twitter tag
+sets in one call because **Next merges metadata shallowly** — a page that
+declares `openGraph` replaces the layout's whole object, so anything it
+doesn't restate is silently lost.
+
+They're static files rather than generated per request, which also means a
+crawler can fetch them while the shop is behind the pre-launch gate: the
+middleware skips anything with a file extension.
+
+### Regenerating them
+
+```
+node scripts/brand-assets.mjs      # then open http://localhost:4321
+```
+
+Press **Generate & save**. The drawing happens in a browser
+(`scripts/brand-assets.html`) rather than in Node because Fraunces is a
+variable font, and only a real text engine applies its weight and optical-size
+axes correctly — Node-side SVG rasterisers either ignore the axes or want a
+static instance of the font this project doesn't carry. The server writes the
+files, quantises the PNGs (a banner goes from ~515 kB to ~88 kB) and assembles
+the `.ico`.
+
+To add a banner: add it to `BANNERS` in the HTML, to `ALLOWED` in the script,
+then pass its name to `share()`.
+
 ## The brand guide
 
 `/style` is the reference for anything made outside this repo — other pages,
