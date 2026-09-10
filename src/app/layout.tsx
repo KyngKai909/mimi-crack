@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, Parisienne } from "next/font/google";
 import { CartProvider } from "@/lib/cart";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { SiteChrome } from "@/components/SiteChrome";
 import { PRODUCT } from "@/lib/product";
 import { siteUrl } from "@/lib/siteUrl";
 import "./globals.css";
@@ -62,16 +61,8 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} ${parisienne.variable}`}
     >
       <body className="antialiased">
-        <a
-          href="#main"
-          className="eyebrow sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-50 focus:rounded-full focus:bg-ink focus:px-6 focus:py-3 focus:text-shell"
-        >
-          Skip to content
-        </a>
         <CartProvider>
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </CartProvider>
       </body>
     </html>
