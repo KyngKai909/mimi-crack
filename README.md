@@ -185,9 +185,12 @@ once the shop opens.
 
 Two things this depends on:
 
-- The teaser and the brand guide use `generateMetadata` with `revalidate =
+- Both gate pages and the brand guide use `generateMetadata` with `revalidate =
   3600`, not an exported constant. A constant is evaluated once when the module
   first loads, so the count would freeze there and never move.
+- `gateMetadata()` gives the teaser **and** the password prompt the same card.
+  That matters because a forwarded deep link resolves to the prompt, not the
+  teaser — before this they shared the plain site card.
 - **Messaging apps cache link previews.** The count is only as fresh as the
   last time the app fetched the page — changing the image URL daily is what
   lets a re-fetch pick up the new number instead of reusing the cached picture,
@@ -215,6 +218,17 @@ To add a banner: add it to `BANNERS` in the HTML, to `ALLOWED` in the script,
 then pass its name to `share()`. Rerun it if the launch date moves — the
 generator reads the date straight out of `src/lib/launch.ts`, so the cards and
 the countdown on the page can't disagree.
+
+## The launch list
+
+The teaser's email field posts to Formspree over `fetch`, so the visitor stays
+on the page instead of being bounced to a thank-you screen. The form id is
+compiled into `src/components/NotifyForm.tsx`. That isn't a leak: it's the
+endpoint the browser posts to, so it ships in the page regardless, and
+Formspree treats it as public. `NEXT_PUBLIC_FORMSPREE_ID` overrides it, which
+is how you'd point a fork or a staging copy at a different form.
+
+Signups land in the Formspree dashboard for that form.
 
 ## The brand guide
 

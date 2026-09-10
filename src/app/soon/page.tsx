@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
-import {
-  LAUNCH_DATE_TIME,
-  LAUNCH_LABEL,
-  LAUNCH_WEEKDAY,
-  LAUNCH_ZONE,
-} from "@/lib/launch";
-import { share, teaserBanner } from "@/lib/seo";
+import { LAUNCH_DATE_TIME, LAUNCH_WEEKDAY, LAUNCH_ZONE } from "@/lib/launch";
+import { gateMetadata } from "@/lib/seo";
 import { PRODUCT } from "@/lib/product";
 import { BRAND } from "@/lib/brand";
 import { LaunchWordmark } from "@/components/LaunchWordmark";
@@ -26,12 +21,7 @@ import { UnlockForm } from "@/components/UnlockForm";
 export const revalidate = 3600;
 
 export function generateMetadata(): Metadata {
-  return share({
-    title: "Coming soon",
-    description: `${PRODUCT.name} — ${PRODUCT.tagline}. Launching ${LAUNCH_LABEL}.`,
-    banner: teaserBanner(),
-    alt: `MiMi Crack — opens ${LAUNCH_LABEL}`,
-  });
+  return gateMetadata();
 }
 
 export default function SoonPage() {

@@ -8,12 +8,15 @@ type State = "idle" | "sending" | "done" | "error";
  * Launch-notification capture, posted to Formspree over fetch so the visitor
  * stays on the page instead of being bounced to a thank-you screen.
  *
- * Set NEXT_PUBLIC_FORMSPREE_ID to the form id from your Formspree dashboard.
- * Until it's set the field renders but explains that it isn't connected, which
- * is friendlier than a button that silently fails.
+ * The form id is Carmel's live one. It isn't a secret in any useful sense —
+ * it's the endpoint the browser posts to, so it ships in the page either way,
+ * and Formspree treats it as public. NEXT_PUBLIC_FORMSPREE_ID overrides it,
+ * which is how you'd point a fork or a staging copy somewhere else.
  */
+const DEFAULT_FORM_ID = "xbgjwkak";
+
 export function NotifyForm() {
-  const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID;
+  const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID?.trim() || DEFAULT_FORM_ID;
   const [email, setEmail] = useState("");
   const [state, setState] = useState<State>("idle");
   const [message, setMessage] = useState<string | null>(null);

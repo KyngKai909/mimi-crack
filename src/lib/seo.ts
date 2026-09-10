@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { MAX_COUNTDOWN_DAYS, daysUntilLaunch, hasLaunched } from "@/lib/launch";
+import {
+  LAUNCH_LABEL,
+  MAX_COUNTDOWN_DAYS,
+  daysUntilLaunch,
+  hasLaunched,
+} from "@/lib/launch";
+import { PRODUCT } from "@/lib/product";
 
 /**
  * Link-preview banners.
@@ -69,4 +75,25 @@ export function share({
     },
     twitter: { card: "summary_large_image", title: shared, description, images },
   };
+}
+
+/**
+ * What both gate pages share.
+ *
+ * The teaser and the password prompt are two doors onto the same closed shop,
+ * so a link to either should look the same in a message — and count down the
+ * same way. Defined once here because the prompt is what a *shared* deep link
+ * resolves to: someone forwarding a product link before launch is sharing this
+ * page whether they know it or not.
+ *
+ * Call it from generateMetadata, never from an exported constant: a constant
+ * is evaluated once when the module loads, and the countdown would stop there.
+ */
+export function gateMetadata(): Metadata {
+  return share({
+    title: "Coming soon",
+    description: `${PRODUCT.name} — ${PRODUCT.tagline}. Launching ${LAUNCH_LABEL}.`,
+    banner: teaserBanner(),
+    alt: `MiMi Crack — opens ${LAUNCH_LABEL}`,
+  });
 }
