@@ -42,8 +42,8 @@ export const BRAND = {
   socials: [
     { label: "TikTok", handle: "@carmelgaines", href: "https://www.tiktok.com/@carmelgaines" },
     { label: "Instagram", handle: "@just_me_carmel_g", href: "https://www.instagram.com/just_me_carmel_g/" },
+    { label: "Facebook", handle: "@dwainncarmel.gaines", href: "https://www.facebook.com/dwainncarmel.gaines/" },
     { label: "Snapchat", handle: "@justmecarmelg", href: "https://www.snapchat.com/@justmecarmelg" },
-    { label: "Facebook", handle: "Dwainn Carmel Gaines", href: "https://www.facebook.com/dwainncarmel.gaines/" },
   ],
 
   /**

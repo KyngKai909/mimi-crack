@@ -209,26 +209,28 @@ export default function AboutPage() {
         <Reveal>
           <p className="eyebrow">Walk with her</p>
         </Reveal>
-        <ul className="mt-8 grid gap-4 sm:grid-cols-3">
+        <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {BRAND.socials.filter((s) => s.href).map((s, i) => (
             <Reveal as="li" key={s.label} delay={i * 90}>
               <a
                 href={s.href}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="group flex items-center justify-between gap-4 rounded-2xl border border-hairline px-6 py-6 transition-colors duration-500 hover:border-forest hover:bg-pistachio-soft"
+                className="group flex h-full flex-col justify-between gap-5 rounded-2xl border border-hairline px-5 py-5 transition-colors duration-500 hover:border-forest hover:bg-pistachio-soft sm:px-6 sm:py-6"
               >
-                <span>
-                  <span className="display display-md block">{s.label}</span>
-                  <span className="mt-1 block text-sm text-ink-mute">
-                    {s.handle}
+                <span className="flex items-start justify-between gap-3">
+                  <span className="display display-md">{s.label}</span>
+                  <span
+                    aria-hidden="true"
+                    className="shrink-0 text-ink-mute transition-transform duration-500 group-hover:translate-x-1"
+                  >
+                    ↗
                   </span>
                 </span>
-                <span
-                  aria-hidden="true"
-                  className="text-ink-mute transition-transform duration-500 group-hover:translate-x-1"
-                >
-                  ↗
+                {/* Handles run long and the cards are narrow at 2-up, so let
+                    them wrap rather than push the card wider. */}
+                <span className="block break-words text-[0.8rem] leading-snug text-ink-mute sm:text-sm">
+                  {s.handle}
                 </span>
               </a>
             </Reveal>
