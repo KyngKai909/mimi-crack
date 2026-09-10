@@ -13,6 +13,7 @@ Next.js 15 (App Router) · Tailwind v4 · Stripe Checkout · Shippo live rates.
 |------------|--------------|
 | `/`        | Landing — fitted hero, pinned product scene, formula bento, the commitment, FAQ |
 | `/about`   | Carmel, the three pillars, and what commitment means for the shop |
+| `/style`   | Brand guide — wordmark, colour, type, layout, motion, voice. `noindex` |
 | `/product` | Product detail — gallery, price, add to cart, directions, FAQ |
 | `/cart`    | Checkout — bag, shipping address, live carrier rates, hand-off to Stripe |
 | `/success` | Post-payment confirmation; clears the cart |
@@ -102,6 +103,17 @@ Swapping one in is a one-line change — replace `<Shot/>` with
 Older photography shot on green felt lives in git history on the
 `feat/brutalist-redesign` branch, along with `scripts/process-photos.mjs`
 (a chromaticity-based background key) if it's ever wanted again.
+
+## The brand guide
+
+`/style` is the reference for anything made outside this repo — other pages,
+blog posts, flyers, social graphics.
+
+Its colour and type values are **read off the live stylesheet at runtime**.
+`src/lib/designTokens.ts` holds CSS variable names and usage notes, never hex
+codes, so the guide cannot drift from `globals.css` — change a colour there and
+the guide reports the new value on next load. Fluid type sizes are reported as
+they compute at the reader's own viewport.
 
 ## Layout notes
 
