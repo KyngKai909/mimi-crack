@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import { LAUNCH_LABEL } from "@/lib/launch";
+import {
+  LAUNCH_DATE_TIME,
+  LAUNCH_LABEL,
+  LAUNCH_WEEKDAY,
+  LAUNCH_ZONE,
+} from "@/lib/launch";
 import { PRODUCT } from "@/lib/product";
 import { BRAND } from "@/lib/brand";
 import { LaunchWordmark } from "@/components/LaunchWordmark";
 import { LaunchCountdown } from "@/components/LaunchCountdown";
 import { NotifyForm } from "@/components/NotifyForm";
 import { SeedField } from "@/components/SeedField";
+import { UnlockForm } from "@/components/UnlockForm";
 
 export const metadata: Metadata = {
   title: "Coming soon",
@@ -47,8 +53,13 @@ export default function SoonPage() {
             <p className="font-script text-[clamp(1.7rem,min(9vw,5vh),3.25rem)] leading-tight text-pistachio-deep">
               {PRODUCT.scriptLine}
             </p>
-            <p className="display text-[clamp(1rem,min(3.4vw,2.5vh),1.6rem)] leading-snug">
-              Opens {LAUNCH_LABEL}
+            {/* One line at every width. Instead of wrapping, it sheds its
+                least load-bearing parts as the screen narrows — the zone
+                first, then the weekday. See .when-zone / .when-weekday. */}
+            <p className="display text-[clamp(1rem,min(3.4vw,2.5vh),1.6rem)] leading-snug whitespace-nowrap">
+              Opens <span className="when-weekday">{LAUNCH_WEEKDAY}, </span>
+              {LAUNCH_DATE_TIME}
+              <span className="when-zone"> {LAUNCH_ZONE}</span>
             </p>
           </div>
 
@@ -71,9 +82,18 @@ export default function SoonPage() {
                 </li>
               ))}
             </ul>
-            <p className="eyebrow text-[0.6rem]">
-              © {new Date().getFullYear()} MiMi Crack
-            </p>
+            {/* The way past the gate rides on the copyright line rather than
+                taking a row of its own — on a 320px phone the composition
+                has no spare vertical to give it. */}
+            <div className="flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-2">
+              <p className="eyebrow text-[0.6rem]">
+                © {new Date().getFullYear()} MiMi Crack
+              </p>
+              <span aria-hidden="true" className="eyebrow text-[0.6rem]">
+                ·
+              </span>
+              <UnlockForm />
+            </div>
           </div>
         </div>
       </div>

@@ -251,6 +251,29 @@ body {
     }
   }
 
+  /* --- the launch line ------------------------------------------------
+     "Opens Tuesday, September 22 at 5:00 PM PDT" stays on one line at every
+     width. Rather than wrapping to two or shrinking past legibility, it drops
+     its least load-bearing parts as the screen narrows: the time zone first,
+     then the weekday. Both are restored as soon as they fit — the breakpoints
+     below are measured against the rendered line, not guessed: at phone sizes
+     the line is 16px Fraunces, and the three variants need 234px / 302px /
+     339px against a gutter of 20px a side. */
+  .when-weekday,
+  .when-zone {
+    display: none;
+  }
+  @media (min-width: 360px) {
+    .when-weekday {
+      display: inline;
+    }
+  }
+  @media (min-width: 388px) {
+    .when-zone {
+      display: inline;
+    }
+  }
+
   /* A warm bloom behind the mark so the composition has a centre of gravity
      instead of floating on flat cream. */
   .launch-bloom {

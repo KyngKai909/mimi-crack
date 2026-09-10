@@ -112,9 +112,18 @@ passes, then lifts on its own — no deploy needed at launch. It's a rewrite, no
 a redirect, so links people were sent still land correctly the moment the shop
 opens.
 
-To see the real shop before launch, add `?preview=<LAUNCH_PREVIEW_TOKEN>` to
-any URL; it sets a cookie for 30 days. With no token configured, `?preview=1`
-works — set a token to close that off.
+The teaser carries the way through the gate: **Enter site**, on the copyright
+line, opens a password field. The password is `commitment123` unless
+`SITE_PASSWORD` is set. Correct entries get an httpOnly cookie good for 30
+days, handed out by `src/app/api/unlock/route.ts` — the password itself never
+touches anything a script on the page can read.
+
+The same password works as a link: `?preview=<password>` on any URL sets the
+same cookie, which is the easier thing to text someone.
+
+`SITE_PASSWORD` is read inside middleware, which Next compiles for the edge
+with `process.env` inlined at build time. **Changing it in Vercel needs a
+redeploy** — it is not picked up live.
 
 Two gotchas worth keeping:
 
