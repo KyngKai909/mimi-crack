@@ -100,6 +100,37 @@ export default function AboutPage() {
             </Reveal>
           ))}
         </div>
+
+        {/* Where the three land. Full width on purpose — it reads as the
+            destination rather than a fourth column. */}
+        <div className="shell-x mt-4 lg:mt-5">
+          <Reveal delay={140}>
+            <div className="rounded-[1.5rem] bg-pistachio px-8 py-14 text-center lg:px-16 lg:py-20">
+              {/* three strands resolving into one */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 180 64"
+                className="mx-auto h-14 w-auto text-forest/45"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.25"
+                strokeLinecap="round"
+              >
+                <path d="M4 8C60 8 96 32 176 32" />
+                <path d="M4 32h172" />
+                <path d="M4 56C60 56 96 32 176 32" />
+                <circle cx="176" cy="32" r="3.25" fill="currentColor" stroke="none" />
+              </svg>
+
+              <h3 className="display display-xl mt-9 text-forest">
+                {BRAND.alignment.name}
+              </h3>
+              <p className="mx-auto mt-6 max-w-xl leading-relaxed text-forest/75">
+                {BRAND.alignment.body}
+              </p>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════════ founder note */}
@@ -179,7 +210,7 @@ export default function AboutPage() {
           <p className="eyebrow">Walk with her</p>
         </Reveal>
         <ul className="mt-8 grid gap-4 sm:grid-cols-3">
-          {BRAND.socials.map((s, i) => (
+          {BRAND.socials.filter((s) => s.href).map((s, i) => (
             <Reveal as="li" key={s.label} delay={i * 90}>
               <a
                 href={s.href}
