@@ -23,7 +23,8 @@ export function Footer() {
               {[
                 { href: "/product", label: "The Jar" },
                 { href: "/cart", label: "Cart" },
-                { href: "/#ritual", label: "The Ritual" },
+                { href: "/#commitment", label: "The Commitment" },
+                { href: "/about", label: "About" },
                 { href: "/#faq", label: "FAQ" },
               ].map((l) => (
                 <li key={l.href}>

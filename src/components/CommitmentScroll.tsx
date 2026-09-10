@@ -7,7 +7,7 @@ import { Shot } from "./Shot";
 type Step = { step: string; body: string };
 
 /**
- * The ritual, as a pinned scene that scrolls sideways.
+ * The commitment, as a pinned scene that scrolls sideways.
  *
  * Vertical scroll inside a tall spacer drives horizontal travel on a pinned
  * track. Two deliberate fallbacks, because this pattern is hostile to both
@@ -19,7 +19,7 @@ type Step = { step: string; body: string };
  * The section is also keyboard-reachable either way: the cards are plain
  * documents in source order, not transformed out of the tab sequence.
  */
-export function RitualScroll({ steps }: { steps: readonly Step[] }) {
+export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
   const { ref, progress } = useScrollProgress<HTMLDivElement>();
   const [pinned, setPinned] = useState(false);
   const track = useRef<HTMLDivElement>(null);

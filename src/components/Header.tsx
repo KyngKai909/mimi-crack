@@ -6,7 +6,8 @@ import { useCart } from "@/lib/cart";
 
 const links = [
   { href: "/product", label: "The Jar" },
-  { href: "/#ritual", label: "The Ritual" },
+  { href: "/#commitment", label: "The Commitment" },
+  { href: "/about", label: "About" },
   { href: "/#faq", label: "FAQ" },
 ];
 

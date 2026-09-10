@@ -6,7 +6,7 @@ import { Reveal } from "@/components/Reveal";
 import { Faq } from "@/components/Faq";
 import { FitText } from "@/components/FitText";
 import { PinnedBenefits } from "@/components/PinnedBenefits";
-import { RitualScroll } from "@/components/RitualScroll";
+import { CommitmentScroll } from "@/components/CommitmentScroll";
 
 export default function HomePage() {
   return (
@@ -52,8 +52,8 @@ export default function HomePage() {
                 <Link href="/product" className="pill pill-solid">
                   Shop the jar — {formatPrice(PRODUCT.priceCents)}
                 </Link>
-                <Link href="#ritual" className="link-draw text-[0.95rem] text-ink-soft">
-                  See the ritual
+                <Link href="#commitment" className="link-draw text-[0.95rem] text-ink-soft">
+                  See the commitment
                 </Link>
               </div>
             </Reveal>
@@ -199,17 +199,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════ ritual — pinned horizontal scroll */}
-      <section id="ritual" className="scroll-mt-0 pt-24 sm:pt-32">
+      {/* ════════════════════════ commitment — pinned horizontal scroll */}
+      <section id="commitment" className="scroll-mt-0 pt-24 sm:pt-32">
         <div className="shell-x flex flex-wrap items-end justify-between gap-6 pb-12">
           <Reveal>
-            <h2 className="display display-xl max-w-lg">Four steps, twice a week.</h2>
+            <h2 className="display display-xl max-w-lg">
+              Four steps. Twice a week. That&rsquo;s the whole commitment.
+            </h2>
           </Reveal>
           <Reveal delay={120}>
-            <p className="eyebrow">The ritual</p>
+            <p className="eyebrow">The commitment</p>
           </Reveal>
         </div>
-        <RitualScroll steps={PRODUCT.howToUse} />
+        <CommitmentScroll steps={PRODUCT.howToUse} />
       </section>
 
       {/* ═══════════════════════════════════════════════════════ faq */}

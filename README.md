@@ -11,7 +11,8 @@ Next.js 15 (App Router) · Tailwind v4 · Stripe Checkout · Shippo live rates.
 
 | Route      | What it does |
 |------------|--------------|
-| `/`        | Marketing landing page — hero, benefits, how-to-use, ingredients, FAQ |
+| `/`        | Landing — fitted hero, pinned product scene, formula bento, the commitment, FAQ |
+| `/about`   | Carmel, the three pillars, and what commitment means for the shop |
 | `/product` | Product detail — gallery, price, add to cart, directions, FAQ |
 | `/cart`    | Checkout — bag, shipping address, live carrier rates, hand-off to Stripe |
 | `/success` | Post-payment confirmation; clears the cart |
@@ -70,7 +71,13 @@ Nearly everything a shop owner would want to change lives in
 [`src/lib/product.ts`](src/lib/product.ts): price, size, copy, benefits,
 directions, FAQ, cautions, and the parcel dimensions used for rate quotes.
 
-**Before launch:** the ingredient list in that file was transcribed from the
+Brand voice — Carmel's tagline, the three pillars and her social handles —
+lives in [`src/lib/brand.ts`](src/lib/brand.ts). Its `founderStatement` is
+deliberately empty: the About page renders a visible prompt asking for her
+words rather than inventing a founder story. Fill it in and the prompt is
+replaced by the quote.
+
+**Before launch:** the ingredient list in `product.ts` was transcribed from the
 product photography and is incomplete. Replace it with the full declaration
 from the physical jar and set `ingredientsAreComplete: true` — until you do,
 the product page renders a visible note saying so.
@@ -87,9 +94,10 @@ Swapping one in is a one-line change — replace `<Shot/>` with
 | Home hero | Jar three-quarter, soft daylight, warm surface |
 | Home / benefits | Jar in hand, soft daylight |
 | Home / formula | Texture — grease surface, macro, raking light |
-| Home / ritual ×4 | One per step, 16:9 |
+| Home / commitment ×4 | One per step, 16:9 |
 | Product gallery | Packshot upright · open jar top-down · open jar with lid · in use |
 | Checkout | Small packshot |
+| About | Portrait — Carmel, natural light |
 
 Older photography shot on green felt lives in git history on the
 `feat/brutalist-redesign` branch, along with `scripts/process-photos.mjs`
@@ -103,12 +111,19 @@ Three pieces of the layout are load-bearing and easy to break:
   three times rather than scaling by one ratio, because Fraunces has an
   optical-size axis — glyph widths are not linear in font-size, and a
   single-ratio fit overshoots by 10-20% at phone sizes and clips the line.
-- **`<RitualScroll>`** pins a scene and drives it sideways from scroll
+- **`<CommitmentScroll>`** pins a scene and drives it sideways from scroll
   position. It falls back to an ordinary swipeable rail below `lg` and under
   `prefers-reduced-motion` — no scroll hijacking on touch.
 - **`useScrollProgress`** returns a *callback* ref, not an object ref, because
   the element it measures is conditionally rendered. With an object ref the
   effect runs once at mount, finds `null`, and never attaches.
+
+## Working on this
+
+Never run `npm run build` while the dev server is up. They share `.next`, and
+the production build replaces the dev output — the running page then 404s on
+its own CSS chunk and renders as unstyled HTML. Stop the dev server, build,
+then restart it.
 
 ## Deploying
 
