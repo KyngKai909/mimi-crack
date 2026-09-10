@@ -1,72 +1,98 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart";
 
 const links = [
   { href: "/product", label: "The Jar" },
-  { href: "/#how-to-use", label: "How to Use" },
+  { href: "/#commitment", label: "The Commitment" },
+  { href: "/about", label: "About" },
   { href: "/#faq", label: "FAQ" },
 ];
 
 export function Header() {
   const { quantity, ready } = useCart();
-  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [lifted, setLifted] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setLifted(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-cream/95 backdrop-blur-sm">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5 sm:h-[4.5rem] sm:px-8">
-        <Link href="/" className="group flex flex-col leading-none">
-          <span className="font-display text-[1.05rem] font-semibold tracking-label text-ink sm:text-[1.2rem]">
-            MIMI CRACK
-          </span>
-          <span className="mt-[3px] text-[0.5rem] tracking-label-sm text-ink-faint sm:text-[0.55rem]">
-            HAIR FERTILIZER
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-[0.8rem] tracking-label-sm text-ink-soft uppercase transition-colors hover:text-ink"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
-          <Link
-            href="/cart"
-            className="relative rounded-full border border-ink/15 px-4 py-2 text-[0.72rem] tracking-label-sm text-ink uppercase transition-colors hover:border-ink/40 hover:bg-ink/5"
-            aria-label={
-              ready && quantity > 0
-                ? `Cart, ${quantity} ${quantity === 1 ? "jar" : "jars"}`
-                : "Cart, empty"
-            }
-          >
-            Cart
-            {/* Hidden until the persisted cart is read, so the server and
-                client markup match on first paint. */}
-            {ready && quantity > 0 && (
-              <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-botanical px-1 text-[0.65rem] font-semibold text-cream">
-                {quantity}
-              </span>
-            )}
+    <>
+      <header
+        className={`sticky top-0 z-40 transition-colors duration-500 ${
+          lifted ? "bg-shell/85 backdrop-blur-md" : "bg-transparent"
+        }`}
+      >
+        <div className="shell-x flex h-20 items-center justify-between gap-6 sm:h-24">
+          <Link href="/" className="display text-xl leading-none sm:text-2xl">
+            MiMi Crack
           </Link>
-          {pathname !== "/cart" && (
-            <Link
-              href="/product"
-              className="hidden rounded-full bg-ink px-5 py-2.5 text-[0.72rem] tracking-label-sm text-cream uppercase transition-colors hover:bg-botanical-deep sm:inline-block"
-            >
+
+          <nav className="hidden items-center gap-10 md:flex" aria-label="Main">
+            {links.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="link-draw text-[0.9rem] text-ink-soft hover:text-ink"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3 sm:gap-5">
+            <Link href="/cart" className="link-draw text-[0.9rem] text-ink-soft hover:text-ink">
+              Cart{ready && quantity > 0 ? ` (${quantity})` : ""}
+            </Link>
+            <Link href="/product" className="pill pill-solid hidden sm:inline-flex">
               Shop
             </Link>
-          )}
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              aria-expanded={open}
+              aria-label={open ? "Close menu" : "Open menu"}
+              className="text-[0.9rem] text-ink-soft md:hidden"
+            >
+              {open ? "Close" : "Menu"}
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {open && (
+        <div className="fixed inset-0 z-30 flex flex-col bg-shell pt-24 md:hidden">
+          <nav className="shell-x flex flex-col gap-2" aria-label="Mobile">
+            {[...links, { href: "/cart", label: "Cart" }].map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="display display-lg py-3 text-ink"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="shell-x mt-auto pb-12">
+            <p className="font-script text-5xl text-pistachio-deep">Stimulates Scalp</p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

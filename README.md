@@ -11,9 +11,11 @@ Next.js 15 (App Router) · Tailwind v4 · Stripe Checkout · Shippo live rates.
 
 | Route      | What it does |
 |------------|--------------|
-| `/`        | Marketing landing page — hero, benefits, how-to-use, ingredients, FAQ |
+| `/`        | Landing — fitted hero, pinned product scene, formula bento, the commitment, FAQ |
+| `/about`   | Carmel, the three pillars, and what commitment means for the shop |
+| `/style`   | Brand guide — wordmark, colour, type, layout, motion, voice. `noindex` |
 | `/product` | Product detail — gallery, price, add to cart, directions, FAQ |
-| `/cart`    | Cart, shipping address, live carrier rates, hand-off to Stripe |
+| `/cart`    | Checkout — bag, shipping address, live carrier rates, hand-off to Stripe |
 | `/success` | Post-payment confirmation; clears the cart |
 
 API routes:
@@ -70,30 +72,82 @@ Nearly everything a shop owner would want to change lives in
 [`src/lib/product.ts`](src/lib/product.ts): price, size, copy, benefits,
 directions, FAQ, cautions, and the parcel dimensions used for rate quotes.
 
-**Before launch:** the ingredient list in that file was transcribed from the
+Brand voice — Carmel's tagline, the three pillars and her social handles —
+lives in [`src/lib/brand.ts`](src/lib/brand.ts). Its `founderStatement` is
+deliberately empty: the About page renders a visible prompt asking for her
+words rather than inventing a founder story. Fill it in and the prompt is
+replaced by the quote.
+
+**Before launch:** the ingredient list in `product.ts` was transcribed from the
 product photography and is incomplete. Replace it with the full declaration
 from the physical jar and set `ingredientsAreComplete: true` — until you do,
 the product page renders a visible note saying so.
 
-## Product photography
+## Art direction — the shot list
 
-`public/product/*` is generated from the raw jar photos, not hand-edited:
+The site ships before the photography exists. Every image is a `<Shot/>`
+placeholder: a quiet tinted panel captioned with the shot that belongs there.
+Swapping one in is a one-line change — replace `<Shot/>` with
+`<Image fill className="object-cover"/>` inside the same wrapper.
 
-```bash
-node scripts/process-photos.mjs --src ~/Downloads/mimi-crack
-```
+| Where | Shot |
+|-------|------|
+| Home hero | Jar three-quarter, soft daylight, warm surface |
+| Home / benefits | Jar in hand, soft daylight |
+| Home / formula | Texture — grease surface, macro, raking light |
+| Home / commitment ×4 | One per step, 16:9 |
+| Product gallery | Packshot upright · open jar top-down · open jar with lid · in use |
+| Checkout | Small packshot |
+| About | Portrait — Carmel, natural light |
 
-The raws were shot on dark green felt. The script keys it out on
-*chromaticity* rather than hue — the felt is lit unevenly, and the grease
-itself is pale green, so anything keyed on brightness or plain RGB distance
-eats the product. It only removes backdrop reachable from the frame border, so
-pale green enclosed by the jar is safe by construction. See the comments in
-[`scripts/process-photos.mjs`](scripts/process-photos.mjs).
+Older photography shot on green felt lives in git history on the
+`feat/brutalist-redesign` branch, along with `scripts/process-photos.mjs`
+(a chromaticity-based background key) if it's ever wanted again.
 
-Re-run it any time you shoot new photos; drop the new files in and adjust the
-filenames in `main()`.
+## The brand guide
+
+`/style` is the reference for anything made outside this repo — other pages,
+blog posts, flyers, social graphics.
+
+Its colour and type values are **read off the live stylesheet at runtime**.
+`src/lib/designTokens.ts` holds CSS variable names and usage notes, never hex
+codes, so the guide cannot drift from `globals.css` — change a colour there and
+the guide reports the new value on next load. Fluid type sizes are reported as
+they compute at the reader's own viewport.
+
+## Layout notes
+
+Three pieces of the layout are load-bearing and easy to break:
+
+- **`<FitText>`** scales a line to fill its container exactly. It *iterates*
+  three times rather than scaling by one ratio, because Fraunces has an
+  optical-size axis — glyph widths are not linear in font-size, and a
+  single-ratio fit overshoots by 10-20% at phone sizes and clips the line.
+- **`<CommitmentScroll>`** pins a scene and drives it sideways from scroll
+  position. It falls back to an ordinary swipeable rail below `lg` and under
+  `prefers-reduced-motion` — no scroll hijacking on touch.
+- **`useScrollProgress`** returns a *callback* ref, not an object ref, because
+  the element it measures is conditionally rendered. With an object ref the
+  effect runs once at mount, finds `null`, and never attaches.
+
+## Working on this
+
+Never run `npm run build` while the dev server is up. They share `.next`, and
+the production build replaces the dev output — the running page then 404s on
+its own CSS chunk and renders as unstyled HTML. Stop the dev server, build,
+then restart it.
 
 ## Deploying
+
+Vercel, with the environment variables from `.env.example` set in project
+settings.
+
+`NEXT_PUBLIC_SITE_URL` should be **unset** for Preview and set only for
+Production. Previews resolve their own origin from `VERCEL_URL`, so each one
+gets correct absolute URLs. Do not set it to an empty string — see
+`src/lib/siteUrl.ts` for why that used to fail the build.
+
+
 
 Vercel is the path of least resistance. Set the same environment variables in
 the project settings, point `NEXT_PUBLIC_SITE_URL` at the real domain, and add

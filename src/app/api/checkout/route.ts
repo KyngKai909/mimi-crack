@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { MAX_QUANTITY, PRODUCT } from "@/lib/product";
 import { getStripe, isStripeConfigured } from "@/lib/stripe";
+import { siteUrl } from "@/lib/siteUrl";
 
 export const runtime = "nodejs";
 
@@ -25,12 +26,6 @@ const Body = z.object({
     estimatedDays: z.number().int().min(0).max(90).nullable(),
   }),
 });
-
-function siteUrl(request: Request) {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return configured.replace(/\/$/, "");
-  return new URL(request.url).origin;
-}
 
 export async function POST(request: Request) {
   if (!isStripeConfigured()) {

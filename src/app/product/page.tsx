@@ -1,32 +1,22 @@
 import type { Metadata } from "next";
 import { PRODUCT, formatPrice } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
-import { Gallery, type Shot } from "@/components/Gallery";
+import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
+import { Shot } from "@/components/Shot";
 import { Faq } from "@/components/Faq";
-import { Sprig } from "@/components/Sprig";
+import { Reveal } from "@/components/Reveal";
+import { FitText } from "@/components/FitText";
 
 export const metadata: Metadata = {
   title: PRODUCT.shortName,
   description: `${PRODUCT.tagline}. ${PRODUCT.size.label} of premium scalp-first hair grease.`,
 };
 
-const shots: Shot[] = [
-  {
-    src: "/product/jar-front.webp",
-    alt: "The MiMi Crack jar upright, cream label and terracotta lid",
-  },
-  {
-    src: "/product/jar-open-top.webp",
-    alt: "Looking straight down into the open jar at the pale green grease",
-  },
-  {
-    src: "/product/jar-open.webp",
-    alt: "The jar open with the lid resting in front, showing the top label",
-  },
-  {
-    src: "/product/jar-group.webp",
-    alt: "Several jars of MiMi Crack together with one opened",
-  },
+const shots: ShotSpec[] = [
+  { label: "Packshot — jar upright, soft daylight", tone: "pistachio" },
+  { label: "Open jar — straight down, texture", tone: "warm" },
+  { label: "Open jar — lid resting, top label", tone: "clay" },
+  { label: "In use — fingertip in the part", tone: "warm" },
 ];
 
 export default function ProductPage() {
@@ -35,7 +25,6 @@ export default function ProductPage() {
     "@type": "Product",
     name: PRODUCT.name,
     description: PRODUCT.tagline,
-    image: [`/product/jar-front.webp`],
     brand: { "@type": "Brand", name: "MiMi Crack" },
     offers: {
       "@type": "Offer",
@@ -52,116 +41,164 @@ export default function ProductPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <Gallery shots={shots} />
+      {/* ══════════════════════════════════════════════ gallery + buy */}
+      <section className="shell-x pb-8 pt-4">
+        <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+          <Reveal className="lg:sticky lg:top-28 lg:self-start">
+            <ShotGallery shots={shots} />
+          </Reveal>
 
-          <div className="lg:pt-4">
-            <p className="text-[0.7rem] tracking-label text-botanical uppercase">
-              {PRODUCT.badge} · {PRODUCT.size.label}
-            </p>
-            <h1 className="mt-4 font-display text-4xl leading-tight font-semibold text-ink sm:text-5xl">
-              {PRODUCT.shortName}
-            </h1>
-            <p className="mt-2 text-lg text-ink-soft">{PRODUCT.tagline}</p>
-            <p className="mt-1 font-script text-3xl text-botanical">
-              {PRODUCT.scriptLine}
-            </p>
-
-            <p className="mt-7 font-display text-3xl text-ink tabular-nums">
-              {formatPrice(PRODUCT.priceCents)}
-            </p>
-
-            <div className="mt-7">
-              <AddToCart />
-            </div>
-
-            <dl className="mt-8 divide-y divide-ink/10 border-y border-ink/10 text-sm">
-              <div className="flex justify-between gap-6 py-3">
-                <dt className="text-ink-faint">Size</dt>
-                <dd className="text-ink">{PRODUCT.size.label}</dd>
-              </div>
-              <div className="flex justify-between gap-6 py-3">
-                <dt className="text-ink-faint">Formula</dt>
-                <dd className="text-ink">{PRODUCT.subtitle}</dd>
-              </div>
-              <div className="flex justify-between gap-6 py-3">
-                <dt className="text-ink-faint">Shipping</dt>
-                <dd className="text-right text-ink">
-                  Live carrier rates at checkout
-                </dd>
-              </div>
-              <div className="flex justify-between gap-6 py-3">
-                <dt className="text-ink-faint">Dispatch</dt>
-                <dd className="text-ink">1–2 business days</dd>
-              </div>
-            </dl>
-
-            <section className="mt-10">
-              <h2 className="text-[0.7rem] tracking-label-sm text-ink-faint uppercase">
-                Ingredients
-              </h2>
-              <p className="mt-3 leading-relaxed text-ink-soft">
-                {PRODUCT.ingredients.join(", ")}.
+          <div className="lg:pt-6">
+            <Reveal>
+              <p className="eyebrow">{PRODUCT.badge} · {PRODUCT.size.label}</p>
+            </Reveal>
+            <Reveal delay={100}>
+              <h1 className="display display-xl mt-6">{PRODUCT.shortName}</h1>
+            </Reveal>
+            <Reveal delay={180}>
+              <p className="font-script mt-3 text-4xl text-pistachio-deep">
+                {PRODUCT.scriptLine}
               </p>
-              {!PRODUCT.ingredientsAreComplete && (
-                <p className="mt-3 text-xs leading-relaxed text-terracotta">
-                  Note for the shop owner: this list is transcribed from the
-                  product photography and is incomplete. Replace it in
-                  <code className="mx-1 rounded bg-ink/5 px-1.5 py-0.5">
-                    src/lib/product.ts
-                  </code>
-                  with the full declaration from the jar before launch.
-                </p>
-              )}
-            </section>
-
-            <section className="mt-8">
-              <h2 className="text-[0.7rem] tracking-label-sm text-ink-faint uppercase">
-                Cautions
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                {PRODUCT.cautions}
+            </Reveal>
+            <Reveal delay={260}>
+              <p className="prose-airy mt-7 max-w-md">{PRODUCT.tagline}. Castor,
+                olive and rosemary in a shea butter base — built to soften the
+                part and keep ends conditioned between washes.
               </p>
-            </section>
+            </Reveal>
+
+            <Reveal delay={340}>
+              <p className="display mt-10 text-5xl tabular-nums">
+                {formatPrice(PRODUCT.priceCents)}
+              </p>
+            </Reveal>
+
+            <Reveal delay={400}>
+              <div className="mt-8 max-w-md">
+                <AddToCart />
+              </div>
+            </Reveal>
+
+            <Reveal delay={460}>
+              <dl className="mt-12 grid grid-cols-2 gap-y-8">
+                {[
+                  ["Size", PRODUCT.size.label],
+                  ["Formula", PRODUCT.subtitle],
+                  ["Shipping", "Live carrier rates"],
+                  ["Dispatch", "1–2 business days"],
+                ].map(([k, v]) => (
+                  <div key={k} className="hairline pt-5">
+                    <dt className="eyebrow">{k}</dt>
+                    <dd className="mt-2 text-[0.95rem] text-ink">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
         </div>
+      </section>
 
-        {/* ------------------------------------------------ how to use */}
-        <section className="mt-24 border-t border-ink/10 pt-16">
-          <div className="flex flex-col items-center text-center">
-            <Sprig className="h-6 w-28 text-ink-faint" />
-            <h2 className="mt-5 font-display text-3xl font-semibold text-ink">
-              How to use it
-            </h2>
-          </div>
-          <ol className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {PRODUCT.howToUse.map((s, i) => (
-              <li key={s.step}>
-                <span className="grid h-9 w-9 place-items-center rounded-full border border-botanical/30 text-sm text-botanical tabular-nums">
-                  {i + 1}
-                </span>
-                <h3 className="mt-4 font-display text-lg font-semibold text-ink">
-                  {s.step}
-                </h3>
-                <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-soft">
-                  {s.body}
+      {/* ═══════════════════════════════════════════ fitted statement */}
+      <section className="section-y">
+        <div className="px-[2vw]">
+          <Reveal line>
+            <FitText className="display">Made for the scalp.</FitText>
+          </Reveal>
+        </div>
+        <div className="shell-x mt-10 flex justify-end">
+          <Reveal delay={160}>
+            <p className="prose-airy max-w-md">
+              Not a mask, not a serum. A grease you work into the part — the one
+              step that most routines skip and most scalps miss.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════ detail bento */}
+      <section className="bg-shell-warm">
+        <div className="shell-x section-y">
+          <div className="grid auto-rows-[minmax(0,auto)] grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+            <Reveal className="col-span-2 row-span-2">
+              <Shot
+                label="Texture — grease surface, macro"
+                ratio="1 / 1"
+                tone="pistachio"
+                className="h-full rounded-[1.5rem]"
+              />
+            </Reveal>
+
+            <Reveal delay={90} className="col-span-2 rounded-[1.5rem] bg-shell p-7">
+              <p className="eyebrow">Ingredients</p>
+              <ul className="mt-5 space-y-2">
+                {PRODUCT.ingredients.map((ing, i) => (
+                  <li key={ing} className="flex gap-3 text-[0.95rem] text-ink-soft">
+                    <span className="text-pistachio-deep tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {ing}
+                  </li>
+                ))}
+              </ul>
+              {!PRODUCT.ingredientsAreComplete && (
+                <p className="mt-5 text-xs leading-relaxed text-ink-mute">
+                  Note for Carmel — read off the jar in the product photos and
+                  probably incomplete. Send the full list before launch.
                 </p>
-              </li>
-            ))}
-          </ol>
-        </section>
+              )}
+            </Reveal>
 
-        {/* -------------------------------------------------------- faq */}
-        <section className="mx-auto mt-24 max-w-3xl border-t border-ink/10 pt-16">
-          <h2 className="text-center font-display text-3xl font-semibold text-ink">
-            Questions
-          </h2>
-          <div className="mt-10">
-            <Faq items={PRODUCT.faqs} />
+            <Reveal delay={160} className="rounded-[1.5rem] bg-forest p-7 text-shell">
+              <p className="display text-5xl">9.5<span className="text-2xl"> oz</span></p>
+              <p className="eyebrow mt-4 text-shell/50">269g net</p>
+            </Reveal>
+
+            <Reveal delay={230} className="rounded-[1.5rem] bg-clay-soft p-7">
+              <p className="display text-5xl">2–4</p>
+              <p className="eyebrow mt-4">Months per jar</p>
+            </Reveal>
+
+            <Reveal delay={300} className="col-span-2 rounded-[1.5rem] bg-shell p-7">
+              <p className="eyebrow">Handling</p>
+              <p className="mt-4 text-sm leading-relaxed text-ink-soft">
+                {PRODUCT.cautions}
+              </p>
+            </Reveal>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════ directions */}
+      <section className="shell-x section-y">
+        <Reveal>
+          <h2 className="display display-xl max-w-xl">How to use it.</h2>
+        </Reveal>
+        <ol className="mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
+          {PRODUCT.howToUse.map((s, i) => (
+            <Reveal as="li" key={s.step} delay={i * 90} className="hairline pt-6">
+              <span className="display text-3xl text-pistachio-deep tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="display display-md mt-4">{s.step}</h3>
+              <p className="prose-airy mt-3">{s.body}</p>
+            </Reveal>
+          ))}
+        </ol>
+      </section>
+
+      {/* ═════════════════════════════════════════════════════════ faq */}
+      <section className="shell-x pb-24 sm:pb-32">
+        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+          <div className="lg:sticky lg:top-32 lg:self-start">
+            <Reveal>
+              <h2 className="display display-xl">Good to know.</h2>
+            </Reveal>
+          </div>
+          <Reveal delay={140}>
+            <Faq items={PRODUCT.faqs} />
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }
