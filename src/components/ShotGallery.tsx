@@ -20,7 +20,7 @@ export function ShotGallery({ shots }: { shots: ShotSpec[] }) {
       <Shot
         label={current.label}
         tone={current.tone ?? "pistachio"}
-        ratio="4 / 5"
+        ratio="1 / 1"
         className="rounded-[1.75rem]"
       />
 
