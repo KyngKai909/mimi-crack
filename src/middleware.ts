@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { hasLaunched } from "@/lib/launch";
+import { PREVIEW_COOKIE, PREVIEW_MAX_AGE, holdsPreview, previewSecret } from "@/lib/preview";
 
 /**
  * Pre-launch gate.
@@ -8,14 +9,15 @@ import { hasLaunched } from "@/lib/launch";
  * which point the gate lifts on its own — no deploy needed.
  *
  * A rewrite rather than a redirect, so the URL a visitor typed is preserved
- * and links they've been sent still work the moment the shop opens.
+ * and links they've been sent still work the moment the shop opens. Note that
+ * this means the browser URL stays "/" while the teaser is showing: nothing
+ * may decide what to render by reading the pathname. The shop's header and
+ * footer live in the (shop) route group's layout for exactly that reason.
  *
- * To see the real site before launch, visit any page with `?preview=<token>`,
- * where the token is LAUNCH_PREVIEW_TOKEN. That sets a cookie for 30 days.
- * With no token configured, `?preview=1` works — set a token to close that.
+ * Two ways through the gate before launch: type the site password on the
+ * teaser, or open any page with ?preview=<password>. Both set the same cookie
+ * for 30 days.
  */
-const COOKIE = "mimi-preview";
-
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
@@ -32,24 +34,21 @@ export function middleware(request: NextRequest) {
 
   if (hasLaunched()) return NextResponse.next();
 
-  const token = process.env.LAUNCH_PREVIEW_TOKEN;
-  const offered = searchParams.get("preview");
-  const grants = token ? offered === token : offered === "1";
-
-  if (grants) {
+  if (searchParams.get("preview") === previewSecret()) {
     const url = request.nextUrl.clone();
     url.searchParams.delete("preview");
     const res = NextResponse.redirect(url);
-    res.cookies.set(COOKIE, token ?? "1", {
+    res.cookies.set(PREVIEW_COOKIE, previewSecret(), {
       httpOnly: true,
       sameSite: "lax",
-      maxAge: 60 * 60 * 24 * 30,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: PREVIEW_MAX_AGE,
       path: "/",
     });
     return res;
   }
 
-  if (request.cookies.get(COOKIE)?.value === (token ?? "1")) {
+  if (holdsPreview(request.cookies.get(PREVIEW_COOKIE)?.value)) {
     return NextResponse.next();
   }
 

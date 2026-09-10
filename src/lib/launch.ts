@@ -27,13 +27,35 @@ export function timeUntilLaunch(now: number = Date.now()) {
   };
 }
 
-/** Human-readable launch moment, for the page and the confirmation copy. */
-export const LAUNCH_LABEL = new Intl.DateTimeFormat("en-US", {
+/**
+ * The launch moment, in three pieces.
+ *
+ * The teaser shows them as one unbroken line and drops pieces on narrow
+ * screens rather than wrapping — the zone first, then the weekday — so they
+ * have to be separable rather than one pre-baked string.
+ */
+const PACIFIC = { timeZone: "America/Los_Angeles" } as const;
+
+/** "Tuesday" */
+export const LAUNCH_WEEKDAY = new Intl.DateTimeFormat("en-US", {
   weekday: "long",
+  ...PACIFIC,
+}).format(LAUNCH_AT);
+
+/** "September 22 at 5:00 PM" — the part that never gets dropped. */
+export const LAUNCH_DATE_TIME = new Intl.DateTimeFormat("en-US", {
   month: "long",
   day: "numeric",
   hour: "numeric",
   minute: "2-digit",
-  timeZone: "America/Los_Angeles",
-  timeZoneName: "short",
+  ...PACIFIC,
 }).format(LAUNCH_AT);
+
+/** "PDT" */
+export const LAUNCH_ZONE =
+  new Intl.DateTimeFormat("en-US", { timeZoneName: "short", ...PACIFIC })
+    .formatToParts(LAUNCH_AT)
+    .find((part) => part.type === "timeZoneName")?.value ?? "";
+
+/** Human-readable launch moment, for metadata and confirmation copy. */
+export const LAUNCH_LABEL = `${LAUNCH_WEEKDAY}, ${LAUNCH_DATE_TIME} ${LAUNCH_ZONE}`.trim();
