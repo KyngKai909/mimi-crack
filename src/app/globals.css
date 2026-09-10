@@ -58,6 +58,17 @@ body {
   overflow-x: clip;
 }
 
+/* Inline code shows up in the brand guide's asset notes and nowhere else.
+   A tinted ground rather than a named colour, so it reads on cream and on
+   the warm sections alike. */
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.86em;
+  background: rgba(26, 22, 19, 0.055);
+  border-radius: 0.35rem;
+  padding: 0.12em 0.42em;
+}
+
 ::selection {
   background: var(--color-pistachio);
   color: var(--color-ink);

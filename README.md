@@ -149,8 +149,7 @@ browser tab.
 | `public/og/*.png` | 1200x630 share banners |
 
 Four banners: `default` (the site, home, and anything without its own),
-`product`, `about` and `soon` for the teaser, which carries the launch time.
-`src/lib/seo.ts` attaches them. It builds both the Open Graph and Twitter tag
+`product`, `about` and `soon` for the teaser. `src/lib/seo.ts` attaches them. It builds both the Open Graph and Twitter tag
 sets in one call because **Next merges metadata shallowly** — a page that
 declares `openGraph` replaces the layout's whole object, so anything it
 doesn't restate is silently lost.
@@ -158,6 +157,29 @@ doesn't restate is silently lost.
 They're static files rather than generated per request, which also means a
 crawler can fetch them while the shop is behind the pre-launch gate: the
 middleware skips anything with a file extension.
+
+### The countdown card
+
+Before launch the teaser shares a dated banner — "Opens in 12 days", "Opens
+tomorrow", "Opens today at 5:00 PM PDT" — so the card in a text message counts
+down with the page. `soon-<days>.png` is drawn for every day between generation
+and launch; `teaserBanner()` in `src/lib/seo.ts` picks today's, falls back to
+the undated `soon.png` past `MAX_COUNTDOWN_DAYS`, and switches to `default`
+once the shop opens.
+
+Two things this depends on:
+
+- The teaser and the brand guide use `generateMetadata` with `revalidate =
+  3600`, not an exported constant. A constant is evaluated once when the module
+  first loads, so the count would freeze there and never move.
+- **Messaging apps cache link previews.** The count is only as fresh as the
+  last time the app fetched the page — changing the image URL daily is what
+  lets a re-fetch pick up the new number instead of reusing the cached picture,
+  but nothing can force an app that isn't asking again. Treat it as a nice
+  touch, not a live clock.
+
+The brand guide's **Assets** section shows the icon sizes and the current set
+of cards, so it stays accurate as they're regenerated.
 
 ### Regenerating them
 
@@ -174,7 +196,9 @@ files, quantises the PNGs (a banner goes from ~515 kB to ~88 kB) and assembles
 the `.ico`.
 
 To add a banner: add it to `BANNERS` in the HTML, to `ALLOWED` in the script,
-then pass its name to `share()`.
+then pass its name to `share()`. Rerun it if the launch date moves — the
+generator reads the date straight out of `src/lib/launch.ts`, so the cards and
+the countdown on the page can't disagree.
 
 ## The brand guide
 

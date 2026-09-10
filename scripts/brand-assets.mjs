@@ -22,15 +22,13 @@ import sharp from "sharp";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const PORT = 4321;
 
-/** Only these paths may be written, so a stray post can't scribble anywhere. */
-const ALLOWED = new Set([
-  "src/app/icon.png",
-  "src/app/apple-icon.png",
-  "public/og/default.png",
-  "public/og/product.png",
-  "public/og/about.png",
-  "public/og/soon.png",
-]);
+/** Only these may be written, so a stray post can't scribble anywhere. */
+const ALLOWED = [
+  /^src\/app\/icon\.png$/,
+  /^src\/app\/apple-icon\.png$/,
+  /^public\/og\/(default|product|about|soon)\.png$/,
+  /^public\/og\/soon-\d{1,2}\.png$/,
+];
 
 /** The .ico is assembled from these, which are never written out alone. */
 const ICO_SIZES = [16, 32, 48];
@@ -100,6 +98,17 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  if (req.method === "GET" && req.url === "/config") {
+    // Read from src/lib/launch.ts rather than restating the date here: the
+    // countdown banners have to agree with the site that shows them.
+    const launch = await readFile(join(ROOT, "src/lib/launch.ts"), "utf8");
+    const iso = launch.match(/NEXT_PUBLIC_LAUNCH_AT \?\? "([^"]+)"/)?.[1];
+    const maxDays = Number(launch.match(/MAX_COUNTDOWN_DAYS = (\d+)/)?.[1] ?? 45);
+    res.writeHead(200, { "content-type": "application/json" });
+    res.end(JSON.stringify({ launchIso: iso ?? null, maxDays }));
+    return;
+  }
+
   if (req.method === "POST" && req.url === "/save") {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
@@ -108,7 +117,9 @@ const server = createServer(async (req, res) => {
       const written = [];
 
       for (const [path, dataUrl] of Object.entries(files)) {
-        if (!ALLOWED.has(path)) throw new Error(`not an expected asset: ${path}`);
+        if (!ALLOWED.some((allowed) => allowed.test(path))) {
+          throw new Error(`not an expected asset: ${path}`);
+        }
         written.push(await write(path, await shrink(decode(dataUrl))));
       }
 

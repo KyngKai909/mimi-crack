@@ -67,11 +67,48 @@
       /** Icon sizes. 16/32/48 become favicon.ico; 180 and 512 stand alone. */
       const ICON_SIZES = [16, 32, 48, 180, 512];
 
+      const { launchIso, maxDays } = await fetch("/config").then((r) => r.json());
+      const LAUNCH = new Date(launchIso);
+      const PACIFIC = { timeZone: "America/Los_Angeles" };
+      const LAUNCH_DAY = new Intl.DateTimeFormat("en-US", {
+        weekday: "long", month: "long", day: "numeric", ...PACIFIC,
+      }).format(LAUNCH);
+      const LAUNCH_TIME = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric", minute: "2-digit", timeZoneName: "short", ...PACIFIC,
+      }).format(LAUNCH);
+      const LAUNCH_FULL = `${LAUNCH_DAY} at ${LAUNCH_TIME}`;
+
+      /** Calendar days on Pacific time — matches daysUntilLaunch() in the app. */
+      function daysOut(from = new Date()) {
+        const day = (d) =>
+          Date.parse(
+            new Intl.DateTimeFormat("en-CA", {
+              year: "numeric", month: "2-digit", day: "2-digit", ...PACIFIC,
+            }).format(d) + "T00:00:00Z",
+          );
+        return Math.max(0, Math.round((day(LAUNCH) - day(from)) / 86400000));
+      }
+
+      /**
+       * One banner per day between now and launch, so the shared card counts
+       * down. The app picks soon-<days>.png; anything further out than the
+       * app's MAX_COUNTDOWN_DAYS gets the plain soon.png instead.
+       */
+      function countdownCopy(days) {
+        if (days === 0) return { line: `Opens today at ${LAUNCH_TIME}`, sub: null };
+        if (days === 1) return { line: "Opens tomorrow", sub: LAUNCH_FULL };
+        return { line: `Opens in ${days} days`, sub: LAUNCH_FULL };
+      }
+
       const BANNERS = [
         { file: "public/og/default.png", line: "Feed the soil." },
         { file: "public/og/product.png", line: "Revitalizing & Nourishing Hair Grease" },
         { file: "public/og/about.png", line: "Commit with Carmel" },
-        { file: "public/og/soon.png", line: "Opens Tuesday, September 22 at 5:00 PM PDT" },
+        { file: "public/og/soon.png", line: `Opens ${LAUNCH_FULL}` },
+        ...Array.from({ length: Math.min(daysOut(), maxDays) + 1 }, (_, days) => ({
+          file: `public/og/soon-${days}.png`,
+          ...countdownCopy(days),
+        })),
       ];
 
       const EYEBROW = "HAIR FERTILIZER · 9.5 OZ | 269G";
@@ -151,7 +188,7 @@
         return canvas;
       }
 
-      function drawBanner(canvas, line) {
+      function drawBanner(canvas, line, sub) {
         const W = 1200;
         const H = 630;
         canvas.width = W;
@@ -194,7 +231,8 @@
 
         const GAP_EYEBROW = 66;
         const GAP_LINE = 78;
-        const blockH = mark.actualBoundingBoxAscent + GAP_EYEBROW + GAP_LINE;
+        const blockH =
+          mark.actualBoundingBoxAscent + GAP_EYEBROW + GAP_LINE + (sub ? 44 : 0);
         const markBaseline = (H - blockH) / 2 + mark.actualBoundingBoxAscent;
 
         ctx.font = `600 ${markSize}px Fraunces`;
@@ -215,7 +253,16 @@
 
         ctx.font = `600 ${lineSize}px Fraunces`;
         ctx.fillStyle = INK;
-        ctx.fillText(line, W / 2, markBaseline + GAP_EYEBROW + GAP_LINE);
+        const lineBaseline = markBaseline + GAP_EYEBROW + GAP_LINE;
+        ctx.fillText(line, W / 2, lineBaseline);
+
+        if (sub) {
+          ctx.font = `500 19px Inter`;
+          ctx.letterSpacing = "3.4px";
+          ctx.fillStyle = MUTE;
+          ctx.fillText(sub.toUpperCase(), W / 2 + 1.7, lineBaseline + 44);
+          ctx.letterSpacing = "0px";
+        }
 
         return canvas;
       }
@@ -250,7 +297,11 @@
         const ogRow = document.getElementById("ogs");
         ogRow.textContent = "";
         for (const banner of BANNERS) {
-          const canvas = drawBanner(document.createElement("canvas"), banner.line);
+          const canvas = drawBanner(
+            document.createElement("canvas"),
+            banner.line,
+            banner.sub,
+          );
           canvas.className = "og";
           banners.set(banner.file, canvas);
           figure(ogRow, canvas, banner.file.replace("public/og/", ""));

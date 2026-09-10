@@ -14,6 +14,36 @@ export function hasLaunched(now: number = Date.now()): boolean {
   return Number.isFinite(t) ? now >= t : true;
 }
 
+/**
+ * How many daily countdown banners exist under public/og.
+ *
+ * scripts/brand-assets.html draws soon-0.png through soon-<days remaining>,
+ * never more than this many. Beyond it the teaser falls back to the plain
+ * soon.png, which names the date instead of counting down.
+ */
+export const MAX_COUNTDOWN_DAYS = 45;
+
+/**
+ * Whole days until launch, counted in calendar days on Pacific time rather
+ * than in 24-hour blocks: 0 is launch day, 1 is the day before. That's how
+ * people say it — "opens tomorrow" at 6pm the night before, not "in 0 days".
+ */
+export function daysUntilLaunch(now: number = Date.now()): number {
+  const day = (date: Date) =>
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "America/Los_Angeles",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(date);
+
+  const [launch, today] = [day(LAUNCH_AT), day(new Date(now))].map((d) =>
+    Date.parse(`${d}T00:00:00Z`),
+  );
+  if (!Number.isFinite(launch) || !Number.isFinite(today)) return 0;
+  return Math.max(0, Math.round((launch - today) / 86_400_000));
+}
+
 /** Whole days/hours/minutes/seconds remaining, floored at zero. */
 export function timeUntilLaunch(now: number = Date.now()) {
   const ms = Math.max(0, LAUNCH_AT.getTime() - now);

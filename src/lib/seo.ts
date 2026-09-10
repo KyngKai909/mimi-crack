@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MAX_COUNTDOWN_DAYS, daysUntilLaunch, hasLaunched } from "@/lib/launch";
 
 /**
  * Link-preview banners.
@@ -14,7 +15,30 @@ import type { Metadata } from "next";
  * file extension, so a crawler can still fetch the banner while the shop is
  * behind the pre-launch gate.
  */
-export type Banner = "default" | "product" | "about" | "soon";
+export type Banner =
+  | "default"
+  | "product"
+  | "about"
+  | "soon"
+  | `soon-${number}`;
+
+/**
+ * Which banner the teaser shares.
+ *
+ * Before launch that's a dated one — "Opens in 12 days" — so the card in a
+ * text message counts down with the page. A caveat worth knowing: platforms
+ * cache link previews, so the count is only as fresh as the last time they
+ * re-fetched the page. Changing the image URL each day is what lets a
+ * re-fetch pick up the new number rather than reusing the cached picture.
+ *
+ * Past MAX_COUNTDOWN_DAYS no dated banner has been drawn, so it falls back to
+ * the plain one, which names the date instead of counting.
+ */
+export function teaserBanner(now: number = Date.now()): Banner {
+  if (hasLaunched(now)) return "default";
+  const days = daysUntilLaunch(now);
+  return days > MAX_COUNTDOWN_DAYS ? "soon" : (`soon-${days}` as Banner);
+}
 
 export function share({
   title,

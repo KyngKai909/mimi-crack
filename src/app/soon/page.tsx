@@ -5,7 +5,7 @@ import {
   LAUNCH_WEEKDAY,
   LAUNCH_ZONE,
 } from "@/lib/launch";
-import { share } from "@/lib/seo";
+import { share, teaserBanner } from "@/lib/seo";
 import { PRODUCT } from "@/lib/product";
 import { BRAND } from "@/lib/brand";
 import { LaunchWordmark } from "@/components/LaunchWordmark";
@@ -14,12 +14,25 @@ import { NotifyForm } from "@/components/NotifyForm";
 import { SeedField } from "@/components/SeedField";
 import { UnlockForm } from "@/components/UnlockForm";
 
-export const metadata: Metadata = share({
-  title: "Coming soon",
-  description: `${PRODUCT.name} — ${PRODUCT.tagline}. Launching ${LAUNCH_LABEL}.`,
-  banner: "soon",
-  alt: `MiMi Crack — opens ${LAUNCH_LABEL}`,
-});
+/**
+ * The shared card counts down, so it can't be decided once and kept. An hour
+ * is close enough for a card that reads in days, and cheap enough that the
+ * page stays static in between.
+ *
+ * It has to be generateMetadata rather than an exported constant: a constant
+ * is evaluated once when the module first loads, so it would freeze on
+ * whatever the count was then and never move again.
+ */
+export const revalidate = 3600;
+
+export function generateMetadata(): Metadata {
+  return share({
+    title: "Coming soon",
+    description: `${PRODUCT.name} — ${PRODUCT.tagline}. Launching ${LAUNCH_LABEL}.`,
+    banner: teaserBanner(),
+    alt: `MiMi Crack — opens ${LAUNCH_LABEL}`,
+  });
+}
 
 export default function SoonPage() {
   return (
