@@ -213,9 +213,10 @@ export default function HomePage() {
       <section id="commitment" className="scroll-mt-0 pt-16 sm:pt-24 lg:pt-32">
         <div className="shell-x flex flex-col gap-4 pb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6 sm:pb-12">
           <Reveal>
-            {/* Sized to break over two or three lines at every width — the
-                longer wording ran to four in a max-w-lg column. */}
-            <h2 className="display display-xl max-w-[16ch] sm:max-w-[20ch]">
+            {/* Measure is capped in ch, not rem: the font size is fluid, so a
+                fixed width would break differently at every viewport. Tuned
+                for three lines at every width. */}
+            <h2 className="display display-xl max-w-[16ch] sm:max-w-[14ch]">
               The whole commitment: four steps, twice a week.
             </h2>
           </Reveal>
