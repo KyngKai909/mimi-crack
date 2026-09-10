@@ -83,7 +83,15 @@ export function FitText({
     <div ref={host} className={`w-full ${className}`}>
       <span
         ref={span}
-        className="block w-max whitespace-nowrap leading-[0.82]"
+        // leading-[0.82] makes a tight poster line, but it also means the
+        // line box is shorter than the glyphs: descenders on p, g, j, y sit
+        // below it and get sliced off by the masked reveal's overflow:hidden.
+        // The padding is in `em`, so it scales with whatever size the fit
+        // lands on, and the mask still hides the line completely because the
+        // transform is a percentage of this element's own height. Measured
+        // need for Fraunces is ~0.197em; 0.26em leaves room for italics and
+        // for a future face with deeper descenders.
+        className="block w-max whitespace-nowrap pb-[0.26em] leading-[0.82]"
         // A sane pre-fit size so server markup and the first frame already
         // occupy roughly the right space.
         style={{ fontSize: "clamp(2.5rem, 11vw, 12rem)" }}

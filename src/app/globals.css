@@ -140,7 +140,7 @@ body {
   /* Masked line wipe for headline copy. */
   .reveal-line > * {
     display: block;
-    transform: translateY(102%);
+    transform: translateY(105%);
     transition: transform 1100ms var(--ease-soft);
     transition-delay: var(--reveal-delay, 0ms);
   }
