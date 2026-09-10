@@ -19,6 +19,15 @@ export function siteUrl(request?: Request): string {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (explicit) return normalize(explicit);
 
+  // On production, prefer the project's canonical domain. VERCEL_URL is the
+  // immutable per-deployment host — correct for previews, but it changes on
+  // every deploy, so using it in production would churn og:url and canonical
+  // links against a hostname nobody shares.
+  if (process.env.VERCEL_ENV === "production") {
+    const canonical = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+    if (canonical) return normalize(canonical);
+  }
+
   const vercel =
     process.env.VERCEL_URL?.trim() || process.env.NEXT_PUBLIC_VERCEL_URL?.trim();
   if (vercel) return normalize(vercel);
