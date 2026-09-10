@@ -14,6 +14,7 @@ Next.js 15 (App Router) · Tailwind v4 · Stripe Checkout · Shippo live rates.
 | `/`        | Landing — fitted hero, pinned product scene, formula bento, the commitment, FAQ |
 | `/about`   | Carmel, the three pillars, and what commitment means for the shop |
 | `/style`   | Brand guide — wordmark, colour, type, layout, motion, voice. `noindex` |
+| `/soon`    | Pre-launch teaser — wordmark, countdown, Formspree launch list |
 | `/product` | Product detail — gallery, price, add to cart, directions, FAQ |
 | `/cart`    | Checkout — bag, shipping address, live carrier rates, hand-off to Stripe |
 | `/success` | Post-payment confirmation; clears the cart |
@@ -103,6 +104,25 @@ Swapping one in is a one-line change — replace `<Shot/>` with
 Older photography shot on green felt lives in git history on the
 `feat/brutalist-redesign` branch, along with `scripts/process-photos.mjs`
 (a chromaticity-based background key) if it's ever wanted again.
+
+## The pre-launch gate
+
+`src/middleware.ts` rewrites every route to `/soon` until `NEXT_PUBLIC_LAUNCH_AT`
+passes, then lifts on its own — no deploy needed at launch. It's a rewrite, not
+a redirect, so links people were sent still land correctly the moment the shop
+opens.
+
+To see the real shop before launch, add `?preview=<LAUNCH_PREVIEW_TOKEN>` to
+any URL; it sets a cookie for 30 days. With no token configured, `?preview=1`
+works — set a token to close that off.
+
+Two gotchas worth keeping:
+
+- Middleware **must** live at `src/middleware.ts` in a `src/` project. At the
+  repo root it is silently never invoked, and the gate simply doesn't apply.
+- The teaser wordmark is fitted at its *heaviest* weight. `wght` changes glyph
+  widths, so a line fitted at rest overflows its container the moment a letter
+  thickens under the pointer.
 
 ## The brand guide
 
