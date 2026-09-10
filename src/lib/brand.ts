@@ -38,18 +38,12 @@ export const BRAND = {
     body: "When the three agree, the routine stops being something you make yourself do. You stop negotiating, and start just doing it. That's the whole point of a commitment — it takes the decision off the table.",
   },
 
-  /**
-   * Any entry without an href is dropped from the page rather than rendered
-   * as a dead link.
-   *
-   * TODO(carmel): send the Facebook URL and it appears automatically — we
-   * didn't want to guess at a profile and link a stranger from your site.
-   */
+  /** Any entry without an href is dropped rather than rendered as a dead link. */
   socials: [
     { label: "TikTok", handle: "@carmelgaines", href: "https://www.tiktok.com/@carmelgaines" },
     { label: "Instagram", handle: "@just_me_carmel_g", href: "https://www.instagram.com/just_me_carmel_g/" },
     { label: "Snapchat", handle: "@justmecarmelg", href: "https://www.snapchat.com/@justmecarmelg" },
-    { label: "Facebook", handle: "", href: "" },
+    { label: "Facebook", handle: "Dwainn Carmel Gaines", href: "https://www.facebook.com/dwainncarmel.gaines/" },
   ],
 
   /**

@@ -4,6 +4,7 @@ import { CartProvider } from "@/lib/cart";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PRODUCT } from "@/lib/product";
+import { siteUrl } from "@/lib/siteUrl";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -27,10 +28,8 @@ const parisienne = Parisienne({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3310";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(siteUrl()),
   title: {
     default: `${PRODUCT.name} — ${PRODUCT.tagline}`,
     template: "%s · MiMi Crack",
@@ -40,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: PRODUCT.name,
     description: PRODUCT.tagline,
-    url: siteUrl,
+    url: siteUrl(),
     siteName: "MiMi Crack",
     type: "website",
   },

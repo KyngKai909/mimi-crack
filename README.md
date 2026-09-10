@@ -127,6 +127,16 @@ then restart it.
 
 ## Deploying
 
+Vercel, with the environment variables from `.env.example` set in project
+settings.
+
+`NEXT_PUBLIC_SITE_URL` should be **unset** for Preview and set only for
+Production. Previews resolve their own origin from `VERCEL_URL`, so each one
+gets correct absolute URLs. Do not set it to an empty string — see
+`src/lib/siteUrl.ts` for why that used to fail the build.
+
+
+
 Vercel is the path of least resistance. Set the same environment variables in
 the project settings, point `NEXT_PUBLIC_SITE_URL` at the real domain, and add
 a Stripe webhook endpoint for `https://yourdomain/api/webhooks/stripe`
