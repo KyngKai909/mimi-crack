@@ -5,6 +5,14 @@ import { PRODUCT } from "@/lib/product";
 import { siteUrl } from "@/lib/siteUrl";
 import "./globals.css";
 
+/** The banner every page falls back to. Pages with their own use share(). */
+const OG_DEFAULT = {
+  url: "/og/default.png",
+  width: 1200,
+  height: 630,
+  alt: "MiMi Crack — Hair Fertilizer",
+};
+
 const fraunces = Fraunces({
   variable: "--font-fraunces",
   subsets: ["latin"],
@@ -40,11 +48,13 @@ export const metadata: Metadata = {
     url: siteUrl(),
     siteName: "MiMi Crack",
     type: "website",
+    images: [OG_DEFAULT],
   },
   twitter: {
     card: "summary_large_image",
     title: PRODUCT.name,
     description: PRODUCT.tagline,
+    images: [OG_DEFAULT],
   },
 };
 

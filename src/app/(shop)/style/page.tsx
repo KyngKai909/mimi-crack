@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   COLOR_GROUPS,
@@ -15,6 +16,11 @@ import { TypeSpecimen } from "@/components/TypeSpecimen";
 import { Shot } from "@/components/Shot";
 import { FitText } from "@/components/FitText";
 import { Reveal } from "@/components/Reveal";
+import { teaserBanner } from "@/lib/seo";
+import { LAUNCH_LABEL } from "@/lib/launch";
+
+/** The example share card counts down, so don't bake it in at build time. */
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Brand guide",
@@ -33,6 +39,7 @@ const sections = [
   ["motion", "Motion"],
   ["photography", "Photography"],
   ["voice", "Voice"],
+  ["assets", "Assets"],
 ] as const;
 
 function SectionHead({ id, n, title, lead }: { id: string; n: string; title: string; lead: string }) {
@@ -383,6 +390,95 @@ export default function StylePage() {
             is the name and the metaphor; it is not a claim.
           </p>
         </Reveal>
+      </section>
+
+      {/* ════════════════════════════════════════════════════ assets */}
+      <section className="bg-shell-warm">
+        <div className="shell-x section-y">
+          <SectionHead
+            id="assets"
+            n="09"
+            title="Icons & share cards"
+            lead="The icon is the wordmark reduced to one letter — its uppercase M, not a separate logo. The share card is what a link looks like in a text message, which before launch is most of where the brand appears at all."
+          />
+
+          <div className="mt-14 grid gap-12 lg:grid-cols-[auto_1fr] lg:gap-20">
+            <Reveal className="flex items-end gap-6">
+              {[96, 48, 32, 16].map((size) => (
+                <figure key={size} className="flex flex-col items-center gap-3">
+                  <Image
+                    src="/icon.png"
+                    alt={`MiMi Crack icon at ${size} pixels`}
+                    width={size}
+                    height={size}
+                    className="rounded-[0.35rem] border border-hairline"
+                  />
+                  <figcaption className="eyebrow text-[0.6rem]">{size}</figcaption>
+                </figure>
+              ))}
+            </Reveal>
+
+            <Reveal delay={120} className="hairline pt-7">
+              <h3 className="display display-md">Where they live</h3>
+              <ul className="prose-airy mt-4 space-y-2.5">
+                <li>
+                  <code>src/app/favicon.ico</code> — 16, 32 and 48, for browser tabs.
+                </li>
+                <li>
+                  <code>src/app/icon.png</code> — 512, for high-DPI and install prompts.
+                </li>
+                <li>
+                  <code>src/app/apple-icon.png</code> — 180, the iOS home screen.
+                </li>
+                <li>
+                  <code>public/og/</code> — the 1200 × 630 share cards.
+                </li>
+              </ul>
+              <p className="prose-airy mt-5">
+                Every icon size is drawn at its own size rather than shrunk from
+                one large one, so Fraunces&rsquo; optical-size axis thickens the
+                small ones instead of leaving hairlines that vanish in a tab.
+                Above the tab, the M is never used alone — the full wordmark is.
+              </p>
+            </Reveal>
+          </div>
+
+          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:gap-5">
+            {[
+              { file: "/og/default.png", use: "The site, the home page, and anything without its own" },
+              { file: "/og/product.png", use: "Product" },
+              { file: "/og/about.png", use: "About" },
+              {
+                file: `/og/${teaserBanner()}.png`,
+                use: `The teaser — redrawn for every day of the countdown`,
+              },
+            ].map((card, i) => (
+              <Reveal key={card.file} delay={i * 80}>
+                <Image
+                  src={card.file}
+                  alt={`Share card — ${card.use}`}
+                  width={1200}
+                  height={630}
+                  className="w-full rounded-[1.25rem] border border-hairline"
+                />
+                <p className="prose-airy mt-3 text-[0.95rem]">{card.use}</p>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={200}>
+            <p className="prose-airy mt-10 max-w-2xl">
+              All of it is drawn by <code>node scripts/brand-assets.mjs</code> —
+              run it, open the page it prints, press Generate. Before launch it
+              also draws one card per remaining day, so a link shared today
+              says how many days are left rather than repeating the date. The
+              catch is that messaging apps cache link previews: the count is
+              only as fresh as the last time the app fetched the page. After{" "}
+              {LAUNCH_LABEL} the countdown cards go unused and the default one
+              takes over.
+            </p>
+          </Reveal>
+        </div>
       </section>
     </>
   );

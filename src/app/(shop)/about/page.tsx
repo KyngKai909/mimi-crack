@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { share } from "@/lib/seo";
 import { BRAND } from "@/lib/brand";
 import { PRODUCT, formatPrice } from "@/lib/product";
 import { Shot } from "@/components/Shot";
 import { Reveal } from "@/components/Reveal";
 import { FitText } from "@/components/FitText";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = share({
   title: "About",
   description: `${BRAND.subtitle}. The story behind ${PRODUCT.name}.`,
-};
+  banner: "about",
+});
 
 /** Things about this shop that are literally true — no aspirational filler. */
 const practices = [
