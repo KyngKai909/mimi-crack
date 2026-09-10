@@ -107,14 +107,30 @@ Older photography shot on green felt lives in git history on the
 
 ## The pre-launch gate
 
-`src/middleware.ts` rewrites every route to `/soon` until `NEXT_PUBLIC_LAUNCH_AT`
-passes, then lifts on its own — no deploy needed at launch. It's a rewrite, not
-a redirect, so links people were sent still land correctly the moment the shop
+`src/middleware.ts` gates every route until `NEXT_PUBLIC_LAUNCH_AT` passes,
+then lifts on its own — no deploy needed at launch. It's a rewrite, not a
+redirect, so links people were sent still land correctly the moment the shop
 opens.
 
-The teaser carries the way through the gate: **Enter site**, on the copyright
-line, opens a password field. The password is `commitment123` unless
-`SITE_PASSWORD` is set. Correct entries get an httpOnly cookie good for 30
+Two destinations before launch:
+
+| Request | Sees |
+|---|---|
+| `/` | `/soon` — the teaser: countdown, launch list |
+| anything else | `/locked` — the password prompt, carrying `?to=<path>` |
+
+Someone arriving cold gets the teaser. Someone following a product link gets a
+prompt that says the shop isn't open yet, and unlocking lands them on the page
+they actually asked for rather than the home page. `to` is set by the
+middleware from the request's own pathname, but it still arrives as a query
+string, so `src/app/locked/page.tsx` validates it as a same-site path before
+anything navigates to it.
+
+The password is `commitment123` unless `SITE_PASSWORD` is set. The prompt asks
+for it outright; on the teaser it's behind **Enter site**, on the copyright
+line, which opens a field in place — the countdown and the launch list are
+what that page is for, and a password box competing with them would say the
+wrong thing about which one visitors are meant to use. Correct entries get an httpOnly cookie good for 30
 days, handed out by `src/app/api/unlock/route.ts` — the password itself never
 touches anything a script on the page can read.
 
