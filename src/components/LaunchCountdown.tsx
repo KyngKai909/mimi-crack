@@ -73,15 +73,15 @@ export function LaunchCountdown() {
       }`}
     >
       {units.map((u, i) => (
-        <div key={u.label} className="flex items-start gap-4 sm:gap-12">
-          {/* The separators are the first thing to go on a phone: four units
-              plus three colons plus their gaps do not fit 335px, and the
-              overflow is invisible because the page clips rather than
-              scrolling sideways. */}
+        <div key={u.label} className="flex items-start gap-2 sm:gap-8 lg:gap-12">
+          {/* Separators stay at every width. They only fit on a phone
+              because the gaps either side of them shrink to match — four
+              units plus three colons at desktop spacing overflows 375px, and
+              the page clips rather than scrolling, so it fails silently. */}
           {i > 0 && (
             <span
               aria-hidden="true"
-              className="display hidden select-none text-[clamp(1.9rem,min(10.5vw,12vh),7.5rem)] leading-none text-ink/15 sm:inline"
+              className="display select-none text-[clamp(1.9rem,min(10.5vw,12vh),7.5rem)] leading-none text-ink/20"
             >
               :
             </span>
