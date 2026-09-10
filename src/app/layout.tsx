@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, Parisienne } from "next/font/google";
 import { CartProvider } from "@/lib/cart";
-import { SiteChrome } from "@/components/SiteChrome";
 import { PRODUCT } from "@/lib/product";
 import { siteUrl } from "@/lib/siteUrl";
 import "./globals.css";
@@ -61,9 +60,9 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} ${parisienne.variable}`}
     >
       <body className="antialiased">
-        <CartProvider>
-          <SiteChrome>{children}</SiteChrome>
-        </CartProvider>
+        {/* Chrome lives in the (shop) route group, not here — see the note
+            in src/app/(shop)/layout.tsx. */}
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );
