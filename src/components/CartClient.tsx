@@ -198,7 +198,7 @@ export function CartClient() {
                   <button
                     type="button"
                     onClick={remove}
-                    className="link-draw text-sm text-ink-mute hover:text-ink"
+                    className="link-draw inline-flex min-h-11 items-center text-sm text-ink-mute hover:text-ink sm:min-h-0"
                   >
                     Remove
                   </button>
@@ -406,7 +406,7 @@ export function CartClient() {
 
             <Link
               href="/product"
-              className="link-draw mx-auto mt-6 block w-fit text-sm text-ink-soft"
+              className="link-draw mx-auto mt-4 inline-flex min-h-11 w-fit items-center justify-center text-sm text-ink-soft sm:mt-6"
             >
               Keep shopping
             </Link>

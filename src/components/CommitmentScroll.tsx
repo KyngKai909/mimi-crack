@@ -62,15 +62,15 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
   const cards = steps.map((s, i) => (
     <article
       key={s.step}
-      className="flex w-[82vw] shrink-0 flex-col justify-between gap-8 rounded-[1.75rem] bg-shell p-8 sm:w-[58vw] lg:w-[38vw] lg:p-10"
+      className="flex w-[86vw] shrink-0 flex-col justify-between gap-6 rounded-[1.75rem] bg-shell p-6 sm:w-[56vw] sm:gap-8 sm:p-8 lg:w-[42vw] lg:p-10"
       style={{ scrollSnapAlign: "center" }}
     >
       <div>
-        <span className="display text-[3.5rem] leading-none text-pistachio-deep tabular-nums lg:text-[5rem]">
+        <span className="display text-[3rem] leading-none text-pistachio-deep tabular-nums sm:text-[3.5rem] lg:text-[5rem]">
           {String(i + 1).padStart(2, "0")}
         </span>
-        <h3 className="display display-lg mt-6">{s.step}</h3>
-        <p className="prose-airy mt-5 max-w-sm">{s.body}</p>
+        <h3 className="display display-lg mt-4 sm:mt-6">{s.step}</h3>
+        <p className="prose-airy mt-3 max-w-sm sm:mt-5">{s.body}</p>
       </div>
       <Shot label={`Step ${i + 1} — ${s.step}`} ratio="16 / 9" tone="warm" className="rounded-2xl" />
     </article>
@@ -79,7 +79,7 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
   if (!pinned) {
     return (
       <div
-        className="flex gap-5 overflow-x-auto px-5 pb-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex gap-3 overflow-x-auto px-5 pb-6 sm:gap-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ scrollSnapType: "x mandatory" }}
       >
         {cards}
@@ -92,7 +92,7 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <div ref={track} className="w-full overflow-hidden">
           <div
-            className="flex w-max gap-8 px-[6vw] will-change-transform"
+            className="flex w-max gap-5 px-[5vw] will-change-transform"
             style={{ transform: `translate3d(${-progress * travel}px, 0, 0)` }}
           >
             {cards}

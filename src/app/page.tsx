@@ -13,27 +13,37 @@ export default function HomePage() {
     <>
       {/* ═══════════════════════════════════════════ hero — full bleed */}
       <section className="relative pb-10">
-        <div className="shell-x flex flex-wrap items-end justify-between gap-6 pb-8">
+        <div className="shell-x flex flex-wrap items-end justify-between gap-6 pb-5 sm:pb-8">
           <Reveal>
             <p className="eyebrow">{PRODUCT.badge} · {PRODUCT.size.label}</p>
           </Reveal>
-          <Reveal delay={120}>
-            <p className="prose-airy max-w-xs text-right">
+          {/* The strapline pairs with the eyebrow as a second column. There's
+              no second column on a phone, so it moves below the headline
+              instead of sitting right-aligned against nothing. */}
+          <Reveal delay={120} className="hidden sm:block">
+            <p className="prose-airy max-w-xs sm:text-right">
               Scalp-first conditioning grease, made in small batches.
             </p>
           </Reveal>
         </div>
 
-        {/* Fitted display type, flush to both edges. */}
+        {/* Fitted display type. Matches the page gutter on phones and runs
+            nearly edge to edge from sm up. */}
         <div className="px-[2vw]">
           <Reveal line>
-            <FitText className="display" fill={1}>
-              Feed the soil.
-            </FitText>
+            <h1 className="display">
+              <FitText className="display">Feed the soil.</FitText>
+            </h1>
           </Reveal>
         </div>
 
-        <div className="shell-x mt-10 grid items-end gap-10 lg:mt-14 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+        <Reveal delay={140} className="shell-x mt-5 sm:hidden">
+          <p className="prose-airy">
+            Scalp-first conditioning grease, made in small batches.
+          </p>
+        </Reveal>
+
+        <div className="shell-x mt-8 grid items-end gap-8 sm:mt-10 sm:gap-10 lg:mt-14 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
           <div className="order-2 lg:order-1">
             <Reveal delay={200}>
               <p className="font-script text-5xl text-pistachio-deep sm:text-6xl">
@@ -94,14 +104,14 @@ export default function HomePage() {
             <p className="eyebrow">Why it works</p>
           </Reveal>
         </div>
-        <div className="mt-10 px-[2vw]">
+        <div className="mt-8 px-5 sm:mt-10 sm:px-[2vw]">
           <Reveal line delay={100}>
-            <FitText className="display" fill={1}>
-              Don&rsquo;t polish the leaves.
-            </FitText>
+            <h2 className="display">
+              <FitText className="display">Don&rsquo;t polish the leaves.</FitText>
+            </h2>
           </Reveal>
           <Reveal line delay={200}>
-            <FitText className="display italic text-pistachio-deep" fill={1}>
+            <FitText className="display italic text-pistachio-deep">
               Feed the soil.
             </FitText>
           </Reveal>
@@ -200,8 +210,8 @@ export default function HomePage() {
       </section>
 
       {/* ════════════════════════ commitment — pinned horizontal scroll */}
-      <section id="commitment" className="scroll-mt-0 pt-24 sm:pt-32">
-        <div className="shell-x flex flex-wrap items-end justify-between gap-6 pb-12">
+      <section id="commitment" className="scroll-mt-0 pt-16 sm:pt-24 lg:pt-32">
+        <div className="shell-x flex flex-col gap-4 pb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6 sm:pb-12">
           <Reveal>
             <h2 className="display display-xl max-w-lg">
               Four steps. Twice a week. That&rsquo;s the whole commitment.
@@ -235,12 +245,12 @@ export default function HomePage() {
       <section className="pb-24 sm:pb-32">
         <div className="px-[2vw]">
           <Reveal line>
-            <FitText className="display" fill={1}>
-              One jar. Two months.
-            </FitText>
+            <h2 className="display">
+              <FitText className="display">One jar. Two months.</FitText>
+            </h2>
           </Reveal>
         </div>
-        <div className="shell-x mt-12 flex flex-col items-start justify-between gap-10 sm:flex-row sm:items-end">
+        <div className="shell-x mt-10 flex flex-col items-start justify-between gap-8 sm:mt-12 sm:flex-row sm:items-end sm:gap-10">
           <Reveal>
             <p className="prose-airy max-w-sm">
               {PRODUCT.size.label} of {PRODUCT.badge.toLowerCase()}, packed and

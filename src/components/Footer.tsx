@@ -19,7 +19,7 @@ export function Footer() {
 
           <nav aria-label="Shop">
             <p className="eyebrow text-shell/45">Shop</p>
-            <ul className="mt-6 space-y-3.5">
+            <ul className="mt-4 sm:mt-6 sm:space-y-3.5">
               {[
                 { href: "/product", label: "The Jar" },
                 { href: "/cart", label: "Cart" },
@@ -28,7 +28,10 @@ export function Footer() {
                 { href: "/#faq", label: "FAQ" },
               ].map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="link-draw text-shell/80 hover:text-shell">
+                  <Link
+                    href={l.href}
+                    className="link-draw inline-flex min-h-11 items-center text-shell/80 hover:text-shell sm:min-h-0"
+                  >
                     {l.label}
                   </Link>
                 </li>
@@ -47,7 +50,7 @@ export function Footer() {
         <div className="mt-16 border-t border-shell/15 pt-10">
           <Link
             href="/product"
-            className="display display-lg group inline-flex items-baseline gap-4 text-shell"
+            className="display display-lg group inline-flex min-h-11 flex-wrap items-baseline gap-x-4 gap-y-1 text-shell"
           >
             Get the jar
             <span className="text-pistachio">{formatPrice(PRODUCT.priceCents)}</span>

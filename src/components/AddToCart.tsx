@@ -11,9 +11,11 @@ export function AddToCart({ withQuantity = true }: { withQuantity?: boolean }) {
 
   return (
     <div>
-      <div className="flex flex-wrap items-center gap-4">
+      {/* Stacks on phones: the label plus the price is too long to sit
+          beside the quantity picker at 375px and wraps inside the pill. */}
+      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-4">
         {withQuantity && (
-          <div className="flex items-center gap-1 rounded-full border border-hairline bg-paper px-2 py-1">
+          <div className="flex items-center justify-between gap-1 self-start rounded-full border border-hairline bg-paper px-2 py-1 sm:self-auto sm:justify-start">
             <button
               type="button"
               onClick={() => setQty((q) => Math.max(1, q - 1))}
@@ -42,8 +44,14 @@ export function AddToCart({ withQuantity = true }: { withQuantity?: boolean }) {
           </div>
         )}
 
-        <button type="button" onClick={() => add(qty)} className="pill pill-solid flex-1">
-          Add to cart — {formatPrice(PRODUCT.priceCents * qty)}
+        <button
+          type="button"
+          onClick={() => add(qty)}
+          className="pill pill-solid flex-1 whitespace-nowrap"
+        >
+          Add to cart
+          <span aria-hidden="true" className="opacity-45">—</span>
+          {formatPrice(PRODUCT.priceCents * qty)}
         </button>
       </div>
 

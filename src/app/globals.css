@@ -148,17 +148,29 @@ body {
     transform: none;
   }
 
-  /* --- controls -------------------------------------------------------- */
+}
+
+
+/* ---------------------------------------------------------------------------
+   Controls live in @layer components, NOT utilities.
+   `.pill` sets `display`, and so does Tailwind's `hidden`. With both in the
+   utilities layer they have equal specificity and source order decides — which
+   meant `hidden sm:inline-flex` lost, and the Shop button rendered on phones
+   where it was meant to be hidden. Components sit before utilities, so
+   utilities now win as intended.
+   ------------------------------------------------------------------------ */
+@layer components {
   .pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
     border-radius: 9999px;
     padding: 1.05rem 2.1rem;
     font-size: 0.83rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    line-height: 1;
     transition:
       background-color 420ms var(--ease-soft),
       color 420ms var(--ease-soft),
@@ -168,6 +180,16 @@ body {
   .pill:hover {
     transform: translateY(-2px);
   }
+
+  /* Compact variant for chrome — the full-size pill is a page-level CTA and
+     makes a header roughly half again as tall as it needs to be. */
+  .pill-sm {
+    padding: 0.72rem 1.35rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.09em;
+    gap: 0.45rem;
+  }
+
   .pill-solid {
     background: var(--color-ink);
     color: var(--color-shell);
@@ -182,6 +204,26 @@ body {
   .pill-quiet:hover {
     background: var(--color-ink);
     color: var(--color-shell);
+  }
+
+  /* A square, comfortably tappable control for icon-only chrome. */
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* 40px: still a comfortable target, but 44px squares with a 20px icon
+       leave so much padding that the group reads as scattered. */
+    height: 2.5rem;
+    min-width: 2.5rem;
+    border-radius: 9999px;
+    color: var(--color-ink);
+    transition:
+      background-color 420ms var(--ease-soft),
+      color 420ms var(--ease-soft);
+  }
+  .icon-btn:hover {
+    background: var(--color-shell-warm);
   }
 
   /* Understated underline that draws itself on hover. */
