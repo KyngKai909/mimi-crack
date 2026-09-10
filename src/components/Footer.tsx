@@ -58,7 +58,13 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col gap-3 text-xs text-shell/40 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} MiMi Crack</p>
+          <p className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>© {new Date().getFullYear()} MiMi Crack</span>
+            {/* Internal reference, noindex — linked so the team can find it. */}
+            <Link href="/style" className="link-draw hover:text-shell/70">
+              Brand guide
+            </Link>
+          </p>
           <p className="max-w-md sm:text-right">
             Cosmetic product. Not evaluated by the FDA and not intended to
             diagnose, treat or prevent any condition.
