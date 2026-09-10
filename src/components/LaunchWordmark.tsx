@@ -66,7 +66,10 @@ export function LaunchWordmark({ className = "" }: { className?: string }) {
       <span
         ref={line}
         aria-hidden="true"
-        className="display block w-max whitespace-nowrap leading-[0.86]"
+        // mx-auto matters: when the height cap wins over the width fit — on a
+        // wide, short screen — the line is narrower than its container, and a
+        // w-max block would sit flush left with all the slack on the right.
+        className="display mx-auto block w-max whitespace-nowrap leading-[0.86]"
         style={{ fontSize: "clamp(2.5rem, 12vw, 14rem)", fontWeight: 600 }}
       >
         {WORD.split("").map((ch, i) => (
