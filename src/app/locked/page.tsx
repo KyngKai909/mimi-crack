@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LAUNCH_LABEL } from "@/lib/launch";
+import { gateMetadata } from "@/lib/seo";
 import { LaunchWordmark } from "@/components/LaunchWordmark";
 import { SeedField } from "@/components/SeedField";
 import { UnlockForm } from "@/components/UnlockForm";
 
-export const metadata: Metadata = {
-  title: "Enter password",
-  robots: { index: false, follow: false },
-};
+/**
+ * This page is what a shared deep link actually resolves to before launch, so
+ * it carries the same counting-down card as the teaser rather than falling
+ * back to the plain site one. Hourly, for the same reason the teaser is.
+ */
+export const revalidate = 3600;
+
+export function generateMetadata(): Metadata {
+  return { ...gateMetadata(), robots: { index: false, follow: false } };
+}
 
 /**
  * The prompt someone gets when they follow a link into the shop before it
