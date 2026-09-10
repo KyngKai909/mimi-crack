@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PRODUCT, formatPrice } from "@/lib/product";
+import { PRODUCT } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
@@ -68,14 +68,8 @@ export default function ProductPage() {
             </Reveal>
 
             <Reveal delay={340}>
-              <p className="display mt-10 text-5xl tabular-nums">
-                {formatPrice(PRODUCT.priceCents)}
-              </p>
-            </Reveal>
-
-            <Reveal delay={400}>
-              <div className="mt-8 max-w-md">
-                <AddToCart />
+              <div className="mt-10 max-w-md">
+                <AddToCart withPrice />
               </div>
             </Reveal>
 
