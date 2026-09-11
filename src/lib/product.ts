@@ -184,8 +184,8 @@ export const PRODUCT = {
       a: "Two things people ask about: it contains lanolin, and it's fragranced, with peppermint and menthol that give the scalp a cool tingle. The full ingredient list is on this page, grouped — read it first if you have a known allergy.",
     },
     {
-      q: "How long does one jar last?",
-      a: "9.5 oz is a big jar. Used daily on the scalp and ends — a small amount each time — most people get two to four months out of one.",
+      q: "Is it alright to use every day?",
+      a: "That's how it's meant to be used — a small amount on the scalp daily, and down the lengths when they want it. A scalp answers to consistency rather than to intensity, so little and often beats a heavy hand on a Sunday.",
     },
     {
       q: "How fast does it ship?",

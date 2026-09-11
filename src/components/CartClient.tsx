@@ -147,8 +147,8 @@ export function CartClient() {
         </div>
         <div className="shell-x mt-12 flex flex-col items-start gap-8 pb-32 sm:flex-row sm:items-center sm:justify-between">
           <p className="prose-airy max-w-sm">
-            There&rsquo;s only one thing to put in it — and it lasts a couple of
-            months.
+            There&rsquo;s only one thing to put in it — one jar, one step, every
+            day.
           </p>
           <Link href="/product" className="pill pill-solid">
             Shop the jar — {formatPrice(PRODUCT.priceCents)}

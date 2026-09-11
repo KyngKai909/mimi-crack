@@ -109,7 +109,7 @@ export const LAYOUT = [
 
 export const VOICE = {
   principles: [
-    "Plain and specific. \"Two to four months\" beats \"long-lasting\".",
+    "Plain and specific. \"9.5 oz\" beats \"generously sized\".",
     "Never oversell. It is a cosmetic grease, not a treatment — no growth or medical claims, ever.",
     "Warm, not cute. Talk like a person who knows hair, not a brand doing a voice.",
     "Short sentences carry the weight. Let the space do the rest.",

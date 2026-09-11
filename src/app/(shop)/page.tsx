@@ -88,7 +88,7 @@ export default function HomePage() {
             { k: "Net weight", v: PRODUCT.size.label },
             { k: "Batch", v: "Small" },
             { k: "Dispatch", v: "1–2 days" },
-            { k: "One jar lasts", v: "2–4 months" },
+            { k: "Use", v: "Daily" },
           ].map((p, i) => (
             <Reveal key={p.k} delay={i * 90}>
               <dt className="eyebrow">{p.k}</dt>
@@ -196,8 +196,8 @@ export default function HomePage() {
 
             {/* duration */}
             <Reveal delay={370} className="col-span-2 rounded-[1.5rem] bg-clay-soft p-7 lg:col-span-1">
-              <p className="display text-5xl lg:text-6xl">2–4</p>
-              <p className="eyebrow mt-4">Months per jar</p>
+              <p className="display text-5xl lg:text-6xl">4</p>
+              <p className="eyebrow mt-4">Steps, every day</p>
             </Reveal>
           </div>
 
@@ -244,7 +244,7 @@ export default function HomePage() {
         <div className="px-[2vw]">
           <Reveal line>
             <h2 className="display">
-              <FitText className="display">One jar. Two months.</FitText>
+              <FitText className="display">One jar. Every day.</FitText>
             </h2>
           </Reveal>
         </div>

@@ -164,8 +164,8 @@ export default function ProductPage() {
             </Reveal>
 
             <Reveal delay={230} className="rounded-[1.5rem] bg-clay-soft p-7">
-              <p className="display text-5xl">2–4</p>
-              <p className="eyebrow mt-4">Months per jar</p>
+              <p className="display text-5xl">4</p>
+              <p className="eyebrow mt-4">Steps, every day</p>
             </Reveal>
 
             {/* Full width, and five pills rather than a paragraph. Half a row

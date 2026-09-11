@@ -24,8 +24,8 @@ const practices = [
     v: "Made in quantities that get used, not warehoused.",
   },
   {
-    k: "A jar that lasts",
-    v: `${PRODUCT.size.label} is two to four months for most people. A brand built on repurchase would have made it smaller.`,
+    k: "A big jar",
+    v: `${PRODUCT.size.label}, at one price. A brand built on repurchase would have made it smaller.`,
   },
   {
     k: "No upsells",
