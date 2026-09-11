@@ -139,23 +139,28 @@ export const PRODUCT = {
    * Two of those changed what was here. It says "a small amount", not
    * "pea-sized" — that was her specific correction. And it's daily, which is
    * the frequency the rest of the site now quotes as well.
+   *
+   * Plain words only — "emulsify" went because people were reading past it.
+   * Keep each body under about 90 characters. These render in a four-column
+   * grid on the product page, where that's three lines, and a fourth line
+   * makes the row ragged.
    */
   howToUse: [
     {
       step: "Part & apply",
-      body: "Section the hair into rows and lay a small amount along each part with a fingertip. Damp is best — it seals the water in — but a dry scalp works whenever it needs it.",
+      body: "Section the hair. Lay a small amount along each part — damp seals it in, dry works too.",
     },
     {
       step: "Massage in",
-      body: "Work it into the scalp gently, with the pads of your fingers, for a minute or two. Small circles, light pressure — this is the part that matters.",
+      body: "Work it in gently with the pads of your fingers. Small circles — this part matters most.",
     },
     {
       step: "Smooth the lengths",
-      body: "Emulsify what's left between your palms and run it down the strand, paying extra attention to ends and edges.",
+      body: "Rub what's left between your palms and run it down the strand, ends and edges.",
     },
     {
       step: "Style & repeat",
-      body: "Style as you like, then do it again tomorrow. Daily is the point — a scalp answers to consistency, not intensity.",
+      body: "Style as you like, then again tomorrow. A scalp answers to consistency, not intensity.",
     },
   ],
 

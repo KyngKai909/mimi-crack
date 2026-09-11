@@ -254,7 +254,10 @@ export default function ProductPage() {
         <Reveal>
           <h2 className="display display-xl max-w-xl">How to use it.</h2>
         </Reveal>
-        <ol className="mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
+        {/* Four across only from 1280. At the lg breakpoint the columns are
+            194px, where these bodies run to four and five lines; two columns
+            read better than a ragged row. */}
+        <ol className="mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2 xl:grid-cols-4">
           {PRODUCT.howToUse.map((s, i) => (
             <Reveal as="li" key={s.step} delay={i * 90} className="hairline pt-6">
               <span className="display text-3xl text-pistachio-deep tabular-nums">
