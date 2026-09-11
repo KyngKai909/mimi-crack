@@ -43,6 +43,21 @@ const field =
   "w-full rounded-xl border border-hairline bg-paper px-4 py-3.5 text-[0.95rem] text-ink outline-none transition-colors duration-300 placeholder:text-ink-mute/60 focus:border-forest";
 const labelCls = "eyebrow block";
 
+/**
+ * What to show when a fetch fails.
+ *
+ * A request that never reached the server throws a TypeError whose message is
+ * the browser's own wording — "Failed to fetch", "Load failed" — which lands
+ * in the summary panel looking like a bug in the shop. Anything the server
+ * said is worth repeating; anything else is a connection problem.
+ */
+function failureMessage(err: unknown, fallback: string): string {
+  if (err instanceof TypeError) {
+    return "Couldn't reach the shop just now. Check your connection and try again.";
+  }
+  return err instanceof Error && err.message ? err.message : fallback;
+}
+
 export function CartClient() {
   const { quantity, setQuantity, remove, subtotalCents, ready } = useCart();
 
@@ -94,7 +109,7 @@ export function CartClient() {
       setQuotes(data.rates);
       setChosen(data.rates[0]?.rateId ?? null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't fetch rates.");
+      setError(failureMessage(err, "Couldn't fetch rates."));
     } finally {
       setLoadingRates(false);
     }
@@ -130,7 +145,7 @@ export function CartClient() {
       }
       window.location.href = data.url;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't start checkout.");
+      setError(failureMessage(err, "Couldn't start checkout."));
       setSubmitting(false);
     }
   }
