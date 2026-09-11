@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { share } from "@/lib/seo";
 import {
-  BOTANICAL_OIL_COUNT,
   GROUPED_INGREDIENTS,
   INGREDIENT_DECLARATION,
+  NAMED_INGREDIENT_COUNT,
+  NAMED_OIL_COUNT,
   PRODUCT,
 } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
@@ -150,7 +151,7 @@ export default function ProductPage() {
               <div className="flex items-baseline justify-between gap-4">
                 <p className="eyebrow">What&rsquo;s in it</p>
                 <a href="#ingredients" className="link-draw eyebrow hover:text-ink">
-                  All {PRODUCT.ingredients.length}
+                  Full list
                 </a>
               </div>
               <div className="mt-auto pt-8">
@@ -215,7 +216,7 @@ export default function ProductPage() {
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
               <p className="eyebrow">The formula</p>
               <p className="eyebrow">
-                {PRODUCT.ingredients.length} in all · {BOTANICAL_OIL_COUNT} botanical oils
+                {NAMED_INGREDIENT_COUNT} named · {NAMED_OIL_COUNT} botanical oils
               </p>
             </div>
             <div className="mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">

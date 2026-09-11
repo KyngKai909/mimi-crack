@@ -260,6 +260,21 @@ export const GROUPED_INGREDIENTS = INGREDIENT_GROUPS.filter((g) => g.shown)
 /** The handling sentences, for places that want small print rather than pills. */
 export const CAUTIONS = PRODUCT.handling.map((h) => h.full).join(" ");
 
+/**
+ * What the broken-out groups actually name, and how many of those are oils.
+ *
+ * Counted off the shown groups rather than off the whole declaration: the
+ * header sits above the groups, so it has to describe them. Quoting the full
+ * thirty-nine there would claim a breakdown the page deliberately doesn't give.
+ */
+const NAMED_INGREDIENTS = GROUPED_INGREDIENTS.flatMap((group) => group.items);
+
+export const NAMED_INGREDIENT_COUNT = NAMED_INGREDIENTS.length;
+
+export const NAMED_OIL_COUNT = NAMED_INGREDIENTS.filter((name) =>
+  name.endsWith(" Oil"),
+).length;
+
 /** The declaration as one string, in the order printed on the jar. */
 export const INGREDIENT_DECLARATION = PRODUCT.ingredients
   .map((i) => i.name)

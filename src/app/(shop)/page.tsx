@@ -186,7 +186,7 @@ export default function HomePage() {
                   href="/product#ingredients"
                   className="link-draw eyebrow hover:text-ink"
                 >
-                  All {PRODUCT.ingredients.length}
+                  Full list
                 </Link>
               </div>
               <div className="mt-auto pt-10">
