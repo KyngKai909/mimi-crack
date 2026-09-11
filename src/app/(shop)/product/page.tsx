@@ -1,11 +1,25 @@
 import type { Metadata } from "next";
 import { share } from "@/lib/seo";
-import { PRODUCT } from "@/lib/product";
+import {
+  GROUPED_INGREDIENTS,
+  INGREDIENT_DECLARATION,
+  NAMED_INGREDIENT_COUNT,
+  NAMED_OIL_COUNT,
+  PRODUCT,
+} from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
 import { Faq } from "@/components/Faq";
 import { Reveal } from "@/components/Reveal";
+import {
+  AlertIcon,
+  ChildIcon,
+  EyeIcon,
+  HandIcon,
+  ThermometerIcon,
+} from "@/components/Icons";
+import { Highlights } from "@/components/Highlights";
 import { FitText } from "@/components/FitText";
 
 export const metadata: Metadata = share({
@@ -13,6 +27,15 @@ export const metadata: Metadata = share({
   description: `${PRODUCT.tagline}. ${PRODUCT.size.label} of premium scalp-first hair grease.`,
   banner: "product",
 });
+
+/** The data names a rule; this decides what it looks like. */
+const HANDLING_ICONS = {
+  hand: HandIcon,
+  eye: EyeIcon,
+  alert: AlertIcon,
+  child: ChildIcon,
+  heat: ThermometerIcon,
+} as const;
 
 const shots: ShotSpec[] = [
   { label: "Packshot — jar upright, soft daylight", tone: "pistachio" },
@@ -63,8 +86,8 @@ export default function ProductPage() {
               </p>
             </Reveal>
             <Reveal delay={260}>
-              <p className="prose-airy mt-7 max-w-md">{PRODUCT.tagline}. Castor,
-                olive and rosemary in a shea butter base — built to soften the
+              <p className="prose-airy mt-7 max-w-md">{PRODUCT.tagline}. Jojoba,
+                rosemary and peppermint in a pure mango butter base — built to soften the
                 part and keep ends conditioned between washes.
               </p>
             </Reveal>
@@ -124,24 +147,16 @@ export default function ProductPage() {
               />
             </Reveal>
 
-            <Reveal delay={90} className="col-span-2 rounded-[1.5rem] bg-shell p-7">
-              <p className="eyebrow">Ingredients</p>
-              <ul className="mt-5 space-y-2">
-                {PRODUCT.ingredients.map((ing, i) => (
-                  <li key={ing} className="flex gap-3 text-[0.95rem] text-ink-soft">
-                    <span className="text-pistachio-deep tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {ing}
-                  </li>
-                ))}
-              </ul>
-              {!PRODUCT.ingredientsAreComplete && (
-                <p className="mt-5 text-xs leading-relaxed text-ink-mute">
-                  Note for Carmel — read off the jar in the product photos and
-                  probably incomplete. Send the full list before launch.
-                </p>
-              )}
+            <Reveal delay={90} className="col-span-2 flex flex-col rounded-[1.5rem] bg-shell p-7 lg:p-8">
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="eyebrow">What&rsquo;s in it</p>
+                <a href="#ingredients" className="link-draw eyebrow hover:text-ink">
+                  Full list
+                </a>
+              </div>
+              <div className="mt-auto pt-8">
+                <Highlights />
+              </div>
             </Reveal>
 
             <Reveal delay={160} className="rounded-[1.5rem] bg-forest p-7 text-shell">
@@ -150,17 +165,87 @@ export default function ProductPage() {
             </Reveal>
 
             <Reveal delay={230} className="rounded-[1.5rem] bg-clay-soft p-7">
-              <p className="display text-5xl">2–4</p>
-              <p className="eyebrow mt-4">Months per jar</p>
+              <p className="display text-5xl">4</p>
+              <p className="eyebrow mt-4">Steps, every day</p>
             </Reveal>
 
-            <Reveal delay={300} className="col-span-2 rounded-[1.5rem] bg-shell p-7">
-              <p className="eyebrow">Handling</p>
-              <p className="mt-4 text-sm leading-relaxed text-ink-soft">
-                {PRODUCT.cautions}
+            {/* Full width, and five pills rather than a paragraph. Half a row
+                of small print left a hole in the grid and nobody read it
+                anyway; the sentences still exist, in the footer. */}
+            <Reveal
+              delay={300}
+              className="col-span-2 rounded-[1.5rem] bg-shell p-7 lg:col-span-4 lg:p-8"
+            >
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-10">
+                <p className="eyebrow shrink-0">Handling</p>
+                {/* Two even columns on a phone — five pills in three rows, the last
+                    spanning both — and a single wrapped row once there's width
+                    for it. Below 380px the columns are narrower than the words,
+                    so it drops back to one: the odd pill's col-span has to be
+                    behind the same breakpoint, or it conjures an implicit
+                    second column and the labels clip. */}
+                <ul className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2 sm:flex sm:flex-wrap sm:gap-2.5">
+                  {PRODUCT.handling.map((rule) => {
+                    const Icon = HANDLING_ICONS[rule.icon];
+                    return (
+                      <li
+                        key={rule.label}
+                        className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-shell-warm py-2 pl-2.5 pr-3 text-[0.72rem] text-ink-soft min-[380px]:last:odd:col-span-2 sm:col-auto sm:gap-2.5 sm:py-2.5 sm:pl-3.5 sm:pr-4 sm:text-[0.85rem]"
+                      >
+                        <Icon className="h-4 w-4 shrink-0 text-forest" />
+                        {rule.label}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <p className="mt-5 text-sm leading-relaxed text-ink-mute">
+                It softens in heat and re-sets as it cools. That doesn&rsquo;t
+                affect how it works.
               </p>
             </Reveal>
           </div>
+
+          {/* The legal declaration. It reads like the back of the jar because
+              that is what it is — every ingredient, in the order printed. */}
+          <Reveal
+            id="ingredients"
+            delay={370}
+            className="mt-4 scroll-mt-28 rounded-[1.5rem] bg-shell p-7 lg:mt-5 lg:p-9"
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+              <p className="eyebrow">The formula</p>
+              <p className="eyebrow">
+                {NAMED_INGREDIENT_COUNT} named · {NAMED_OIL_COUNT} botanical oils
+              </p>
+            </div>
+            <div className="mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+              {GROUPED_INGREDIENTS.map((group) => (
+                <div key={group.key}>
+                  <div className="hairline flex items-baseline justify-between gap-3 pt-4">
+                    <h3 className="display display-md">{group.label}</h3>
+                    <span className="eyebrow text-[0.62rem]">{group.items.length}</span>
+                  </div>
+                  {/* Two-up on a phone, where the groups themselves stack:
+                      thirty-seven names in one column is a lot of thumb. */}
+                  <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-1.5 sm:grid-cols-1">
+                    {group.items.map((name) => (
+                      <li key={name} className="text-[0.95rem] leading-snug text-ink-soft">
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Grouping is a reading aid. The declaration itself is an ordered
+                thing, so it stays on the page in the order it's printed. */}
+            <p className="mt-12 max-w-4xl text-xs leading-relaxed text-ink-mute">
+              <span className="text-ink-soft">As printed on the jar:</span>{" "}
+              {INGREDIENT_DECLARATION}.
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -169,7 +254,10 @@ export default function ProductPage() {
         <Reveal>
           <h2 className="display display-xl max-w-xl">How to use it.</h2>
         </Reveal>
-        <ol className="mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2 lg:grid-cols-4">
+        {/* Four across only from 1280. At the lg breakpoint the columns are
+            194px, where these bodies run to four and five lines; two columns
+            read better than a ragged row. */}
+        <ol className="mt-14 grid gap-x-12 gap-y-12 md:grid-cols-2 xl:grid-cols-4">
           {PRODUCT.howToUse.map((s, i) => (
             <Reveal as="li" key={s.step} delay={i * 90} className="hairline pt-6">
               <span className="display text-3xl text-pistachio-deep tabular-nums">
@@ -180,6 +268,13 @@ export default function ProductPage() {
             </Reveal>
           ))}
         </ol>
+
+        {/* Carmel's own sign-off, kept in her words. */}
+        <Reveal delay={140}>
+          <p className="display display-md mt-14 max-w-xl text-pistachio-deep">
+            {PRODUCT.directionsClose}
+          </p>
+        </Reveal>
       </section>
 
       {/* ═════════════════════════════════════════════════════════ faq */}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PRODUCT, formatPrice } from "@/lib/product";
+import { CAUTIONS, PRODUCT, formatPrice } from "@/lib/product";
 
 export function Footer() {
   return (
@@ -42,7 +42,7 @@ export function Footer() {
           <div>
             <p className="eyebrow text-shell/45">Good to know</p>
             <p className="mt-6 text-sm leading-relaxed text-shell/60">
-              {PRODUCT.cautions}
+              {CAUTIONS}
             </p>
           </div>
         </div>

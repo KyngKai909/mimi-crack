@@ -24,8 +24,8 @@ const practices = [
     v: "Made in quantities that get used, not warehoused.",
   },
   {
-    k: "A jar that lasts",
-    v: `${PRODUCT.size.label} is two to four months for most people. A brand built on repurchase would have made it smaller.`,
+    k: "A big jar",
+    v: `${PRODUCT.size.label}, at one price. A brand built on repurchase would have made it smaller.`,
   },
   {
     k: "No upsells",
@@ -59,7 +59,7 @@ export default function AboutPage() {
               MiMi Crack came out of a simple idea: hair doesn&rsquo;t respond
               to intensity, it responds to being shown up for. Not a
               twelve-step routine you abandon in a fortnight — one jar, one
-              honest step, kept twice a week.
+              honest step, kept every day.
             </p>
           </Reveal>
         </div>
@@ -250,7 +250,7 @@ export default function AboutPage() {
         <div className="shell-x mt-12 flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center">
           <Reveal>
             <p className="prose-airy max-w-sm">
-              One jar. Four steps. Twice a week.
+              One jar. Four steps. Every day.
             </p>
           </Reveal>
           <Reveal delay={140}>

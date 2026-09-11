@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     template: "%s · MiMi Crack",
   },
   description:
-    "A scalp-first conditioning grease. Castor, olive and rosemary in a shea butter base. 9.5 oz, made in small batches.",
+    "A scalp-first conditioning grease. Jojoba, rosemary and peppermint in a pure mango butter base. 9.5 oz, made in small batches.",
   openGraph: {
     title: PRODUCT.name,
     description: PRODUCT.tagline,

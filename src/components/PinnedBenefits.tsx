@@ -8,11 +8,25 @@ type Benefit = { title: string; body: string };
 /**
  * Pinned product, scrolling copy.
  *
- * The jar holds still on the left while the claims move past it, and the
- * pinned side tracks which claim is in view. Pinning is plain `position:
- * sticky` — no scroll hijacking, so the page still scrolls at its natural
- * rate and keyboard navigation is unaffected.
+ * The frame holds still on the left while the claims move past it, and the
+ * picture inside it changes with them — one per claim, cross-faded on the
+ * same 700ms as the copy either side so the whole scene moves as one thing.
+ * Pinning is plain `position: sticky` — no scroll hijacking, so the page
+ * still scrolls at its natural rate and keyboard navigation is unaffected.
+ *
+ * All four layers are mounted and stacked; only opacity changes. Swapping the
+ * visible one by index would unmount the outgoing picture mid-fade, and with
+ * real photography it would also mean a fresh network request on every scroll
+ * past.
  */
+
+/** One frame per claim, in the order the claims appear. */
+const SCENES = [
+  { label: "Fingertip along the part — scalp, soft daylight", tone: "pistachio" },
+  { label: "Strand drawn between two fingers — sheen, close", tone: "warm" },
+  { label: "Comb passing through the ends, no snag", tone: "clay" },
+  { label: "Finished protective style — braids or twists", tone: "pistachio" },
+] as const;
 export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
   const [active, setActive] = useState(0);
   const items = useRef<(HTMLLIElement | null)[]>([]);
@@ -35,16 +49,38 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
     return () => io.disconnect();
   }, []);
 
+  // Flex, not grid, below lg: a sticky grid item is confined to its own grid
+  // area — one row here — so the frame would unstick the moment its row ended,
+  // which is exactly when the claims start scrolling past it.
   return (
-    <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
-      <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col lg:justify-center">
+    <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+      {/* On a phone the frame is an overlay, so it needs a ground of its
+          own: without one, claims scroll visibly under its rounded corners.
+          The negative margin pulls that ground out to the screen edges, past
+          the section's gutter, and it sits flush under the header — a gap
+          between the two is a letterbox for headings to show through. */}
+      <div className="sticky top-16 z-10 -mx-[clamp(1.25rem,5vw,5rem)] bg-shell px-[clamp(1.25rem,5vw,5rem)] pt-3 pb-6 sm:top-20 sm:pt-4 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pt-0 lg:pb-0">
         <div className="relative">
-          <Shot
-            label="Jar in hand — soft daylight"
-            ratio="4 / 5"
-            tone="pistachio"
-            className="rounded-[1.75rem]"
-          />
+          {/* Shorter on a phone, where a 4:5 frame stuck to the top would
+              leave no room for the claim it belongs to. */}
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.75rem] sm:aspect-[3/2] lg:aspect-[4/5]">
+            {SCENES.map((scene, i) => (
+              <div
+                key={scene.label}
+                aria-hidden={active !== i}
+                className={`absolute inset-0 transition-all duration-700 ease-soft ${
+                  active === i ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"
+                }`}
+              >
+                <Shot
+                  label={scene.label}
+                  ratio="4 / 5"
+                  tone={scene.tone}
+                  className="h-full rounded-[1.75rem]"
+                />
+              </div>
+            ))}
+          </div>
           {/* Active index, sitting over the corner of the image. */}
           <div className="absolute -bottom-5 -left-3 flex items-baseline gap-3 rounded-full bg-shell px-6 py-3 shadow-[0_1px_0_rgba(0,0,0,0.04)]">
             <span className="display text-3xl tabular-nums">

@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { PRODUCT, formatPrice } from "@/lib/product";
+import { BOTANICAL_OIL_COUNT, PRODUCT, formatPrice } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { Shot } from "@/components/Shot";
 import { Reveal } from "@/components/Reveal";
+import { Highlights } from "@/components/Highlights";
 import { Faq } from "@/components/Faq";
 import { FitText } from "@/components/FitText";
 import { PinnedBenefits } from "@/components/PinnedBenefits";
@@ -52,7 +53,7 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={300}>
               <p className="prose-airy mt-7 max-w-md">
-                Castor, olive and rosemary in a shea butter base. Grease your
+                Jojoba, rosemary and peppermint in a pure mango butter base. Grease your
                 parts, seal your ends, and let the scalp do what it already
                 knows how to do.
               </p>
@@ -87,7 +88,7 @@ export default function HomePage() {
             { k: "Net weight", v: PRODUCT.size.label },
             { k: "Batch", v: "Small" },
             { k: "Dispatch", v: "1–2 days" },
-            { k: "One jar lasts", v: "2–4 months" },
+            { k: "Use", v: "Daily" },
           ].map((p, i) => (
             <Reveal key={p.k} delay={i * 90}>
               <dt className="eyebrow">{p.k}</dt>
@@ -137,12 +138,13 @@ export default function HomePage() {
         <div className="shell-x section-y">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <Reveal>
-              <h2 className="display display-xl max-w-xl">Six oils and a butter.</h2>
+              <h2 className="display display-xl max-w-xl">Seventeen oils and two butters.</h2>
             </Reveal>
             <Reveal delay={120}>
               <p className="prose-airy max-w-sm">
                 The green isn&rsquo;t a gimmick. It&rsquo;s what happens when you
-                build a grease around rosemary and olive rather than fragrance.
+                build a grease around mango butter, jojoba and rosemary rather
+                than filler.
               </p>
             </Reveal>
           </div>
@@ -160,7 +162,7 @@ export default function HomePage() {
 
             {/* two stats */}
             <Reveal delay={90} className="rounded-[1.5rem] bg-shell p-7">
-              <p className="display text-5xl lg:text-6xl">6</p>
+              <p className="display text-5xl lg:text-6xl">{BOTANICAL_OIL_COUNT}</p>
               <p className="eyebrow mt-4">Botanical oils</p>
             </Reveal>
 
@@ -176,36 +178,29 @@ export default function HomePage() {
               </p>
             </Reveal>
 
-            {/* ingredient list, wide */}
-            <Reveal delay={300} className="col-span-2 rounded-[1.5rem] bg-shell p-7 lg:col-span-3">
-              <p className="eyebrow">What&rsquo;s inside</p>
-              <ul className="mt-5 grid gap-x-8 gap-y-2 sm:grid-cols-2">
-                {PRODUCT.ingredients.map((ing, i) => (
-                  <li key={ing} className="flex gap-3 text-[0.95rem] text-ink-soft">
-                    <span className="text-pistachio-deep tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {ing}
-                  </li>
-                ))}
-              </ul>
+            {/* what's inside, wide */}
+            <Reveal delay={300} className="col-span-2 flex flex-col rounded-[1.5rem] bg-shell p-7 lg:col-span-3 lg:p-9">
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="eyebrow">What&rsquo;s inside</p>
+                <Link
+                  href="/product#ingredients"
+                  className="link-draw eyebrow hover:text-ink"
+                >
+                  Full list
+                </Link>
+              </div>
+              <div className="mt-auto pt-10">
+                <Highlights size="lg" />
+              </div>
             </Reveal>
 
             {/* duration */}
             <Reveal delay={370} className="col-span-2 rounded-[1.5rem] bg-clay-soft p-7 lg:col-span-1">
-              <p className="display text-5xl lg:text-6xl">2–4</p>
-              <p className="eyebrow mt-4">Months per jar</p>
+              <p className="display text-5xl lg:text-6xl">4</p>
+              <p className="eyebrow mt-4">Steps, every day</p>
             </Reveal>
           </div>
 
-          {!PRODUCT.ingredientsAreComplete && (
-            <p className="mt-8 max-w-lg text-sm leading-relaxed text-ink-soft">
-              <span className="font-medium text-ink">Note for Carmel —</span> this
-              list was read off the jar in the product photos and is probably
-              incomplete. Send the full list and we&rsquo;ll drop it in; it needs
-              to be exact before launch.
-            </p>
-          )}
         </div>
       </section>
 
@@ -217,7 +212,7 @@ export default function HomePage() {
                 fixed width would break differently at every viewport. Tuned
                 for three lines at every width. */}
             <h2 className="display display-xl max-w-[16ch] sm:max-w-[14ch]">
-              The whole commitment: four steps, twice a week.
+              The whole commitment: four steps, every day.
             </h2>
           </Reveal>
           <Reveal delay={120}>
@@ -249,7 +244,7 @@ export default function HomePage() {
         <div className="px-[2vw]">
           <Reveal line>
             <h2 className="display">
-              <FitText className="display">One jar. Two months.</FitText>
+              <FitText className="display">One jar. Every day.</FitText>
             </h2>
           </Reveal>
         </div>

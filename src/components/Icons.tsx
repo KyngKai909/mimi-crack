@@ -56,3 +56,60 @@ export function CloseIcon({ className = SIZE }: IconProps) {
     </svg>
   );
 }
+
+/* --- handling ------------------------------------------------------------
+   Drawn to the same optical bounds as the chrome icons above, and used at a
+   smaller size inside the handling pills. Each one has to survive at 16px, so
+   none of them carry more than three strokes. */
+
+/** A hand — for "external use only". */
+export function HandIcon({ className = SIZE }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M10.3 12.4V7.1a1.3 1.3 0 0 1 2.6 0v4" />
+      <path d="M12.9 11.1V6.2a1.3 1.3 0 0 1 2.6 0v5.2" />
+      <path d="M15.5 11.4V8.5a1.3 1.3 0 0 1 2.5 0v5.9a5.6 5.6 0 0 1-5.6 5.6h-1a4.4 4.4 0 0 1-3.1-1.3l-2.2-2.2a1.3 1.3 0 0 1 1.9-1.9l1.6 1.4" />
+    </svg>
+  );
+}
+
+/** An eye — for "avoid the eyes". */
+export function EyeIcon({ className = SIZE }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M5.6 12.5s2.8-4.9 6.4-4.9 6.4 4.9 6.4 4.9-2.8 4.9-6.4 4.9-6.4-4.9-6.4-4.9Z" />
+      <circle cx="12" cy="12.5" r="2.1" />
+    </svg>
+  );
+}
+
+/** An alert — for "stop if it irritates". */
+export function AlertIcon({ className = SIZE }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="12" cy="12.5" r="6.6" />
+      <path d="M12 9.2v3.7" />
+      <path d="M12 15.8h.01" />
+    </svg>
+  );
+}
+
+/** A small figure — for "keep from children". */
+export function ChildIcon({ className = SIZE }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <circle cx="12" cy="8" r="2.4" />
+      <path d="M8.2 19.8v-3.3a3.8 3.8 0 0 1 7.6 0v3.3" />
+    </svg>
+  );
+}
+
+/** A thermometer — for "store below 80°F". */
+export function ThermometerIcon({ className = SIZE }: IconProps) {
+  return (
+    <svg {...base} className={className}>
+      <path d="M13.8 14V7.3a1.8 1.8 0 1 0-3.6 0V14a3.4 3.4 0 1 0 3.6 0Z" />
+      <path d="M12 10.6v5.5" />
+    </svg>
+  );
+}

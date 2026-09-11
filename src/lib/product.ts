@@ -38,31 +38,87 @@ export const PRODUCT = {
   },
 
   /**
-   * INCI-style ingredient list.
+   * The eleven worth naming on the page — Carmel's own shortlist, in her
+   * order. Mango butter leads because it's the one that defines the grease;
+   * everything after it is a supporting botanical.
    *
-   * TODO(owner): these are the lines legible from the product photography.
-   * Replace with the complete list transcribed from the physical jar before
-   * launch — an incomplete cosmetic ingredient declaration is a labeling
-   * compliance problem, not just a copy gap.
+   * These are short common names for display. The legal declaration is
+   * `ingredients` below, and that's the one that has to be complete.
+   */
+  highlights: [
+    "Pure Mango Butter",
+    "Jojoba",
+    "Rosemary",
+    "Coconut",
+    "Olive",
+    "Moringa",
+    "Pomegranate",
+    "Peppermint",
+    "Honey",
+    "Sage",
+    "Eucalyptus",
+  ],
+
+  /**
+   * The full declaration, in the order printed on the jar, each tagged with
+   * the group it belongs to.
+   *
+   * One list, not two. The page shows these grouped, because thirty-nine
+   * names in a paragraph is not something anyone reads — but the order is the
+   * label order, and the page still prints the declaration in that order
+   * underneath. Grouping is a reading aid; the sequence is the legal artefact,
+   * so don't sort this array and don't prune it to the pretty ones.
    */
   ingredients: [
-    "Mineral Oil",
-    "Wheat Germ Oil",
-    "Ricinus Communis (Castor) Seed Oil",
-    "Olea Europaea (Olive) Fruit Oil",
-    "Rosmarinus Officinalis (Rosemary) Leaf Oil",
-    "Butyrospermum Parkii (Shea) Butter",
+    { name: "Mango Butter", group: "base" },
+    { name: "Petrolatum", group: "base" },
+    { name: "Cetyl Alcohol", group: "finish" },
+    { name: "Arrowroot Powder", group: "finish" },
+    { name: "Lanolin", group: "base" },
+    { name: "Olive Oil", group: "carrier" },
+    { name: "Lecithin", group: "finish" },
+    { name: "Coconut Oil", group: "carrier" },
+    { name: "Rice Bran Oil", group: "carrier" },
+    { name: "Cocoa Butter", group: "base" },
+    { name: "Sunflower Oil", group: "carrier" },
+    { name: "Methyl Soyate", group: "finish" },
+    { name: "Jojoba Oil", group: "carrier" },
+    { name: "Safflower Oil", group: "carrier" },
+    { name: "Moringa Oil", group: "carrier" },
+    { name: "Canola Oil", group: "carrier" },
+    { name: "Pomegranate", group: "extract" },
+    { name: "Rosehip", group: "extract" },
+    { name: "Pumpkin Seed Oil", group: "carrier" },
+    { name: "Acerola", group: "extract" },
+    { name: "Rosemary Extract", group: "extract" },
+    { name: "Carrot Extract", group: "extract" },
+    { name: "Honey Extract", group: "extract" },
+    { name: "Mushroom Extract", group: "extract" },
+    { name: "Chickpea Extract", group: "extract" },
+    { name: "Lentil Extract", group: "extract" },
+    { name: "Cocoa Extract", group: "extract" },
+    { name: "Sesame Seed Oil", group: "carrier" },
+    { name: "Herbal Extracts", group: "extract" },
+    { name: "Peppermint Oil", group: "essential" },
+    { name: "Sage Oil", group: "essential" },
+    { name: "Eucalyptus Oil", group: "essential" },
+    { name: "Frankincense Oil", group: "essential" },
+    { name: "Geranium Oil", group: "essential" },
+    { name: "Grapefruit Oil", group: "essential" },
+    { name: "Lavender Oil", group: "essential" },
+    { name: "Menthol", group: "finish" },
+    { name: "Isopropyl Myristate", group: "finish" },
+    { name: "Fragrance (Parfum)", group: "finish" },
   ],
-  ingredientsAreComplete: false,
 
   benefits: [
     {
       title: "Feeds the scalp",
-      body: "A rich botanical base of castor, olive and rosemary oils goes on where it counts — the scalp — to soften flaking and soothe tightness between washes.",
+      body: "Jojoba, olive and rosemary go on where it counts — the scalp — to soften flaking and soothe tightness between washes. Peppermint and menthol are why it tingles.",
     },
     {
       title: "Seals in moisture",
-      body: "Shea butter and wheat germ oil form a breathable seal over the strand, so the water your hair drank on wash day is still there on day five.",
+      body: "Mango and cocoa butter form a breathable seal over the strand, so the water your hair drank on wash day is still there on day five.",
     },
     {
       title: "Guards against breakage",
@@ -74,24 +130,42 @@ export const PRODUCT = {
     },
   ],
 
+  /**
+   * The four steps, written against Carmel's own directions rather than
+   * around them. Hers read: apply a small amount to scalp and hair, massage
+   * gently and style as desired, best on damp to seal in moisture or on a dry
+   * scalp as needed, use daily.
+   *
+   * Two of those changed what was here. It says "a small amount", not
+   * "pea-sized" — that was her specific correction. And it's daily, which is
+   * the frequency the rest of the site now quotes as well.
+   *
+   * Plain words only — "emulsify" went because people were reading past it.
+   * Keep each body under about 90 characters. These render in a four-column
+   * grid on the product page, where that's three lines, and a fourth line
+   * makes the row ragged.
+   */
   howToUse: [
     {
       step: "Part & apply",
-      body: "Section damp or dry hair into rows. Take a pea-sized amount on a fingertip and apply directly along each part.",
+      body: "Section the hair. Lay a small amount along each part — damp seals it in, dry works too.",
     },
     {
       step: "Massage in",
-      body: "Work the grease into the scalp with the pads of your fingers for a minute or two. Small circles, gentle pressure — this is the part that matters.",
+      body: "Work it in gently with the pads of your fingers. Small circles — this part matters most.",
     },
     {
       step: "Smooth the lengths",
-      body: "Emulsify what's left between your palms and run it down the strand, paying extra attention to ends and edges.",
+      body: "Rub what's left between your palms and run it down the strand, ends and edges.",
     },
     {
       step: "Style & repeat",
-      body: "Style as usual. Use 2–3 times a week, or daily on the scalp if you're wearing a protective style.",
+      body: "Style as you like, then again tomorrow. A scalp answers to consistency, not intensity.",
     },
   ],
+
+  /** Carmel's own sign-off on the directions, in her words. */
+  directionsClose: "Stay consistent. Stay committed. Commitment is the key.",
 
   faqs: [
     {
@@ -111,8 +185,12 @@ export const PRODUCT = {
       a: "It's commonly used on children's hair for greasing parts and braids. As with any new product, patch test first and keep it out of eyes.",
     },
     {
-      q: "How long does one jar last?",
-      a: "9.5 oz is a big jar. Used a few times a week on scalp and ends, most people get two to four months out of one.",
+      q: "Anything in it I should know about?",
+      a: "Two things people ask about: it contains lanolin, and it's fragranced, with peppermint and menthol that give the scalp a cool tingle. The full ingredient list is on this page, grouped — read it first if you have a known allergy.",
+    },
+    {
+      q: "Is it alright to use every day?",
+      a: "That's how it's meant to be used — a small amount on the scalp daily, and down the lengths when they want it. A scalp answers to consistency rather than to intensity, so little and often beats a heavy hand on a Sunday.",
     },
     {
       q: "How fast does it ship?",
@@ -120,9 +198,103 @@ export const PRODUCT = {
     },
   ],
 
-  cautions:
-    "For external use only. Avoid contact with eyes. Discontinue use if irritation occurs. Keep out of reach of children. Store below 80°F — the grease will soften in heat and re-set as it cools, which does not affect performance.",
+  /**
+   * Handling, as five things rather than one paragraph.
+   *
+   * `label` is what the product page shows in a pill; `full` is the sentence
+   * that belongs in a block of small print. Both live here so they can't say
+   * different things — CAUTIONS below joins the sentences for the footer.
+   */
+  handling: [
+    { icon: "hand", label: "External use only", full: "For external use only." },
+    { icon: "eye", label: "Avoid eyes", full: "Avoid contact with eyes." },
+    {
+      icon: "alert",
+      label: "Stop if irritated",
+      full: "Discontinue use if irritation occurs.",
+    },
+    {
+      icon: "child",
+      label: "Keep from kids",
+      full: "Keep out of reach of children.",
+    },
+    {
+      icon: "heat",
+      label: "Store below 80°F",
+      full: "Store below 80°F — the grease will soften in heat and re-set as it cools, which does not affect performance.",
+    },
+  ],
+
 } as const;
+
+/**
+ * The groups the declaration is read in: what the grease is built on, what
+ * carries it, what it's scented and cooled with, what's infused into it, and
+ * what sets the texture.
+ *
+ * `shown` is Carmel's call, not a design one. She doesn't want the formula
+ * laid out clearly enough to be copied at home, so the extracts and the
+ * texture agents aren't broken out into tidy labelled lists. Every one of them
+ * is still on the page: the declaration below the groups prints the whole jar,
+ * in order, because that part is a labeling obligation and not ours to edit.
+ */
+export const INGREDIENT_GROUPS = [
+  { key: "base", label: "Butters & base", shown: true },
+  { key: "carrier", label: "Carrier oils", shown: true },
+  { key: "essential", label: "Essential oils", shown: true },
+  { key: "extract", label: "Botanical extracts", shown: false },
+  { key: "finish", label: "Texture & finish", shown: false },
+] as const;
+
+export type IngredientGroup = (typeof INGREDIENT_GROUPS)[number]["key"];
+
+/**
+ * The groups that get their own list on the page. Jar order is kept within
+ * each. Groups marked `shown: false` are left out here and appear only inside
+ * the full declaration.
+ */
+export const GROUPED_INGREDIENTS = INGREDIENT_GROUPS.filter((g) => g.shown)
+  .map((group) => ({
+    ...group,
+    items: PRODUCT.ingredients
+      .filter((i) => i.group === group.key)
+      .map((i) => i.name),
+  }))
+  .filter((group) => group.items.length > 0);
+
+/** The handling sentences, for places that want small print rather than pills. */
+export const CAUTIONS = PRODUCT.handling.map((h) => h.full).join(" ");
+
+/**
+ * What the broken-out groups actually name, and how many of those are oils.
+ *
+ * Counted off the shown groups rather than off the whole declaration: the
+ * header sits above the groups, so it has to describe them. Quoting the full
+ * thirty-nine there would claim a breakdown the page deliberately doesn't give.
+ */
+const NAMED_INGREDIENTS = GROUPED_INGREDIENTS.flatMap((group) => group.items);
+
+export const NAMED_INGREDIENT_COUNT = NAMED_INGREDIENTS.length;
+
+export const NAMED_OIL_COUNT = NAMED_INGREDIENTS.filter((name) =>
+  name.endsWith(" Oil"),
+).length;
+
+/** The declaration as one string, in the order printed on the jar. */
+export const INGREDIENT_DECLARATION = PRODUCT.ingredients
+  .map((i) => i.name)
+  .join(", ");
+
+/**
+ * How many of the ingredients are botanical oils.
+ *
+ * Derived rather than written down: the home page makes this claim in a
+ * headline, and a hand-typed number would quietly go wrong the next time the
+ * formula changes.
+ */
+export const BOTANICAL_OIL_COUNT = PRODUCT.ingredients.filter((i) =>
+  i.name.endsWith(" Oil"),
+).length;
 
 /** Max jars per order — keeps the flat parcel maths honest. */
 export const MAX_QUANTITY = 12;

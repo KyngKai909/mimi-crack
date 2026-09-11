@@ -85,7 +85,7 @@ export const TYPEFACES = [
 
 export const TYPE_SCALE = [
   { className: "display display-hero", label: "Hero", note: "Fitted to the container width by <FitText>, not this class alone.", sample: "Feed the soil." },
-  { className: "display display-xl", label: "Section", note: "Section openers.", sample: "Six oils and a butter." },
+  { className: "display display-xl", label: "Section", note: "Section openers.", sample: "Seventeen oils and two butters." },
   { className: "display display-lg", label: "Sub-section", note: "Sub-heads and card titles.", sample: "Where it's going" },
   { className: "display display-md", label: "Card title", note: "Small headings inside cards and lists.", sample: "Feeds the scalp" },
   { className: "prose-airy", label: "Body", note: "Default paragraph. Never set body copy in the display face.", sample: "Grease your parts, seal your ends, and let the scalp do what it already knows how to do." },
@@ -109,14 +109,14 @@ export const LAYOUT = [
 
 export const VOICE = {
   principles: [
-    "Plain and specific. \"Two to four months\" beats \"long-lasting\".",
+    "Plain and specific. \"9.5 oz\" beats \"generously sized\".",
     "Never oversell. It is a cosmetic grease, not a treatment — no growth or medical claims, ever.",
     "Warm, not cute. Talk like a person who knows hair, not a brand doing a voice.",
     "Short sentences carry the weight. Let the space do the rest.",
   ],
   pairs: [
-    { bad: "Revolutionary breakthrough formula!", good: "Six oils and a butter." },
+    { bad: "Revolutionary breakthrough formula!", good: "Seventeen oils and two butters." },
     { bad: "Guaranteed to regrow your edges", good: "Feeds the scalp so ends stay conditioned." },
-    { bad: "Luxurious self-care experience", good: "Four steps, twice a week." },
+    { bad: "Luxurious self-care experience", good: "Four steps, every day." },
   ],
 } as const;
