@@ -117,7 +117,7 @@ Swapping one in is a one-line change — replace `<Shot/>` with
 | Where | Shot |
 |-------|------|
 | Home hero | Jar three-quarter, soft daylight, warm surface |
-| Home / benefits | Jar in hand, soft daylight |
+| Home / benefits ×4 | Fingertip along the part · strand between two fingers · comb through the ends · finished protective style. 4:5, one per claim — they cross-fade as the scroll moves through them |
 | Home / formula | Texture — grease surface, macro, raking light |
 | Home / commitment ×4 | One per step, 16:9 |
 | Product gallery | Packshot upright · open jar top-down · open jar with lid · in use |
