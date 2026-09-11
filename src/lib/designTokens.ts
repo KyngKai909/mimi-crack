@@ -117,6 +117,6 @@ export const VOICE = {
   pairs: [
     { bad: "Revolutionary breakthrough formula!", good: "Seventeen oils and two butters." },
     { bad: "Guaranteed to regrow your edges", good: "Feeds the scalp so ends stay conditioned." },
-    { bad: "Luxurious self-care experience", good: "Four steps, twice a week." },
+    { bad: "Luxurious self-care experience", good: "Four steps, every day." },
   ],
 } as const;

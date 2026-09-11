@@ -130,14 +130,24 @@ export const PRODUCT = {
     },
   ],
 
+  /**
+   * The four steps, written against Carmel's own directions rather than
+   * around them. Hers read: apply a small amount to scalp and hair, massage
+   * gently and style as desired, best on damp to seal in moisture or on a dry
+   * scalp as needed, use daily.
+   *
+   * Two of those changed what was here. It says "a small amount", not
+   * "pea-sized" — that was her specific correction. And it's daily, which is
+   * the frequency the rest of the site now quotes as well.
+   */
   howToUse: [
     {
       step: "Part & apply",
-      body: "Section damp or dry hair into rows. Take a pea-sized amount on a fingertip and apply directly along each part.",
+      body: "Section the hair into rows and lay a small amount along each part with a fingertip. Damp is best — it seals the water in — but a dry scalp works whenever it needs it.",
     },
     {
       step: "Massage in",
-      body: "Work the grease into the scalp with the pads of your fingers for a minute or two. Small circles, gentle pressure — this is the part that matters.",
+      body: "Work it into the scalp gently, with the pads of your fingers, for a minute or two. Small circles, light pressure — this is the part that matters.",
     },
     {
       step: "Smooth the lengths",
@@ -145,9 +155,12 @@ export const PRODUCT = {
     },
     {
       step: "Style & repeat",
-      body: "Style as usual. Use 2–3 times a week, or daily on the scalp if you're wearing a protective style.",
+      body: "Style as you like, then do it again tomorrow. Daily is the point — a scalp answers to consistency, not intensity.",
     },
   ],
+
+  /** Carmel's own sign-off on the directions, in her words. */
+  directionsClose: "Stay consistent. Stay committed. Commitment is the key.",
 
   faqs: [
     {
@@ -172,7 +185,7 @@ export const PRODUCT = {
     },
     {
       q: "How long does one jar last?",
-      a: "9.5 oz is a big jar. Used a few times a week on scalp and ends, most people get two to four months out of one.",
+      a: "9.5 oz is a big jar. Used daily on the scalp and ends — a small amount each time — most people get two to four months out of one.",
     },
     {
       q: "How fast does it ship?",

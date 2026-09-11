@@ -212,7 +212,7 @@ export default function HomePage() {
                 fixed width would break differently at every viewport. Tuned
                 for three lines at every width. */}
             <h2 className="display display-xl max-w-[16ch] sm:max-w-[14ch]">
-              The whole commitment: four steps, twice a week.
+              The whole commitment: four steps, every day.
             </h2>
           </Reveal>
           <Reveal delay={120}>

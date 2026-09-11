@@ -264,6 +264,13 @@ export default function ProductPage() {
             </Reveal>
           ))}
         </ol>
+
+        {/* Carmel's own sign-off, kept in her words. */}
+        <Reveal delay={140}>
+          <p className="display display-md mt-14 max-w-xl text-pistachio-deep">
+            {PRODUCT.directionsClose}
+          </p>
+        </Reveal>
       </section>
 
       {/* ═════════════════════════════════════════════════════════ faq */}
