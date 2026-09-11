@@ -23,6 +23,28 @@ export function isShippoConfigured() {
   return Boolean(process.env.SHIPPO_API_KEY);
 }
 
+/**
+ * Shippo cannot quote anything without a real origin — it returns a shipment
+ * with zero rates and a pile of carrier messages, which reaches the customer
+ * as a 502 and tells them nothing. Checked up front so a missing address is
+ * reported as what it is: the shop isn't finished being set up.
+ */
+export function isShipFromConfigured() {
+  const from = shipFromAddress();
+  return Boolean(from.street1 && from.city && from.state && from.zip && from.country);
+}
+
+/**
+ * Re-read a rate from Shippo by id.
+ *
+ * The cart posts back the rate the customer chose, amount included, and the
+ * browser is not a trustworthy source for an amount that's about to be
+ * charged. Checkout fetches the rate again and bills what the carrier says.
+ */
+export async function getRate(rateId: string) {
+  return getShippo().rates.get(rateId);
+}
+
 export type ShipAddress = {
   name: string;
   street1: string;

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { MAX_QUANTITY, PRODUCT } from "@/lib/product";
 import { getStripe, isStripeConfigured } from "@/lib/stripe";
+import { getRate, isShippoConfigured } from "@/lib/shippo";
 import { siteUrl } from "@/lib/siteUrl";
 
 export const runtime = "nodejs";
@@ -41,6 +42,29 @@ export async function POST(request: Request) {
   }
   const { quantity, email, address, shipping } = parsed.data;
 
+  // The cart posts back the rate the customer picked, amount included. That
+  // amount is about to be charged, and it arrived from a browser, so read the
+  // rate from Shippo and bill what the carrier actually quoted. Without this,
+  // an edited request buys free shipping.
+  let shippingCents = shipping.amountCents;
+  let shippingLabel = shipping.label;
+  if (isShippoConfigured()) {
+    try {
+      const rate = await getRate(shipping.rateId);
+      const quoted = Math.round(Number(rate.amount) * 100);
+      if (!Number.isFinite(quoted)) throw new Error("rate has no amount");
+      shippingCents = quoted;
+      shippingLabel =
+        [rate.provider, rate.servicelevel?.name].filter(Boolean).join(" ") || shippingLabel;
+    } catch (err) {
+      console.error("[checkout] could not re-read rate", shipping.rateId, err);
+      return NextResponse.json(
+        { error: "That shipping quote expired. Pick a rate again and retry." },
+        { status: 409 },
+      );
+    }
+  }
+
   const origin = siteUrl(request);
 
   try {
@@ -72,9 +96,9 @@ export async function POST(request: Request) {
         {
           shipping_rate_data: {
             type: "fixed_amount",
-            display_name: shipping.label,
+            display_name: shippingLabel,
             fixed_amount: {
-              amount: shipping.amountCents,
+              amount: shippingCents,
               currency: PRODUCT.currency,
             },
             ...(shipping.estimatedDays !== null && {
