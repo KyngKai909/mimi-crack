@@ -84,10 +84,17 @@ replaced by the quote.
 Two lists, and they do different jobs.
 
 `highlights` is the eleven Carmel names on the page, in her order, with Pure
-Mango Butter leading because it's what defines the grease. `ingredients` is the
-full declaration in the order printed on the jar — a labeling obligation, not
-copy, so don't prune it to the pretty ones. The product page renders it in
-full under the bento, at `/product#ingredients`.
+Mango Butter leading because it's what defines the grease. The cards set the
+lead as a headline and the other ten as tinted chips.
+
+`ingredients` is the full declaration: every entry in the order printed on the
+jar, each tagged with a group. One list, not two, so the groups can't drift
+out of sync with the declaration. `/product#ingredients` shows it grouped —
+butters and base, carrier oils, essential oils, botanical extracts, texture and
+finish — because nobody reads thirty-seven names in a paragraph. Underneath,
+the same list is printed as one run in jar order, because the sequence is the
+part that's a labeling obligation. Don't sort the array, and don't prune it to
+the pretty ones.
 
 The "17 botanical oils" claim on the home page is **derived** from that list
 (`BOTANICAL_OIL_COUNT`, anything ending in "Oil") rather than typed, so it

@@ -1,59 +1,45 @@
 import { PRODUCT } from "@/lib/product";
 
 /**
- * The named botanicals, set as type rather than listed.
+ * The named botanicals: the lead as a headline, the rest as things you can
+ * count.
  *
- * This sits in a bento next to cards whose whole content is one enormous
- * numeral, and a numbered column of names lost that fight badly. So it plays
- * the same game: the lead ingredient at display size, the rest flowing after
- * it with pistachio separators, ending on the count of everything else.
+ * This sits in a bento beside cards whose whole content is one enormous
+ * numeral. A numbered column lost that fight, and a run of dot-separated
+ * names read as a paragraph — the eye slid off it. Discrete tinted chips read
+ * as a set at a glance, which is what a shortlist is.
  *
- * The lead is Pure Mango Butter because that's what defines the grease — it
- * isn't just the first item in an array, and reordering the shortlist should
- * not quietly promote something else.
+ * The lead is Pure Mango Butter because that's what defines the grease. It
+ * isn't merely the first item in an array, and reordering the shortlist
+ * should not quietly promote something else.
  */
 export function Highlights({ size = "md" }: { size?: "md" | "lg" }) {
   const [lead, ...rest] = PRODUCT.highlights;
+  const large = size === "lg";
 
   return (
     <>
       <p
-        className={
-          size === "lg"
-            ? "display text-[clamp(2rem,4vw,3.4rem)] leading-[1.02]"
-            : "display text-[clamp(1.75rem,3.1vw,2.7rem)] leading-[1.02]"
-        }
+        className={`display leading-[1.02] ${
+          large
+            ? "text-[clamp(2rem,4vw,3.4rem)]"
+            : "text-[clamp(1.75rem,3.1vw,2.7rem)]"
+        }`}
       >
         {lead}
       </p>
-      <p
-        className={`mt-4 leading-[1.5] text-ink-soft ${
-          size === "lg"
-            ? "text-[clamp(1.05rem,1.5vw,1.3rem)]"
-            : "text-[clamp(1rem,1.2vw,1.1rem)]"
-        }`}
-      >
-        {/* Whitespace sits outside the separator, not inside it: without a
-            real break opportunity the whole run is one unbreakable word and
-            overflows the card instead of wrapping. The space before the dot
-            is non-breaking so the dot stays with the name it follows — a line
-            may end "Coconut ·" but never begin "· Peppermint". The dot is
-            decorative, so a screen reader hears the names rather than "middle
-            dot" ten times. */}
-        {rest.map((name, i) => (
-          <span key={name}>
-            {i > 0 && (
-              <>
-                {"\u00A0"}
-                <span aria-hidden="true" className="text-pistachio-deep">
-                  ·
-                </span>{" "}
-              </>
-            )}
+      <ul className={`flex flex-wrap ${large ? "mt-6 gap-2.5" : "mt-5 gap-2"}`}>
+        {rest.map((name) => (
+          <li
+            key={name}
+            className={`rounded-full bg-pistachio-soft text-forest ${
+              large ? "px-4 py-2 text-[0.95rem]" : "px-3.5 py-1.5 text-[0.85rem]"
+            }`}
+          >
             {name}
-          </span>
+          </li>
         ))}
-      </p>
+      </ul>
     </>
   );
 }

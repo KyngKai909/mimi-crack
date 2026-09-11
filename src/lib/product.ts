@@ -60,50 +60,53 @@ export const PRODUCT = {
   ],
 
   /**
-   * The full declaration, in label order, exactly as it reads on the jar.
+   * The full declaration, in the order printed on the jar, each tagged with
+   * the group it belongs to.
    *
-   * This is a cosmetic product, so this list is a labeling obligation rather
-   * than marketing copy: it is rendered in full on the product page and must
-   * stay in the order printed on the jar. Don't prune it to the pretty ones.
+   * One list, not two. The page shows these grouped, because thirty-seven
+   * names in a paragraph is not something anyone reads — but the order here
+   * is the label order, and the page still prints the declaration in that
+   * order underneath. Grouping is a reading aid; the sequence is the legal
+   * artefact, so don't sort this array and don't prune it to the pretty ones.
    */
   ingredients: [
-    "Pure Mango Butter",
-    "Petrolatum",
-    "Lanolin",
-    "Olive Oil",
-    "Lecithin",
-    "Coconut Oil",
-    "Rice Bran Oil",
-    "Cocoa Butter",
-    "Sunflower Oil",
-    "Jojoba Oil",
-    "Safflower Oil",
-    "Moringa Oil",
-    "Canola Oil",
-    "Pomegranate",
-    "Rosehip",
-    "Pumpkin Seed Oil",
-    "Acerola",
-    "Rosemary Extract",
-    "Carrot Extract",
-    "Honey Extract",
-    "Mushroom Extract",
-    "Chickpea Extract",
-    "Lentil Extract",
-    "Cocoa Extract",
-    "Sesame Seed Oil",
-    "Sage Oil",
-    "Eucalyptus Oil",
-    "Frankincense Oil",
-    "Geranium Oil",
-    "Grapefruit Oil",
-    "Lavender Oil",
-    "Peppermint Oil",
-    "Herbal Extracts",
-    "Menthol",
-    "Cetyl Alcohol",
-    "Arrowroot Powder",
-    "Fragrance",
+    { name: "Pure Mango Butter", group: "base" },
+    { name: "Petrolatum", group: "base" },
+    { name: "Lanolin", group: "base" },
+    { name: "Olive Oil", group: "carrier" },
+    { name: "Lecithin", group: "finish" },
+    { name: "Coconut Oil", group: "carrier" },
+    { name: "Rice Bran Oil", group: "carrier" },
+    { name: "Cocoa Butter", group: "base" },
+    { name: "Sunflower Oil", group: "carrier" },
+    { name: "Jojoba Oil", group: "carrier" },
+    { name: "Safflower Oil", group: "carrier" },
+    { name: "Moringa Oil", group: "carrier" },
+    { name: "Canola Oil", group: "carrier" },
+    { name: "Pomegranate", group: "extract" },
+    { name: "Rosehip", group: "extract" },
+    { name: "Pumpkin Seed Oil", group: "carrier" },
+    { name: "Acerola", group: "extract" },
+    { name: "Rosemary Extract", group: "extract" },
+    { name: "Carrot Extract", group: "extract" },
+    { name: "Honey Extract", group: "extract" },
+    { name: "Mushroom Extract", group: "extract" },
+    { name: "Chickpea Extract", group: "extract" },
+    { name: "Lentil Extract", group: "extract" },
+    { name: "Cocoa Extract", group: "extract" },
+    { name: "Sesame Seed Oil", group: "carrier" },
+    { name: "Sage Oil", group: "essential" },
+    { name: "Eucalyptus Oil", group: "essential" },
+    { name: "Frankincense Oil", group: "essential" },
+    { name: "Geranium Oil", group: "essential" },
+    { name: "Grapefruit Oil", group: "essential" },
+    { name: "Lavender Oil", group: "essential" },
+    { name: "Peppermint Oil", group: "essential" },
+    { name: "Herbal Extracts", group: "extract" },
+    { name: "Menthol", group: "finish" },
+    { name: "Cetyl Alcohol", group: "finish" },
+    { name: "Arrowroot Powder", group: "finish" },
+    { name: "Fragrance", group: "finish" },
   ],
 
   benefits: [
@@ -163,7 +166,7 @@ export const PRODUCT = {
     },
     {
       q: "Anything in it I should know about?",
-      a: "Two things people ask about: it contains lanolin, which comes from sheep's wool, so it isn't vegan; and it's fragranced, with peppermint and menthol that give the scalp a cool tingle. The full ingredient list is on this page — read it first if you have a known allergy.",
+      a: "Two things people ask about: it contains lanolin, and it's fragranced, with peppermint and menthol that give the scalp a cool tingle. The full ingredient list is on this page, grouped — read it first if you have a known allergy.",
     },
     {
       q: "How long does one jar last?",
@@ -180,6 +183,34 @@ export const PRODUCT = {
 } as const;
 
 /**
+ * The groups the declaration is read in, in the order they're shown: what the
+ * grease is built on, what carries it, what it's scented and cooled with,
+ * what's infused into it, and what sets the texture.
+ */
+export const INGREDIENT_GROUPS = [
+  { key: "base", label: "Butters & base" },
+  { key: "carrier", label: "Carrier oils" },
+  { key: "essential", label: "Essential oils" },
+  { key: "extract", label: "Botanical extracts" },
+  { key: "finish", label: "Texture & finish" },
+] as const;
+
+export type IngredientGroup = (typeof INGREDIENT_GROUPS)[number]["key"];
+
+/** The declaration, split into those groups. Jar order is kept within each. */
+export const GROUPED_INGREDIENTS = INGREDIENT_GROUPS.map((group) => ({
+  ...group,
+  items: PRODUCT.ingredients
+    .filter((i) => i.group === group.key)
+    .map((i) => i.name),
+})).filter((group) => group.items.length > 0);
+
+/** The declaration as one string, in the order printed on the jar. */
+export const INGREDIENT_DECLARATION = PRODUCT.ingredients
+  .map((i) => i.name)
+  .join(", ");
+
+/**
  * How many of the ingredients are botanical oils.
  *
  * Derived rather than written down: the home page makes this claim in a
@@ -187,7 +218,7 @@ export const PRODUCT = {
  * formula changes.
  */
 export const BOTANICAL_OIL_COUNT = PRODUCT.ingredients.filter((i) =>
-  i.endsWith(" Oil"),
+  i.name.endsWith(" Oil"),
 ).length;
 
 /** Max jars per order — keeps the flat parcel maths honest. */

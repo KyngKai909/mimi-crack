@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { share } from "@/lib/seo";
-import { BOTANICAL_OIL_COUNT, PRODUCT } from "@/lib/product";
+import {
+  BOTANICAL_OIL_COUNT,
+  GROUPED_INGREDIENTS,
+  INGREDIENT_DECLARATION,
+  PRODUCT,
+} from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
@@ -168,9 +173,31 @@ export default function ProductPage() {
                 {PRODUCT.ingredients.length} in all · {BOTANICAL_OIL_COUNT} botanical oils
               </p>
             </div>
-            <p className="mt-6 max-w-5xl text-[0.95rem] leading-[1.75] text-ink-soft">
-              {PRODUCT.ingredients.slice(0, -1).join(", ")}, and{" "}
-              {PRODUCT.ingredients[PRODUCT.ingredients.length - 1]}.
+            <div className="mt-9 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+              {GROUPED_INGREDIENTS.map((group) => (
+                <div key={group.key}>
+                  <div className="hairline flex items-baseline justify-between gap-3 pt-4">
+                    <h3 className="display display-md">{group.label}</h3>
+                    <span className="eyebrow text-[0.62rem]">{group.items.length}</span>
+                  </div>
+                  {/* Two-up on a phone, where the groups themselves stack:
+                      thirty-seven names in one column is a lot of thumb. */}
+                  <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-1.5 sm:grid-cols-1">
+                    {group.items.map((name) => (
+                      <li key={name} className="text-[0.95rem] leading-snug text-ink-soft">
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Grouping is a reading aid. The declaration itself is an ordered
+                thing, so it stays on the page in the order it's printed. */}
+            <p className="mt-12 max-w-4xl text-xs leading-relaxed text-ink-mute">
+              <span className="text-ink-soft">As printed on the jar:</span>{" "}
+              {INGREDIENT_DECLARATION}.
             </p>
           </Reveal>
         </div>
