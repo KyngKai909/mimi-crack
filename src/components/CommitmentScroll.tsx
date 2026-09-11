@@ -10,14 +10,18 @@ type Step = { step: string; body: string };
  * The commitment, as a pinned scene that scrolls sideways.
  *
  * Vertical scroll inside a tall spacer drives horizontal travel on a pinned
- * track. Two deliberate fallbacks, because this pattern is hostile to both
- * touch devices and anyone who gets motion sick:
+ * track — on a phone as well as on a desktop. Nothing here intercepts the
+ * scroll: the page moves at its own rate and the track is translated to match,
+ * so a flick still flicks and the scrollbar still means what it says.
  *
- *   - below lg, and under prefers-reduced-motion, it degrades to an ordinary
- *     swipeable rail with scroll-snap — same content, no hijacking.
+ * Under prefers-reduced-motion it degrades to an ordinary swipeable rail with
+ * scroll-snap — same content, no travel. The section is keyboard-reachable
+ * either way: the cards are plain documents in source order, not transformed
+ * out of the tab sequence.
  *
- * The section is also keyboard-reachable either way: the cards are plain
- * documents in source order, not transformed out of the tab sequence.
+ * Heights are in svh rather than vh. On a phone vh is the *large* viewport,
+ * so with the address bar showing, a 100vh pinned scene is taller than the
+ * screen and the scene drifts as the bar hides.
  */
 export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
   const { ref, progress } = useScrollProgress<HTMLDivElement>();
@@ -47,16 +51,11 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
   }, [pinned, measure]);
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
     const still = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setPinned(mq.matches && !still.matches);
+    const sync = () => setPinned(!still.matches);
     sync();
-    mq.addEventListener("change", sync);
     still.addEventListener("change", sync);
-    return () => {
-      mq.removeEventListener("change", sync);
-      still.removeEventListener("change", sync);
-    };
+    return () => still.removeEventListener("change", sync);
   }, []);
 
   const cards = steps.map((s, i) => (
@@ -88,8 +87,8 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
   }
 
   return (
-    <div ref={ref} style={{ height: `${steps.length * 78}vh` }}>
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+    <div ref={ref} style={{ height: `${steps.length * 78}svh` }}>
+      <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
         <div ref={track} className="w-full overflow-hidden">
           <div
             className="flex w-max gap-5 px-[5vw] will-change-transform"
@@ -100,7 +99,7 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
         </div>
 
         {/* progress rule */}
-        <div className="absolute bottom-14 left-[6vw] right-[6vw] h-px bg-ink/10">
+        <div className="absolute bottom-8 left-[6vw] right-[6vw] h-px bg-ink/10 sm:bottom-14">
           <div
             className="h-px bg-ink/50 transition-none"
             style={{ width: `${Math.round(progress * 100)}%` }}
