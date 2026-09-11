@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { MAX_QUANTITY } from "@/lib/product";
-import { isShippoConfigured, quoteRates } from "@/lib/shippo";
+import { isShipFromConfigured, isShippoConfigured, quoteRates } from "@/lib/shippo";
 
 export const runtime = "nodejs";
 
@@ -21,9 +21,12 @@ const Body = z.object({
 });
 
 export async function POST(request: Request) {
-  if (!isShippoConfigured()) {
+  if (!isShippoConfigured() || !isShipFromConfigured()) {
     return NextResponse.json(
-      { error: "Shipping is not configured yet. Set SHIPPO_API_KEY." },
+      {
+        error:
+          "Live shipping rates aren't switched on yet. Get in touch and we'll quote you directly.",
+      },
       { status: 503 },
     );
   }
