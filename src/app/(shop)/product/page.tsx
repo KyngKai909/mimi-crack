@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { share } from "@/lib/seo";
-import { PRODUCT } from "@/lib/product";
+import { BOTANICAL_OIL_COUNT, PRODUCT } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
 import { Faq } from "@/components/Faq";
 import { Reveal } from "@/components/Reveal";
+import { Highlights } from "@/components/Highlights";
 import { FitText } from "@/components/FitText";
 
 export const metadata: Metadata = share({
@@ -63,8 +64,8 @@ export default function ProductPage() {
               </p>
             </Reveal>
             <Reveal delay={260}>
-              <p className="prose-airy mt-7 max-w-md">{PRODUCT.tagline}. Castor,
-                olive and rosemary in a shea butter base — built to soften the
+              <p className="prose-airy mt-7 max-w-md">{PRODUCT.tagline}. Jojoba,
+                rosemary and peppermint in a pure mango butter base — built to soften the
                 part and keep ends conditioned between washes.
               </p>
             </Reveal>
@@ -124,24 +125,16 @@ export default function ProductPage() {
               />
             </Reveal>
 
-            <Reveal delay={90} className="col-span-2 rounded-[1.5rem] bg-shell p-7">
-              <p className="eyebrow">Ingredients</p>
-              <ul className="mt-5 space-y-2">
-                {PRODUCT.ingredients.map((ing, i) => (
-                  <li key={ing} className="flex gap-3 text-[0.95rem] text-ink-soft">
-                    <span className="text-pistachio-deep tabular-nums">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {ing}
-                  </li>
-                ))}
-              </ul>
-              {!PRODUCT.ingredientsAreComplete && (
-                <p className="mt-5 text-xs leading-relaxed text-ink-mute">
-                  Note for Carmel — read off the jar in the product photos and
-                  probably incomplete. Send the full list before launch.
-                </p>
-              )}
+            <Reveal delay={90} className="col-span-2 flex flex-col rounded-[1.5rem] bg-shell p-7 lg:p-8">
+              <div className="flex items-baseline justify-between gap-4">
+                <p className="eyebrow">What&rsquo;s in it</p>
+                <a href="#ingredients" className="link-draw eyebrow hover:text-ink">
+                  All {PRODUCT.ingredients.length}
+                </a>
+              </div>
+              <div className="mt-auto pt-8">
+                <Highlights />
+              </div>
             </Reveal>
 
             <Reveal delay={160} className="rounded-[1.5rem] bg-forest p-7 text-shell">
@@ -161,6 +154,25 @@ export default function ProductPage() {
               </p>
             </Reveal>
           </div>
+
+          {/* The legal declaration. It reads like the back of the jar because
+              that is what it is — every ingredient, in the order printed. */}
+          <Reveal
+            id="ingredients"
+            delay={370}
+            className="mt-4 scroll-mt-28 rounded-[1.5rem] bg-shell p-7 lg:mt-5 lg:p-9"
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+              <p className="eyebrow">Full ingredients</p>
+              <p className="eyebrow">
+                {PRODUCT.ingredients.length} in all · {BOTANICAL_OIL_COUNT} botanical oils
+              </p>
+            </div>
+            <p className="mt-6 max-w-5xl text-[0.95rem] leading-[1.75] text-ink-soft">
+              {PRODUCT.ingredients.slice(0, -1).join(", ")}, and{" "}
+              {PRODUCT.ingredients[PRODUCT.ingredients.length - 1]}.
+            </p>
+          </Reveal>
         </div>
       </section>
 

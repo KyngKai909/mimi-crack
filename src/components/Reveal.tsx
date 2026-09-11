@@ -15,6 +15,7 @@ export function Reveal({
   line = false,
   as: Tag = "div",
   className = "",
+  id,
 }: {
   children: React.ReactNode;
   /** Milliseconds. */
@@ -23,6 +24,8 @@ export function Reveal({
   line?: boolean;
   as?: "div" | "span" | "li" | "section" | "p";
   className?: string;
+  /** For anchor targets — a revealed block is often what a link points at. */
+  id?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -63,6 +66,7 @@ export function Reveal({
 
   return (
     <Tag
+      id={id}
       ref={ref as React.Ref<never>}
       style={{ ["--reveal-delay" as string]: `${delay}ms` }}
       className={`${line ? "reveal-line overflow-hidden" : "reveal"} ${className}`}

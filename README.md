@@ -79,10 +79,21 @@ deliberately empty: the About page renders a visible prompt asking for her
 words rather than inventing a founder story. Fill it in and the prompt is
 replaced by the quote.
 
-**Before launch:** the ingredient list in `product.ts` was transcribed from the
-product photography and is incomplete. Replace it with the full declaration
-from the physical jar and set `ingredientsAreComplete: true` — until you do,
-the product page renders a visible note saying so.
+### Ingredients
+
+Two lists, and they do different jobs.
+
+`highlights` is the eleven Carmel names on the page, in her order, with Pure
+Mango Butter leading because it's what defines the grease. `ingredients` is the
+full declaration in the order printed on the jar — a labeling obligation, not
+copy, so don't prune it to the pretty ones. The product page renders it in
+full under the bento, at `/product#ingredients`.
+
+The "17 botanical oils" claim on the home page is **derived** from that list
+(`BOTANICAL_OIL_COUNT`, anything ending in "Oil") rather than typed, so it
+can't quietly go wrong the next time the formula changes. The headline next to
+it — "Seventeen oils and two butters." — is hand-written and would need
+updating by hand.
 
 ## Art direction — the shot list
 

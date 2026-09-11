@@ -38,31 +38,82 @@ export const PRODUCT = {
   },
 
   /**
-   * INCI-style ingredient list.
+   * The eleven worth naming on the page — Carmel's own shortlist, in her
+   * order. Mango butter leads because it's the one that defines the grease;
+   * everything after it is a supporting botanical.
    *
-   * TODO(owner): these are the lines legible from the product photography.
-   * Replace with the complete list transcribed from the physical jar before
-   * launch — an incomplete cosmetic ingredient declaration is a labeling
-   * compliance problem, not just a copy gap.
+   * These are short common names for display. The legal declaration is
+   * `ingredients` below, and that's the one that has to be complete.
+   */
+  highlights: [
+    "Pure Mango Butter",
+    "Jojoba",
+    "Rosemary",
+    "Coconut",
+    "Olive",
+    "Moringa",
+    "Pomegranate",
+    "Peppermint",
+    "Honey",
+    "Sage",
+    "Eucalyptus",
+  ],
+
+  /**
+   * The full declaration, in label order, exactly as it reads on the jar.
+   *
+   * This is a cosmetic product, so this list is a labeling obligation rather
+   * than marketing copy: it is rendered in full on the product page and must
+   * stay in the order printed on the jar. Don't prune it to the pretty ones.
    */
   ingredients: [
-    "Mineral Oil",
-    "Wheat Germ Oil",
-    "Ricinus Communis (Castor) Seed Oil",
-    "Olea Europaea (Olive) Fruit Oil",
-    "Rosmarinus Officinalis (Rosemary) Leaf Oil",
-    "Butyrospermum Parkii (Shea) Butter",
+    "Pure Mango Butter",
+    "Petrolatum",
+    "Lanolin",
+    "Olive Oil",
+    "Lecithin",
+    "Coconut Oil",
+    "Rice Bran Oil",
+    "Cocoa Butter",
+    "Sunflower Oil",
+    "Jojoba Oil",
+    "Safflower Oil",
+    "Moringa Oil",
+    "Canola Oil",
+    "Pomegranate",
+    "Rosehip",
+    "Pumpkin Seed Oil",
+    "Acerola",
+    "Rosemary Extract",
+    "Carrot Extract",
+    "Honey Extract",
+    "Mushroom Extract",
+    "Chickpea Extract",
+    "Lentil Extract",
+    "Cocoa Extract",
+    "Sesame Seed Oil",
+    "Sage Oil",
+    "Eucalyptus Oil",
+    "Frankincense Oil",
+    "Geranium Oil",
+    "Grapefruit Oil",
+    "Lavender Oil",
+    "Peppermint Oil",
+    "Herbal Extracts",
+    "Menthol",
+    "Cetyl Alcohol",
+    "Arrowroot Powder",
+    "Fragrance",
   ],
-  ingredientsAreComplete: false,
 
   benefits: [
     {
       title: "Feeds the scalp",
-      body: "A rich botanical base of castor, olive and rosemary oils goes on where it counts — the scalp — to soften flaking and soothe tightness between washes.",
+      body: "Jojoba, olive and rosemary go on where it counts — the scalp — to soften flaking and soothe tightness between washes. Peppermint and menthol are why it tingles.",
     },
     {
       title: "Seals in moisture",
-      body: "Shea butter and wheat germ oil form a breathable seal over the strand, so the water your hair drank on wash day is still there on day five.",
+      body: "Mango and cocoa butter form a breathable seal over the strand, so the water your hair drank on wash day is still there on day five.",
     },
     {
       title: "Guards against breakage",
@@ -111,6 +162,10 @@ export const PRODUCT = {
       a: "It's commonly used on children's hair for greasing parts and braids. As with any new product, patch test first and keep it out of eyes.",
     },
     {
+      q: "Anything in it I should know about?",
+      a: "Two things people ask about: it contains lanolin, which comes from sheep's wool, so it isn't vegan; and it's fragranced, with peppermint and menthol that give the scalp a cool tingle. The full ingredient list is on this page — read it first if you have a known allergy.",
+    },
+    {
       q: "How long does one jar last?",
       a: "9.5 oz is a big jar. Used a few times a week on scalp and ends, most people get two to four months out of one.",
     },
@@ -123,6 +178,17 @@ export const PRODUCT = {
   cautions:
     "For external use only. Avoid contact with eyes. Discontinue use if irritation occurs. Keep out of reach of children. Store below 80°F — the grease will soften in heat and re-set as it cools, which does not affect performance.",
 } as const;
+
+/**
+ * How many of the ingredients are botanical oils.
+ *
+ * Derived rather than written down: the home page makes this claim in a
+ * headline, and a hand-typed number would quietly go wrong the next time the
+ * formula changes.
+ */
+export const BOTANICAL_OIL_COUNT = PRODUCT.ingredients.filter((i) =>
+  i.endsWith(" Oil"),
+).length;
 
 /** Max jars per order — keeps the flat parcel maths honest. */
 export const MAX_QUANTITY = 12;
