@@ -177,13 +177,19 @@ export default function ProductPage() {
             >
               <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-10">
                 <p className="eyebrow shrink-0">Handling</p>
-                <ul className="flex flex-wrap gap-2 sm:gap-2.5">
+                {/* Two even columns on a phone — five pills in three rows, the last
+                    spanning both — and a single wrapped row once there's width
+                    for it. Below 380px the columns are narrower than the words,
+                    so it drops back to one: the odd pill's col-span has to be
+                    behind the same breakpoint, or it conjures an implicit
+                    second column and the labels clip. */}
+                <ul className="grid grid-cols-1 gap-2 min-[380px]:grid-cols-2 sm:flex sm:flex-wrap sm:gap-2.5">
                   {PRODUCT.handling.map((rule) => {
                     const Icon = HANDLING_ICONS[rule.icon];
                     return (
                       <li
                         key={rule.label}
-                        className="flex items-center gap-2 rounded-full bg-shell-warm py-2 pl-3 pr-3.5 text-[0.78rem] text-ink-soft sm:gap-2.5 sm:py-2.5 sm:pl-3.5 sm:pr-4 sm:text-[0.85rem]"
+                        className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-shell-warm py-2 pl-2.5 pr-3 text-[0.72rem] text-ink-soft min-[380px]:last:odd:col-span-2 sm:col-auto sm:gap-2.5 sm:py-2.5 sm:pl-3.5 sm:pr-4 sm:text-[0.85rem]"
                       >
                         <Icon className="h-4 w-4 shrink-0 text-forest" />
                         {rule.label}
