@@ -63,14 +63,11 @@ export const PRODUCT = {
    * The full declaration, in the order printed on the jar, each tagged with
    * the group it belongs to.
    *
-   * One list, not two. The page shows these grouped, because forty-one names
-   * in a paragraph is not something anyone reads — but the order here is the
+   * One list, not two. The page shows these grouped, because thirty-nine
+   * names in a paragraph is not something anyone reads — but the order is the
    * label order, and the page still prints the declaration in that order
    * underneath. Grouping is a reading aid; the sequence is the legal artefact,
    * so don't sort this array and don't prune it to the pretty ones.
-   *
-   * Note the two colourants at the end. The grease is tinted, so nothing on
-   * the site may imply its green comes from the botanicals.
    */
   ingredients: [
     { name: "Mango Butter", group: "base" },
@@ -112,8 +109,6 @@ export const PRODUCT = {
     { name: "Menthol", group: "finish" },
     { name: "Isopropyl Myristate", group: "finish" },
     { name: "Fragrance (Parfum)", group: "finish" },
-    { name: "Yellow 11 (CI 47000)", group: "colour" },
-    { name: "Green 6 (CI 61565)", group: "colour" },
   ],
 
   benefits: [
@@ -197,12 +192,12 @@ export const PRODUCT = {
     { icon: "eye", label: "Avoid eyes", full: "Avoid contact with eyes." },
     {
       icon: "alert",
-      label: "Stop if it irritates",
+      label: "Stop if irritated",
       full: "Discontinue use if irritation occurs.",
     },
     {
       icon: "child",
-      label: "Keep from children",
+      label: "Keep from kids",
       full: "Keep out of reach of children.",
     },
     {
@@ -225,7 +220,6 @@ export const INGREDIENT_GROUPS = [
   { key: "essential", label: "Essential oils" },
   { key: "extract", label: "Botanical extracts" },
   { key: "finish", label: "Texture & finish" },
-  { key: "colour", label: "Colour" },
 ] as const;
 
 export type IngredientGroup = (typeof INGREDIENT_GROUPS)[number]["key"];

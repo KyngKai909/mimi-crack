@@ -142,8 +142,9 @@ export default function HomePage() {
             </Reveal>
             <Reveal delay={120}>
               <p className="prose-airy max-w-sm">
-                Mango butter first, then the oils, then the extracts. The
-                colour is added; everything under it is the formula.
+                The green isn&rsquo;t a gimmick. It&rsquo;s what happens when you
+                build a grease around mango butter, jojoba and rosemary rather
+                than filler.
               </p>
             </Reveal>
           </div>
