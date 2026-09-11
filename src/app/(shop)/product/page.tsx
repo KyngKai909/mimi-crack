@@ -11,6 +11,13 @@ import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
 import { Faq } from "@/components/Faq";
 import { Reveal } from "@/components/Reveal";
+import {
+  AlertIcon,
+  ChildIcon,
+  EyeIcon,
+  HandIcon,
+  ThermometerIcon,
+} from "@/components/Icons";
 import { Highlights } from "@/components/Highlights";
 import { FitText } from "@/components/FitText";
 
@@ -19,6 +26,15 @@ export const metadata: Metadata = share({
   description: `${PRODUCT.tagline}. ${PRODUCT.size.label} of premium scalp-first hair grease.`,
   banner: "product",
 });
+
+/** The data names a rule; this decides what it looks like. */
+const HANDLING_ICONS = {
+  hand: HandIcon,
+  eye: EyeIcon,
+  alert: AlertIcon,
+  child: ChildIcon,
+  heat: ThermometerIcon,
+} as const;
 
 const shots: ShotSpec[] = [
   { label: "Packshot — jar upright, soft daylight", tone: "pistachio" },
@@ -152,10 +168,33 @@ export default function ProductPage() {
               <p className="eyebrow mt-4">Months per jar</p>
             </Reveal>
 
-            <Reveal delay={300} className="col-span-2 rounded-[1.5rem] bg-shell p-7">
-              <p className="eyebrow">Handling</p>
-              <p className="mt-4 text-sm leading-relaxed text-ink-soft">
-                {PRODUCT.cautions}
+            {/* Full width, and five pills rather than a paragraph. Half a row
+                of small print left a hole in the grid and nobody read it
+                anyway; the sentences still exist, in the footer. */}
+            <Reveal
+              delay={300}
+              className="col-span-2 rounded-[1.5rem] bg-shell p-7 lg:col-span-4 lg:p-8"
+            >
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-10">
+                <p className="eyebrow shrink-0">Handling</p>
+                <ul className="flex flex-wrap gap-2 sm:gap-2.5">
+                  {PRODUCT.handling.map((rule) => {
+                    const Icon = HANDLING_ICONS[rule.icon];
+                    return (
+                      <li
+                        key={rule.label}
+                        className="flex items-center gap-2 rounded-full bg-shell-warm py-2 pl-3 pr-3.5 text-[0.78rem] text-ink-soft sm:gap-2.5 sm:py-2.5 sm:pl-3.5 sm:pr-4 sm:text-[0.85rem]"
+                      >
+                        <Icon className="h-4 w-4 shrink-0 text-forest" />
+                        {rule.label}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <p className="mt-5 text-sm leading-relaxed text-ink-mute">
+                It softens in heat and re-sets as it cools. That doesn&rsquo;t
+                affect how it works.
               </p>
             </Reveal>
           </div>

@@ -91,7 +91,7 @@ lead as a headline and the other ten as tinted chips.
 jar, each tagged with a group. One list, not two, so the groups can't drift
 out of sync with the declaration. `/product#ingredients` shows it grouped —
 butters and base, carrier oils, essential oils, botanical extracts, texture and
-finish — because nobody reads thirty-seven names in a paragraph. Underneath,
+finish, colour — because nobody reads forty-one names in a paragraph. Underneath,
 the same list is printed as one run in jar order, because the sequence is the
 part that's a labeling obligation. Don't sort the array, and don't prune it to
 the pretty ones.

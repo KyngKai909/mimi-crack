@@ -63,15 +63,20 @@ export const PRODUCT = {
    * The full declaration, in the order printed on the jar, each tagged with
    * the group it belongs to.
    *
-   * One list, not two. The page shows these grouped, because thirty-seven
-   * names in a paragraph is not something anyone reads — but the order here
-   * is the label order, and the page still prints the declaration in that
-   * order underneath. Grouping is a reading aid; the sequence is the legal
-   * artefact, so don't sort this array and don't prune it to the pretty ones.
+   * One list, not two. The page shows these grouped, because forty-one names
+   * in a paragraph is not something anyone reads — but the order here is the
+   * label order, and the page still prints the declaration in that order
+   * underneath. Grouping is a reading aid; the sequence is the legal artefact,
+   * so don't sort this array and don't prune it to the pretty ones.
+   *
+   * Note the two colourants at the end. The grease is tinted, so nothing on
+   * the site may imply its green comes from the botanicals.
    */
   ingredients: [
-    { name: "Pure Mango Butter", group: "base" },
+    { name: "Mango Butter", group: "base" },
     { name: "Petrolatum", group: "base" },
+    { name: "Cetyl Alcohol", group: "finish" },
+    { name: "Arrowroot Powder", group: "finish" },
     { name: "Lanolin", group: "base" },
     { name: "Olive Oil", group: "carrier" },
     { name: "Lecithin", group: "finish" },
@@ -79,6 +84,7 @@ export const PRODUCT = {
     { name: "Rice Bran Oil", group: "carrier" },
     { name: "Cocoa Butter", group: "base" },
     { name: "Sunflower Oil", group: "carrier" },
+    { name: "Methyl Soyate", group: "finish" },
     { name: "Jojoba Oil", group: "carrier" },
     { name: "Safflower Oil", group: "carrier" },
     { name: "Moringa Oil", group: "carrier" },
@@ -95,18 +101,19 @@ export const PRODUCT = {
     { name: "Lentil Extract", group: "extract" },
     { name: "Cocoa Extract", group: "extract" },
     { name: "Sesame Seed Oil", group: "carrier" },
+    { name: "Herbal Extracts", group: "extract" },
+    { name: "Peppermint Oil", group: "essential" },
     { name: "Sage Oil", group: "essential" },
     { name: "Eucalyptus Oil", group: "essential" },
     { name: "Frankincense Oil", group: "essential" },
     { name: "Geranium Oil", group: "essential" },
     { name: "Grapefruit Oil", group: "essential" },
     { name: "Lavender Oil", group: "essential" },
-    { name: "Peppermint Oil", group: "essential" },
-    { name: "Herbal Extracts", group: "extract" },
     { name: "Menthol", group: "finish" },
-    { name: "Cetyl Alcohol", group: "finish" },
-    { name: "Arrowroot Powder", group: "finish" },
-    { name: "Fragrance", group: "finish" },
+    { name: "Isopropyl Myristate", group: "finish" },
+    { name: "Fragrance (Parfum)", group: "finish" },
+    { name: "Yellow 11 (CI 47000)", group: "colour" },
+    { name: "Green 6 (CI 61565)", group: "colour" },
   ],
 
   benefits: [
@@ -178,8 +185,33 @@ export const PRODUCT = {
     },
   ],
 
-  cautions:
-    "For external use only. Avoid contact with eyes. Discontinue use if irritation occurs. Keep out of reach of children. Store below 80°F — the grease will soften in heat and re-set as it cools, which does not affect performance.",
+  /**
+   * Handling, as five things rather than one paragraph.
+   *
+   * `label` is what the product page shows in a pill; `full` is the sentence
+   * that belongs in a block of small print. Both live here so they can't say
+   * different things — CAUTIONS below joins the sentences for the footer.
+   */
+  handling: [
+    { icon: "hand", label: "External use only", full: "For external use only." },
+    { icon: "eye", label: "Avoid eyes", full: "Avoid contact with eyes." },
+    {
+      icon: "alert",
+      label: "Stop if it irritates",
+      full: "Discontinue use if irritation occurs.",
+    },
+    {
+      icon: "child",
+      label: "Keep from children",
+      full: "Keep out of reach of children.",
+    },
+    {
+      icon: "heat",
+      label: "Store below 80°F",
+      full: "Store below 80°F — the grease will soften in heat and re-set as it cools, which does not affect performance.",
+    },
+  ],
+
 } as const;
 
 /**
@@ -193,6 +225,7 @@ export const INGREDIENT_GROUPS = [
   { key: "essential", label: "Essential oils" },
   { key: "extract", label: "Botanical extracts" },
   { key: "finish", label: "Texture & finish" },
+  { key: "colour", label: "Colour" },
 ] as const;
 
 export type IngredientGroup = (typeof INGREDIENT_GROUPS)[number]["key"];
@@ -204,6 +237,9 @@ export const GROUPED_INGREDIENTS = INGREDIENT_GROUPS.map((group) => ({
     .filter((i) => i.group === group.key)
     .map((i) => i.name),
 })).filter((group) => group.items.length > 0);
+
+/** The handling sentences, for places that want small print rather than pills. */
+export const CAUTIONS = PRODUCT.handling.map((h) => h.full).join(" ");
 
 /** The declaration as one string, in the order printed on the jar. */
 export const INGREDIENT_DECLARATION = PRODUCT.ingredients
