@@ -223,27 +223,39 @@ export const PRODUCT = {
 } as const;
 
 /**
- * The groups the declaration is read in, in the order they're shown: what the
- * grease is built on, what carries it, what it's scented and cooled with,
- * what's infused into it, and what sets the texture.
+ * The groups the declaration is read in: what the grease is built on, what
+ * carries it, what it's scented and cooled with, what's infused into it, and
+ * what sets the texture.
+ *
+ * `shown` is Carmel's call, not a design one. She doesn't want the formula
+ * laid out clearly enough to be copied at home, so the extracts and the
+ * texture agents aren't broken out into tidy labelled lists. Every one of them
+ * is still on the page: the declaration below the groups prints the whole jar,
+ * in order, because that part is a labeling obligation and not ours to edit.
  */
 export const INGREDIENT_GROUPS = [
-  { key: "base", label: "Butters & base" },
-  { key: "carrier", label: "Carrier oils" },
-  { key: "essential", label: "Essential oils" },
-  { key: "extract", label: "Botanical extracts" },
-  { key: "finish", label: "Texture & finish" },
+  { key: "base", label: "Butters & base", shown: true },
+  { key: "carrier", label: "Carrier oils", shown: true },
+  { key: "essential", label: "Essential oils", shown: true },
+  { key: "extract", label: "Botanical extracts", shown: false },
+  { key: "finish", label: "Texture & finish", shown: false },
 ] as const;
 
 export type IngredientGroup = (typeof INGREDIENT_GROUPS)[number]["key"];
 
-/** The declaration, split into those groups. Jar order is kept within each. */
-export const GROUPED_INGREDIENTS = INGREDIENT_GROUPS.map((group) => ({
-  ...group,
-  items: PRODUCT.ingredients
-    .filter((i) => i.group === group.key)
-    .map((i) => i.name),
-})).filter((group) => group.items.length > 0);
+/**
+ * The groups that get their own list on the page. Jar order is kept within
+ * each. Groups marked `shown: false` are left out here and appear only inside
+ * the full declaration.
+ */
+export const GROUPED_INGREDIENTS = INGREDIENT_GROUPS.filter((g) => g.shown)
+  .map((group) => ({
+    ...group,
+    items: PRODUCT.ingredients
+      .filter((i) => i.group === group.key)
+      .map((i) => i.name),
+  }))
+  .filter((group) => group.items.length > 0);
 
 /** The handling sentences, for places that want small print rather than pills. */
 export const CAUTIONS = PRODUCT.handling.map((h) => h.full).join(" ");

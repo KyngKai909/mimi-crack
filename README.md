@@ -89,12 +89,17 @@ lead as a headline and the other ten as tinted chips.
 
 `ingredients` is the full declaration: every entry in the order printed on the
 jar, each tagged with a group. One list, not two, so the groups can't drift
-out of sync with the declaration. `/product#ingredients` shows it grouped —
-butters and base, carrier oils, essential oils, botanical extracts, texture and
-finish — because nobody reads thirty-nine names in a paragraph. Underneath,
-the same list is printed as one run in jar order, because the sequence is the
-part that's a labeling obligation. Don't sort the array, and don't prune it to
-the pretty ones.
+out of sync with the declaration. `/product#ingredients` breaks out three of those groups —
+butters and base, carrier oils, essential oils — because nobody reads
+thirty-nine names in a paragraph. Underneath, the same list is printed as one
+run in jar order, because the sequence is the part that's a labeling
+obligation. Don't sort the array, and don't prune it to the pretty ones.
+
+The extracts and the texture agents are marked `shown: false` in
+`INGREDIENT_GROUPS` and get no list of their own. That's Carmel's call, not a
+design one: she doesn't want the formula laid out clearly enough to copy at
+home. Every one of them still appears in the declaration underneath, which is
+complete and has to stay that way.
 
 The "17 botanical oils" claim on the home page is **derived** from that list
 (`BOTANICAL_OIL_COUNT`, anything ending in "Oil") rather than typed, so it

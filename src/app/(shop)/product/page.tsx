@@ -213,7 +213,7 @@ export default function ProductPage() {
             className="mt-4 scroll-mt-28 rounded-[1.5rem] bg-shell p-7 lg:mt-5 lg:p-9"
           >
             <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-              <p className="eyebrow">Full ingredients</p>
+              <p className="eyebrow">The formula</p>
               <p className="eyebrow">
                 {PRODUCT.ingredients.length} in all · {BOTANICAL_OIL_COUNT} botanical oils
               </p>
