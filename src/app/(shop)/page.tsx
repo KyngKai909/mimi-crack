@@ -2,7 +2,6 @@ import Link from "next/link";
 import { BOTANICAL_OIL_COUNT, PRODUCT, formatPrice } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { Shot } from "@/components/Shot";
-import { FounderNote } from "@/components/FounderNote";
 import { Reveal } from "@/components/Reveal";
 import { Highlights } from "@/components/Highlights";
 import { Faq } from "@/components/Faq";
@@ -226,24 +225,6 @@ export default function HomePage() {
           </Reveal>
         </div>
         <CommitmentScroll steps={PRODUCT.howToUse} />
-      </section>
-
-      {/* ══════════════════════════════════════════ a word from Carmel */}
-      <section className="bg-shell-warm">
-        <div className="shell-x section-y">
-          <div className="grid gap-10 lg:grid-cols-[0.32fr_0.68fr] lg:gap-20">
-            <Reveal>
-              <p className="eyebrow">From Carmel</p>
-              <h2 className="display display-lg mt-5 max-w-[12ch]">
-                Why I made it.
-              </h2>
-            </Reveal>
-
-            <Reveal delay={140}>
-              <FounderNote className="max-w-2xl" />
-            </Reveal>
-          </div>
-        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════════ faq */}
