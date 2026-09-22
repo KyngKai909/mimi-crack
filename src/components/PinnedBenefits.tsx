@@ -34,7 +34,7 @@ const SCENES = [
     tone: "warm",
   },
   {
-    label: "Grease worked into the parts of a freshly braided scalp",
+    label: "Grease worked through a fresh cut, the jar and its lid in hand",
     src: "/photos/claim-breakage.webp",
     tone: "clay",
   },
