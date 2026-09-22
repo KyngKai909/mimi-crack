@@ -140,10 +140,12 @@ export default function AboutPage() {
         <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
           <Reveal>
             <Shot
-              label="Portrait — Carmel, natural light"
+              label={`${BRAND.founder} with an armful of jars`}
+              src="/photos/about-founder.webp"
               ratio="4 / 5"
               tone="clay"
               className="rounded-[1.75rem]"
+              sizes="(min-width: 1024px) 40vw, 100vw"
             />
           </Reveal>
 

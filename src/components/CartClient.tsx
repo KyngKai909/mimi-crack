@@ -190,7 +190,14 @@ export function CartClient() {
           {/* line item */}
           <div className="flex gap-6 pb-10">
             <div className="w-28 shrink-0 sm:w-36">
-              <Shot label="Packshot" ratio="4 / 5" tone="pistachio" className="rounded-2xl" />
+              <Shot
+                label="MiMi Crack Hair Fertilizer, 9.5 oz"
+                src="/photos/cart-packshot.webp"
+                ratio="4 / 5"
+                tone="pistachio"
+                className="rounded-2xl"
+                sizes="120px"
+              />
             </div>
             <div className="flex flex-1 flex-col justify-between gap-5">
               <div>

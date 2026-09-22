@@ -10,6 +10,7 @@ import {
 import { AddToCart } from "@/components/AddToCart";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
+import { Loop } from "@/components/Loop";
 import { Faq } from "@/components/Faq";
 import { Reveal } from "@/components/Reveal";
 import {
@@ -38,10 +39,26 @@ const HANDLING_ICONS = {
 } as const;
 
 const shots: ShotSpec[] = [
-  { label: "Packshot — jar upright, soft daylight", tone: "pistachio" },
-  { label: "Open jar — straight down, texture", tone: "warm" },
-  { label: "Open jar — lid resting, top label", tone: "clay" },
-  { label: "In use — fingertip in the part", tone: "warm" },
+  {
+    label: "The jar, open, on a bed of greenery with its lid beside it",
+    src: "/photos/product-packshot.webp",
+    tone: "pistachio",
+  },
+  {
+    label: "A spatula lifting grease from the jar, close",
+    src: "/photos/product-scoop.webp",
+    tone: "warm",
+  },
+  {
+    label: "A batch of jars, one open with a spatula resting in it",
+    src: "/photos/product-array.webp",
+    tone: "clay",
+  },
+  {
+    label: "Grease worked into the parts of a braided scalp",
+    src: "/photos/product-inuse.webp",
+    tone: "warm",
+  },
 ];
 
 export default function ProductPage() {
@@ -124,8 +141,16 @@ export default function ProductPage() {
             <FitText className="display">Made for the scalp.</FitText>
           </Reveal>
         </div>
-        <div className="shell-x mt-10 flex justify-end">
-          <Reveal delay={160}>
+        <div className="shell-x mt-10 grid items-end gap-10 sm:grid-cols-[0.4fr_0.6fr] lg:gap-16">
+          <Reveal delay={120}>
+            <Loop
+              src="/video/holding"
+              label="The jar held up to camera against a wall of greenery"
+              ratio="3 / 4"
+              className="mx-auto max-w-sm rounded-[1.5rem] sm:mx-0"
+            />
+          </Reveal>
+          <Reveal delay={160} className="sm:justify-self-end">
             <p className="prose-airy max-w-md">
               Not a mask, not a serum. A grease you work into the part — the one
               step that most routines skip and most scalps miss.
@@ -140,10 +165,12 @@ export default function ProductPage() {
           <div className="grid auto-rows-[minmax(0,auto)] grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
             <Reveal className="col-span-2 row-span-2">
               <Shot
-                label="Texture — grease surface, macro"
+                label="The grease itself, close — a spatula drawn through it"
+                src="/photos/texture-macro.webp"
                 ratio="1 / 1"
                 tone="pistachio"
                 className="h-full rounded-[1.5rem]"
+                sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </Reveal>
 
@@ -269,12 +296,23 @@ export default function ProductPage() {
           ))}
         </ol>
 
-        {/* Carmel's own sign-off, kept in her words. */}
-        <Reveal delay={140}>
-          <p className="display display-md mt-14 max-w-xl text-pistachio-deep">
-            {PRODUCT.directionsClose}
-          </p>
-        </Reveal>
+        <div className="mt-16 grid items-center gap-10 lg:grid-cols-[0.45fr_0.55fr] lg:gap-16">
+          <Reveal>
+            <Loop
+              src="/video/howto"
+              label="Grease worked through the hair, section by section"
+              ratio="3 / 4"
+              className="mx-auto max-w-sm rounded-[1.5rem] lg:mx-0"
+            />
+          </Reveal>
+
+          {/* Carmel's own sign-off, kept in her words. */}
+          <Reveal delay={140}>
+            <p className="display display-lg max-w-xl text-pistachio-deep">
+              {PRODUCT.directionsClose}
+            </p>
+          </Reveal>
+        </div>
       </section>
 
       {/* ═════════════════════════════════════════════════════════ faq */}

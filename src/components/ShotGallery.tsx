@@ -3,13 +3,17 @@
 import { useState } from "react";
 import { Shot } from "./Shot";
 
-export type ShotSpec = { label: string; tone?: "clay" | "pistachio" | "warm" };
+export type ShotSpec = {
+  label: string;
+  src?: string;
+  tone?: "clay" | "pistachio" | "warm";
+};
 
 /**
- * Product gallery over placeholder slots.
+ * Product gallery. Square main frame, four square thumbnails under it.
  *
- * Same shape it will have once real photography exists — swapping <Shot/> for
- * <Image fill className="object-cover"/> is the only change needed.
+ * Every frame is a <Shot/>, so a slot without a photograph yet stays a
+ * captioned panel and the gallery keeps working around it.
  */
 export function ShotGallery({ shots }: { shots: ShotSpec[] }) {
   const [active, setActive] = useState(0);
@@ -19,9 +23,12 @@ export function ShotGallery({ shots }: { shots: ShotSpec[] }) {
     <div>
       <Shot
         label={current.label}
+        src={current.src}
         tone={current.tone ?? "pistachio"}
         ratio="1 / 1"
         className="rounded-[1.75rem]"
+        priority
+        sizes="(min-width: 1024px) 45vw, 100vw"
       />
 
       <ul className="mt-4 grid grid-cols-4 gap-3">
@@ -38,7 +45,13 @@ export function ShotGallery({ shots }: { shots: ShotSpec[] }) {
                   : "opacity-60 hover:opacity-100"
               }`}
             >
-              <Shot label="" tone={shot.tone ?? "clay"} ratio="1 / 1" />
+              <Shot
+                label=""
+                src={shot.src}
+                tone={shot.tone ?? "clay"}
+                ratio="1 / 1"
+                sizes="(min-width: 1024px) 11vw, 22vw"
+              />
             </button>
           </li>
         ))}
