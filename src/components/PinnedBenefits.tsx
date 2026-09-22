@@ -70,13 +70,13 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
   // area — one row here — so the frame would unstick the moment its row ended,
   // which is exactly when the claims start scrolling past it.
   return (
-    <div className="flex flex-col gap-10 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
+    <div className="flex flex-col gap-5 sm:gap-10 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
       {/* On a phone the frame is an overlay, so it needs a ground of its
           own: without one, claims scroll visibly under its rounded corners.
           The negative margin pulls that ground out to the screen edges, past
           the section's gutter, and it sits flush under the header — a gap
           between the two is a letterbox for headings to show through. */}
-      <div className="sticky top-16 z-10 -mx-[clamp(1.25rem,5vw,5rem)] bg-shell px-[clamp(1.25rem,5vw,5rem)] pt-3 pb-6 sm:top-20 sm:pt-4 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pt-0 lg:pb-0">
+      <div className="sticky top-16 z-10 -mx-[clamp(1.25rem,5vw,5rem)] bg-shell px-[clamp(1.25rem,5vw,5rem)] pt-1 pb-5 sm:top-20 sm:pt-4 sm:pb-6 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pt-0 lg:pb-0">
         <div className="relative">
           {/* The frames are shot 4:5, so that's the shape they get — cropping
               a portrait into a letterbox was losing the person in it. The
