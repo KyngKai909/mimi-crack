@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Shot } from "./Shot";
 import { Loop } from "./Loop";
+import { PHOTOS } from "@/lib/photos";
 
 type Benefit = { title: string; body: string };
 
@@ -25,12 +26,12 @@ type Benefit = { title: string; body: string };
 const SCENES = [
   {
     label: "Braids greased along their length, the open jar in hand",
-    src: "/photos/claim-scalp.webp",
+    src: PHOTOS.claimScalp,
     tone: "pistachio",
   },
   {
     label: "The jar held up beside long, conditioned hair",
-    src: "/photos/claim-moisture.webp",
+    src: PHOTOS.claimMoisture,
     // The hair is the point of this one and it sits high in the frame, so
     // where the phone crop has to take height it takes it off the bottom.
     position: "50% 22%",
@@ -38,7 +39,7 @@ const SCENES = [
   },
   {
     label: "Grease worked through a fresh cut, the jar and its lid in hand",
-    src: "/photos/claim-breakage.webp",
+    src: PHOTOS.claimBreakage,
     tone: "clay",
   },
   {

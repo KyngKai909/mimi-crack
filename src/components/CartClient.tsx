@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { MAX_QUANTITY, PRODUCT, formatPrice } from "@/lib/product";
 import { useCart } from "@/lib/cart";
 import { Shot } from "./Shot";
+import { PHOTOS } from "@/lib/photos";
 import { FitText } from "./FitText";
 
 type Quote = {
@@ -192,7 +193,7 @@ export function CartClient() {
             <div className="w-28 shrink-0 sm:w-36">
               <Shot
                 label="MiMi Crack Hair Fertilizer, 9.5 oz"
-                src="/photos/cart-packshot.webp"
+                src={PHOTOS.cartPackshot}
                 ratio="4 / 5"
                 tone="pistachio"
                 className="rounded-2xl"

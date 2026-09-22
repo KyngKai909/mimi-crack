@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import type { StaticImageData } from "next/image";
 import { Shot } from "./Shot";
 
 export type ShotSpec = {
   label: string;
-  src?: string;
+  src?: StaticImageData;
   tone?: "clay" | "pistachio" | "warm";
 };
 

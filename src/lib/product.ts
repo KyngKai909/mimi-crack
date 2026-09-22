@@ -6,6 +6,8 @@
  * through the components.
  */
 
+import { PHOTOS } from "./photos";
+
 export const PRODUCT = {
   id: "mimi-crack-hair-fertilizer-9-5oz",
   name: "MiMi Crack Hair Fertilizer",
@@ -148,25 +150,25 @@ export const PRODUCT = {
   howToUse: [
     {
       step: "Part & apply",
-      photo: "/photos/step-apply.webp",
+      photo: PHOTOS.stepApply,
       alt: "Grease rubbed out across an open palm beside the jar",
       body: "Section the hair. Lay a small amount along each part. Damp seals it in, dry works too.",
     },
     {
       step: "Massage in",
-      photo: "/photos/step-massage.webp",
+      photo: PHOTOS.stepMassage,
       alt: "Fingers working grease into the parts of a braided scalp",
       body: "Work it in gently with the pads of your fingers. Small circles. This part matters most.",
     },
     {
       step: "Smooth the lengths",
-      photo: "/photos/step-lengths.webp",
+      photo: PHOTOS.stepLengths,
       alt: "Hands over a finished braided style, the jar alongside",
       body: "Rub what's left between your palms and run it down the strand, ends and edges.",
     },
     {
       step: "Style & repeat",
-      photo: "/photos/step-style.webp",
+      photo: PHOTOS.stepStyle,
       alt: "Mother and daughter, the jar held between them",
       body: "Style as you like, then again tomorrow. A scalp answers to consistency, not intensity.",
     },

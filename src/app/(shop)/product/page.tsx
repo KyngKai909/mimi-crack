@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { share } from "@/lib/seo";
+import { PHOTOS } from "@/lib/photos";
 import {
   GROUPED_INGREDIENTS,
   INGREDIENT_DECLARATION,
@@ -40,22 +41,22 @@ const HANDLING_ICONS = {
 const shots: ShotSpec[] = [
   {
     label: "The jar, open, on a bed of greenery with its lid beside it",
-    src: "/photos/product-packshot.webp",
+    src: PHOTOS.productPackshot,
     tone: "pistachio",
   },
   {
     label: "A spatula lifting grease from the jar, close",
-    src: "/photos/product-scoop.webp",
+    src: PHOTOS.productScoop,
     tone: "warm",
   },
   {
     label: "A batch of jars, one open with a spatula resting in it",
-    src: "/photos/product-array.webp",
+    src: PHOTOS.productArray,
     tone: "clay",
   },
   {
     label: "Grease worked into the parts of a braided scalp",
-    src: "/photos/product-inuse.webp",
+    src: PHOTOS.productInUse,
     tone: "warm",
   },
 ];
@@ -157,7 +158,7 @@ export default function ProductPage() {
             <Reveal className="col-span-2 row-span-2">
               <Shot
                 label="The grease itself, close, with a spatula drawn through it"
-                src="/photos/texture-macro.webp"
+                src={PHOTOS.textureMacro}
                 ratio="1 / 1"
                 tone="pistachio"
                 className="h-full rounded-[1.5rem]"

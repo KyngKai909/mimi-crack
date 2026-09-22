@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { share } from "@/lib/seo";
+import { PHOTOS } from "@/lib/photos";
 import { BRAND } from "@/lib/brand";
 import { PRODUCT, formatPrice } from "@/lib/product";
 import { Shot } from "@/components/Shot";
@@ -142,7 +143,7 @@ export default function AboutPage() {
           <Reveal>
             <Shot
               label={`${BRAND.founder} with an armful of jars`}
-              src="/photos/about-founder.webp"
+              src={PHOTOS.aboutFounder}
               ratio="4 / 5"
               tone="clay"
               className="rounded-[1.75rem]"
