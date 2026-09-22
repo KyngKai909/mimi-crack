@@ -71,9 +71,9 @@ export default async function SuccessPage({
                     <span className="text-ink">{summary.email}</span>.{" "}
                   </>
                 )}
-                We pack and hand off to the carrier within 1–2 business days,
-                and you&rsquo;ll get tracking by email as soon as the label is
-                made.
+                Orders go out once a week, so yours is packed and handed to
+                the carrier in the next run. You&rsquo;ll get tracking by email
+                as soon as the label is made.
               </p>
             </Reveal>
 

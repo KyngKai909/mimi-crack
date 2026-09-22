@@ -201,8 +201,8 @@ export const PRODUCT = {
       a: "That's how it's meant to be used: a small amount on the scalp daily, and down the lengths when they want it. A scalp answers to consistency rather than to intensity, so little and often beats a heavy hand on a Sunday.",
     },
     {
-      q: "How fast does it ship?",
-      a: "Orders are packed and handed to the carrier within 1–2 business days. You'll get a tracking number by email the moment the label is created.",
+      q: "When does it ship?",
+      a: "Orders go out once a week, packed by hand and handed to the carrier in the next run. You'll get a tracking number by email the moment the label is created, and the carrier's own estimate applies from there.",
     },
   ],
 

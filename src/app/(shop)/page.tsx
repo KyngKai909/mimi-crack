@@ -90,7 +90,7 @@ export default function HomePage() {
           {[
             { k: "Net weight", v: PRODUCT.size.label },
             { k: "Batch", v: "Small" },
-            { k: "Dispatch", v: "1–2 days" },
+            { k: "Dispatch", v: "Weekly" },
             { k: "Use", v: "Daily" },
           ].map((p, i) => (
             <Reveal key={p.k} delay={i * 90}>
@@ -257,7 +257,7 @@ export default function HomePage() {
           <Reveal>
             <p className="prose-airy max-w-sm">
               {PRODUCT.size.label} of {PRODUCT.badge.toLowerCase()}, packed and
-              shipped within two business days.
+              posted in the next weekly run.
             </p>
           </Reveal>
           <Reveal delay={140} className="w-full max-w-sm">
