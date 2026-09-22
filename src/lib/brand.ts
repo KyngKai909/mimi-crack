@@ -52,12 +52,15 @@ export const BRAND = {
    * wherever she likes; this is the reading length.
    *
    * Spelt MiMi Crack here, as the product and the rest of the site are.
+   *
+   * No em dashes. They read as machine-written, and this is the one piece of
+   * copy on the site that is unmistakably a person talking.
    */
   founderStatement: {
     paragraphs: [
-      "MiMi Crack began with my own hair-care journey and one simple realization: everything we care for consistently has the chance to grow and flourish — including us.",
+      "MiMi Crack began with my own hair-care journey and one simple realization: everything we care for consistently has the chance to grow and flourish, including us.",
       "I mixed, perfected and poured this formula myself, for anyone ready to stop chasing quick fixes and start committing to their crown.",
-      "But this is bigger than what's in the jar. Your hair is a part of you, and you deserve the same love and care you give so freely to everyone else. When you pour into yourself, you show up for others whole — not in pieces.",
+      "But this is bigger than what's in the jar. Your hair is a part of you, and you deserve the same love and care you give so freely to everyone else. When you pour into yourself, you show up for others whole, not in pieces.",
       "We are not chasing perfection. We are choosing commitment. One routine, one application, one loving act of self-care at a time.",
     ],
     closing: ["Care for yourself. Stay consistent. Stay committed.", "Commitment is the Key."],
