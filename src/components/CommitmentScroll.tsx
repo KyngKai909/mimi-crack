@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useScrollProgress } from "@/lib/useScrollProgress";
 import { Shot } from "./Shot";
 
-type Step = { step: string; body: string };
+type Step = { step: string; body: string; photo?: string; alt?: string };
 
 /**
  * The commitment, as a pinned scene that scrolls sideways.
@@ -71,7 +71,16 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
         <h3 className="display display-lg mt-4 sm:mt-6">{s.step}</h3>
         <p className="prose-airy mt-3 max-w-sm sm:mt-5">{s.body}</p>
       </div>
-      <Shot label={`Step ${i + 1} — ${s.step}`} ratio="16 / 9" tone="warm" className="rounded-2xl" />
+      {/* 3:2 rather than 16:9. These frames are shot on a phone in portrait,
+          and a 16:9 band through one keeps the jar and loses the hands. */}
+      <Shot
+        label={s.alt ?? `Step ${i + 1} — ${s.step}`}
+        src={s.photo}
+        ratio="3 / 2"
+        tone="warm"
+        className="rounded-2xl"
+        sizes="(min-width: 1024px) 42vw, 86vw"
+      />
     </article>
   ));
 

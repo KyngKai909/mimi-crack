@@ -109,17 +109,23 @@ updating by hand.
 
 ## Art direction — the shot list
 
-The site ships before the photography exists. Every image is a `<Shot/>`
-placeholder: a quiet tinted panel captioned with the shot that belongs there.
-Swapping one in is a one-line change — replace `<Shot/>` with
-`<Image fill className="object-cover"/>` inside the same wrapper.
+`<Shot/>` is every image slot on the site. Give it a `src` and it renders the
+photograph, object-cover inside the slot's own aspect ratio; leave `src` off and
+it stays a quiet tinted panel captioned with the shot that belongs there. Adding
+a photo is one prop, and the layout doesn't move either way.
+
+Source frames live outside the repo. What ships is in `public/photos`, cropped
+to each slot's ratio with sharp and encoded as webp — Next's image optimiser
+handles the responsive sizes from there, so one file per slot is enough.
+
+The **home page is shot**. Product, about and checkout are still placeholders.
 
 | Where | Shot |
 |-------|------|
-| Home hero | Jar three-quarter, soft daylight, warm surface |
-| Home / benefits ×4 | Fingertip along the part · strand between two fingers · comb through the ends · finished protective style. 4:5, one per claim — they cross-fade as the scroll moves through them |
-| Home / formula | Texture — grease surface, macro, raking light |
-| Home / commitment ×4 | One per step, 16:9 |
+| Home hero | ✓ jars on greenery, one open |
+| Home / benefits ×4 | ✓ greased parts · jar beside conditioned hair · braids being greased · a finished style. 4:5, one per claim, cross-fading as the scroll moves through them |
+| Home / formula | ✓ the jar among its ingredients, square |
+| Home / commitment ×4 | ✓ one per step, 3:2 — phone-shot portraits, so a 16:9 band kept the jar and lost the hands |
 | Product gallery | Packshot upright · open jar top-down · open jar with lid · in use |
 | Checkout | Small packshot |
 | About | Portrait — Carmel, natural light |
