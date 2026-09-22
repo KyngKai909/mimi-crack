@@ -161,13 +161,13 @@ export const PRODUCT = {
     {
       step: "Smooth the lengths",
       photo: "/photos/step-lengths.webp",
-      alt: "Grease rubbed out across an open palm beside the jar",
+      alt: "Hands over a finished braided style, the jar alongside",
       body: "Rub what's left between your palms and run it down the strand, ends and edges.",
     },
     {
       step: "Style & repeat",
       photo: "/photos/step-style.webp",
-      alt: "Hands finishing a style, the jar within reach",
+      alt: "Grease rubbed out across an open palm beside the jar",
       body: "Style as you like, then again tomorrow. A scalp answers to consistency, not intensity.",
     },
   ],
