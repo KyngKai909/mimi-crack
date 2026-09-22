@@ -111,6 +111,12 @@ export async function POST(request: Request) {
         },
       ],
       payment_intent_data: {
+        // What the customer sees on their card statement. Without it they see
+        // only the Stripe account's own descriptor, which is the account
+        // holder's other business — an unrecognised line on a statement is
+        // how a sale becomes a chargeback. Stripe concatenates this after the
+        // account's prefix, and the whole thing has to fit 22 characters.
+        statement_descriptor_suffix: "MIMI CRACK",
         shipping: {
           name: address.name,
           phone: address.phone,
