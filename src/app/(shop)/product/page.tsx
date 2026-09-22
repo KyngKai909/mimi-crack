@@ -120,7 +120,7 @@ export default function ProductPage() {
                   ["Size", PRODUCT.size.label],
                   ["Formula", PRODUCT.subtitle],
                   ["Shipping", "Live carrier rates"],
-                  ["Dispatch", "1–2 business days"],
+                  ["Dispatch", "Weekly"],
                 ].map(([k, v]) => (
                   <div key={k} className="hairline pt-5">
                     <dt className="eyebrow">{k}</dt>
