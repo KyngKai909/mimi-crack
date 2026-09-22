@@ -44,6 +44,8 @@ const SCENES = [
   {
     label: "The jar held to camera against a wall of greenery",
     video: "/video/claim-protective",
+    // She stands high in the frame, so the phone crop comes off the bottom.
+    position: "50% 20%",
     tone: "pistachio",
   },
 ] as const;
@@ -101,6 +103,7 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
                     label={scene.label}
                     ratio="4 / 5"
                     className="h-full rounded-[1.75rem]"
+                    position={"position" in scene ? scene.position : undefined}
                   />
                 ) : (
                   <Shot
