@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BOTANICAL_OIL_COUNT, PRODUCT, formatPrice } from "@/lib/product";
 import { AddToCart } from "@/components/AddToCart";
 import { Shot } from "@/components/Shot";
+import { Loop } from "@/components/Loop";
 import { Reveal } from "@/components/Reveal";
 import { Highlights } from "@/components/Highlights";
 import { Faq } from "@/components/Faq";
@@ -211,7 +212,18 @@ export default function HomePage() {
 
       {/* ════════════════════════ commitment — pinned horizontal scroll */}
       <section id="commitment" className="scroll-mt-0 pt-16 sm:pt-24 lg:pt-32">
-        <div className="shell-x flex flex-col gap-4 pb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6 sm:pb-12">
+        <div className="shell-x flex flex-col gap-6 pb-8 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-6 sm:pb-12">
+          {/* The steps in motion, next to the headline that introduces them —
+              small, because the cards below are where the detail lives. */}
+          <Reveal delay={200} className="order-last w-40 shrink-0 sm:order-none sm:w-44 lg:w-52">
+            <Loop
+              src="/video/howto"
+              label="Grease worked through the hair, section by section"
+              ratio="3 / 4"
+              className="rounded-[1.25rem]"
+            />
+          </Reveal>
+
           <Reveal>
             {/* Measure is capped in ch, not rem: the font size is fluid, so a
                 fixed width would break differently at every viewport. Tuned
