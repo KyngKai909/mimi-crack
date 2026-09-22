@@ -22,10 +22,26 @@ type Benefit = { title: string; body: string };
 
 /** One frame per claim, in the order the claims appear. */
 const SCENES = [
-  { label: "Fingertip along the part — scalp, soft daylight", tone: "pistachio" },
-  { label: "Strand drawn between two fingers — sheen, close", tone: "warm" },
-  { label: "Comb passing through the ends, no snag", tone: "clay" },
-  { label: "Finished protective style — braids or twists", tone: "pistachio" },
+  {
+    label: "Grease worked into the parts of a freshly braided scalp",
+    src: "/photos/claim-scalp.webp",
+    tone: "pistachio",
+  },
+  {
+    label: "The jar held up beside long, conditioned hair",
+    src: "/photos/claim-moisture.webp",
+    tone: "warm",
+  },
+  {
+    label: "Braids being greased along their length, jar in hand",
+    src: "/photos/claim-breakage.webp",
+    tone: "clay",
+  },
+  {
+    label: "A finished protective style, greased and holding",
+    src: "/photos/claim-protective.webp",
+    tone: "pistachio",
+  },
 ] as const;
 export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
   const [active, setActive] = useState(0);
@@ -62,8 +78,9 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
       <div className="sticky top-16 z-10 -mx-[clamp(1.25rem,5vw,5rem)] bg-shell px-[clamp(1.25rem,5vw,5rem)] pt-3 pb-6 sm:top-20 sm:pt-4 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pt-0 lg:pb-0">
         <div className="relative">
           {/* Shorter on a phone, where a 4:5 frame stuck to the top would
-              leave no room for the claim it belongs to. */}
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[1.75rem] sm:aspect-[3/2] lg:aspect-[4/5]">
+              leave no room for the claim it belongs to — but not so short that
+              a portrait frame becomes a letterbox through somebody's chin. */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.75rem] sm:aspect-[3/2] lg:aspect-[4/5]">
             {SCENES.map((scene, i) => (
               <div
                 key={scene.label}
@@ -74,9 +91,11 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
               >
                 <Shot
                   label={scene.label}
+                  src={scene.src}
                   ratio="4 / 5"
                   tone={scene.tone}
                   className="h-full rounded-[1.75rem]"
+                  sizes="(min-width: 1024px) 45vw, 100vw"
                 />
               </div>
             ))}

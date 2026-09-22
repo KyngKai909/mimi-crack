@@ -1,32 +1,65 @@
+import Image from "next/image";
+
 /**
  * A photography slot.
  *
- * The site ships before the real photography exists, so every image is a
- * quiet tinted panel with a small caption naming the shot that belongs there.
- * Deliberately calm — it should read as considered empty space, not as a
- * broken image.
+ * Give it a `src` and it renders the photograph. Leave `src` off and it is a
+ * quiet tinted panel captioned with the shot that belongs there — the site
+ * shipped before the photography existed and some slots are still waiting.
+ * Deliberately calm either way: an empty slot should read as considered space,
+ * not as a broken image.
  *
- * Swapping one for a real photo is a one-line change: replace <Shot/> with
- * <Image fill className="object-cover"/> inside the same wrapper. The full
- * shot list lives in README under "Art direction".
+ * The photo is always object-cover inside the slot's own aspect ratio, so the
+ * layout never moves when a real frame replaces a placeholder. The shot list
+ * lives in README under "Art direction".
  */
 export function Shot({
   label,
+  src,
   ratio = "4 / 5",
   tone = "clay",
   className = "",
+  priority = false,
+  sizes = "(min-width: 1024px) 50vw, 100vw",
+  position,
 }: {
   /** What belongs here, e.g. "Jar, three-quarter, soft daylight". */
   label: string;
+  /** The photograph. Without it the slot renders as a captioned placeholder. */
+  src?: string;
   ratio?: string;
   tone?: "clay" | "pistachio" | "warm";
   className?: string;
+  /** Set on the one image above the fold, so it isn't lazy-loaded. */
+  priority?: boolean;
+  sizes?: string;
+  /** CSS object-position, for a frame whose subject isn't centred. */
+  position?: string;
 }) {
   const tones = {
     clay: "bg-clay-soft",
     pistachio: "bg-pistachio-soft",
     warm: "bg-shell-warm",
   } as const;
+
+  if (src) {
+    return (
+      <div
+        style={{ aspectRatio: ratio }}
+        className={`relative w-full overflow-hidden ${tones[tone]} ${className}`}
+      >
+        <Image
+          src={src}
+          alt={label}
+          fill
+          sizes={sizes}
+          priority={priority}
+          style={position ? { objectPosition: position } : undefined}
+          className="object-cover"
+        />
+      </div>
+    );
+  }
 
   return (
     <div

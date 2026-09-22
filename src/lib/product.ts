@@ -148,18 +148,26 @@ export const PRODUCT = {
   howToUse: [
     {
       step: "Part & apply",
+      photo: "/photos/step-apply.webp",
+      alt: "A fingertip lifting grease from an open jar",
       body: "Section the hair. Lay a small amount along each part — damp seals it in, dry works too.",
     },
     {
       step: "Massage in",
+      photo: "/photos/step-massage.webp",
+      alt: "Fingers working grease into the parts of a braided scalp",
       body: "Work it in gently with the pads of your fingers. Small circles — this part matters most.",
     },
     {
       step: "Smooth the lengths",
+      photo: "/photos/step-lengths.webp",
+      alt: "Grease rubbed out across an open palm beside the jar",
       body: "Rub what's left between your palms and run it down the strand, ends and edges.",
     },
     {
       step: "Style & repeat",
+      photo: "/photos/step-style.webp",
+      alt: "Hands finishing a style, the jar within reach",
       body: "Style as you like, then again tomorrow. A scalp answers to consistency, not intensity.",
     },
   ],

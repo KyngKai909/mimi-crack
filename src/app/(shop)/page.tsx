@@ -72,10 +72,13 @@ export default function HomePage() {
 
           <Reveal delay={260} className="order-1 lg:order-2">
             <Shot
-              label="Hero — jar three-quarter, soft daylight, warm surface"
+              label="MiMi Crack jars on a bed of greenery, one open"
+              src="/photos/hero-jars.webp"
               ratio="16 / 10"
               tone="pistachio"
               className="rounded-[1.75rem]"
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
             />
           </Reveal>
         </div>
@@ -153,10 +156,12 @@ export default function HomePage() {
             {/* texture, large */}
             <Reveal className="col-span-2 row-span-2 lg:col-span-2">
               <Shot
-                label="Texture — grease surface, macro, raking light"
+                label="The jar surrounded by what's in it — mango butter, jojoba, coconut, olive, rosemary, peppermint, honey, sage and eucalyptus"
+                src="/photos/formula-ingredients.webp"
                 ratio="1 / 1"
                 tone="pistachio"
                 className="h-full rounded-[1.5rem]"
+                sizes="(min-width: 1024px) 50vw, 100vw"
               />
             </Reveal>
 
