@@ -149,7 +149,7 @@ export const PRODUCT = {
     {
       step: "Part & apply",
       photo: "/photos/step-apply.webp",
-      alt: "A fingertip lifting grease from an open jar",
+      alt: "Grease rubbed out across an open palm beside the jar",
       body: "Section the hair. Lay a small amount along each part. Damp seals it in, dry works too.",
     },
     {
@@ -167,7 +167,7 @@ export const PRODUCT = {
     {
       step: "Style & repeat",
       photo: "/photos/step-style.webp",
-      alt: "Grease rubbed out across an open palm beside the jar",
+      alt: "A fingertip lifting grease from an open jar",
       body: "Style as you like, then again tomorrow. A scalp answers to consistency, not intensity.",
     },
   ],
