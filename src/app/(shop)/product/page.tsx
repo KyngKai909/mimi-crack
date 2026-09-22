@@ -10,7 +10,6 @@ import {
 import { AddToCart } from "@/components/AddToCart";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
-import { Loop } from "@/components/Loop";
 import { Faq } from "@/components/Faq";
 import { Reveal } from "@/components/Reveal";
 import {
@@ -141,16 +140,8 @@ export default function ProductPage() {
             <FitText className="display">Made for the scalp.</FitText>
           </Reveal>
         </div>
-        <div className="shell-x mt-10 grid items-end gap-10 sm:grid-cols-[0.4fr_0.6fr] lg:gap-16">
-          <Reveal delay={120}>
-            <Loop
-              src="/video/holding"
-              label="The jar held up to camera against a wall of greenery"
-              ratio="3 / 4"
-              className="mx-auto max-w-sm rounded-[1.5rem] sm:mx-0"
-            />
-          </Reveal>
-          <Reveal delay={160} className="sm:justify-self-end">
+        <div className="shell-x mt-10 flex justify-end">
+          <Reveal delay={160}>
             <p className="prose-airy max-w-md">
               Not a mask, not a serum. A grease you work into the part — the one
               step that most routines skip and most scalps miss.
@@ -296,23 +287,12 @@ export default function ProductPage() {
           ))}
         </ol>
 
-        <div className="mt-16 grid items-center gap-10 lg:grid-cols-[0.45fr_0.55fr] lg:gap-16">
-          <Reveal>
-            <Loop
-              src="/video/howto"
-              label="Grease worked through the hair, section by section"
-              ratio="3 / 4"
-              className="mx-auto max-w-sm rounded-[1.5rem] lg:mx-0"
-            />
-          </Reveal>
-
-          {/* Carmel's own sign-off, kept in her words. */}
-          <Reveal delay={140}>
-            <p className="display display-lg max-w-xl text-pistachio-deep">
-              {PRODUCT.directionsClose}
-            </p>
-          </Reveal>
-        </div>
+        {/* Carmel's own sign-off, kept in her words. */}
+        <Reveal delay={140}>
+          <p className="display display-md mt-14 max-w-xl text-pistachio-deep">
+            {PRODUCT.directionsClose}
+          </p>
+        </Reveal>
       </section>
 
       {/* ═════════════════════════════════════════════════════════ faq */}
