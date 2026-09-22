@@ -78,10 +78,12 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
           between the two is a letterbox for headings to show through. */}
       <div className="sticky top-16 z-10 -mx-[clamp(1.25rem,5vw,5rem)] bg-shell px-[clamp(1.25rem,5vw,5rem)] pt-3 pb-6 sm:top-20 sm:pt-4 lg:top-0 lg:mx-0 lg:flex lg:h-[100svh] lg:flex-col lg:justify-center lg:bg-transparent lg:px-0 lg:pt-0 lg:pb-0">
         <div className="relative">
-          {/* Shorter on a phone, where a 4:5 frame stuck to the top would
-              leave no room for the claim it belongs to — but not so short that
-              a portrait frame becomes a letterbox through somebody's chin. */}
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[1.75rem] sm:aspect-[3/2] lg:aspect-[4/5]">
+          {/* The frames are shot 4:5, so that's the shape they get — cropping
+              a portrait into a letterbox was losing the person in it. The
+              frame is stuck under the header on a phone, though, so it's
+              capped at 55svh: on a tall phone that's nearly the whole photo,
+              and on a short one the claim underneath still has room. */}
+          <div className="relative aspect-[4/5] max-h-[55svh] w-full overflow-hidden rounded-[1.75rem] sm:aspect-[4/3] sm:max-h-none lg:aspect-[4/5]">
             {SCENES.map((scene, i) => (
               <div
                 key={scene.label}
