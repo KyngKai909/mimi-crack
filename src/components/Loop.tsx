@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * A short clip that plays itself, quietly and forever.
@@ -13,6 +13,11 @@ import { useEffect, useState } from "react";
  * so it costs nothing until it's mounted — and under prefers-reduced-motion it
  * simply stays a still photograph rather than moving at someone who asked the
  * whole system not to.
+ *
+ * Plays only while on screen, and asks explicitly rather than relying on the
+ * autoplay attribute alone: some browsers ignore it for an element that mounted
+ * after load, and a clip that never starts is a still frame nobody chose. A
+ * refused play() is fine — the poster is already there.
  */
 export function Loop({
   src,
@@ -27,6 +32,7 @@ export function Loop({
   className?: string;
 }) {
   const [motion, setMotion] = useState(false);
+  const video = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -36,6 +42,21 @@ export function Loop({
     return () => mq.removeEventListener("change", sync);
   }, []);
 
+  useEffect(() => {
+    const el = video.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.play().catch(() => {});
+        else el.pause();
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [motion]);
+
   return (
     <div
       style={{ aspectRatio: ratio }}
@@ -43,6 +64,7 @@ export function Loop({
     >
       {motion ? (
         <video
+          ref={video}
           className="absolute inset-0 h-full w-full object-cover"
           poster={`${src}-poster.webp`}
           autoPlay
