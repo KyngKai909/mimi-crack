@@ -47,21 +47,17 @@ export const BRAND = {
   ],
 
   /**
-   * Carmel's own words, cut down for the page but not rewritten — her phrases,
-   * her order, her sign-off. The full-length version is hers to publish
-   * wherever she likes; this is the reading length.
-   *
-   * Spelt MiMi Crack here, as the product and the rest of the site are.
-   *
-   * No em dashes. They read as machine-written, and this is the one piece of
-   * copy on the site that is unmistakably a person talking.
+   * Carmel's statement, as she wrote it. Two house rules applied and nothing
+   * else: MiMi Crack is spelt the way the product and the rest of the site
+   * spell it, and her three em dashes are commas, because the site carries
+   * none. Both are one-line reverts if she wants her own punctuation back.
    */
   founderStatement: {
     paragraphs: [
-      "MiMi Crack began with my own hair-care journey and one simple realization: everything we care for consistently has the chance to grow and flourish, including us.",
-      "I mixed, perfected and poured this formula myself, for anyone ready to stop chasing quick fixes and start committing to their crown.",
-      "But this is bigger than what's in the jar. Your hair is a part of you, and you deserve the same love and care you give so freely to everyone else. When you pour into yourself, you show up for others whole, not in pieces.",
-      "We are not chasing perfection. We are choosing commitment. One routine, one application, one loving act of self-care at a time.",
+      "MiMi Crack began with my hair-care journey and one realization: what we consistently care for can grow and flourish, including us.",
+      "I created MiMi Crack for anyone ready to stop chasing quick fixes and commit to their crown. I mixed, perfected, and poured this formula with ingredients chosen to nourish hair, care for the scalp, lock in moisture, and support stronger, healthier-looking hair.",
+      "But MiMi Crack is more than what's inside the jar. Your hair is part of you, and you deserve the love and care you give to others. When you believe in yourself, pour into yourself, and consistently show up for yourself, you can show up for others whole, not broken or in pieces.",
+      "MiMi Crack represents everything I believe through Commit with Carmel: we are not chasing perfection; we are choosing commitment, one routine, one application, and one loving act of self-care at a time.",
     ],
     closing: ["Care for yourself. Stay consistent. Stay committed.", "Commitment is the Key."],
     signature: {
