@@ -31,6 +31,9 @@ const SCENES = [
   {
     label: "The jar held up beside long, conditioned hair",
     src: "/photos/claim-moisture.webp",
+    // The hair is the point of this one and it sits high in the frame, so
+    // where the phone crop has to take height it takes it off the bottom.
+    position: "50% 22%",
     tone: "warm",
   },
   {
@@ -107,6 +110,7 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
                     tone={scene.tone}
                     className="h-full rounded-[1.75rem]"
                     sizes="(min-width: 1024px) 45vw, 100vw"
+                    position={"position" in scene ? scene.position : undefined}
                   />
                 )}
               </div>
