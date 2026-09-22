@@ -21,7 +21,7 @@ export const BRAND = {
     },
     {
       name: "Body",
-      body: "Showing up for the parts of you that don't get applause. A scalp responds to consistency, not intensity — small and regular beats heroic and occasional.",
+      body: "Showing up for the parts of you that don't get applause. A scalp responds to consistency, not intensity. Small and regular beats heroic and occasional.",
     },
     {
       name: "Soul",
@@ -35,7 +35,7 @@ export const BRAND = {
    */
   alignment: {
     name: "Alignment",
-    body: "When the three agree, the routine stops being something you make yourself do. You stop negotiating, and start just doing it. That's the whole point of a commitment — it takes the decision off the table.",
+    body: "When the three agree, the routine stops being something you make yourself do. You stop negotiating, and start just doing it. That's the whole point of a commitment: it takes the decision off the table.",
   },
 
   /** Any entry without an href is dropped rather than rendered as a dead link. */

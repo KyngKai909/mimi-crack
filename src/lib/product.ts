@@ -8,7 +8,7 @@
 
 export const PRODUCT = {
   id: "mimi-crack-hair-fertilizer-9-5oz",
-  name: "MiMi Crack — Hair Fertilizer",
+  name: "MiMi Crack Hair Fertilizer",
   shortName: "Hair Fertilizer",
   tagline: "Revitalizing & Nourishing Hair Grease",
   subtitle: "Stimulating & Strength Formula",
@@ -114,7 +114,7 @@ export const PRODUCT = {
   benefits: [
     {
       title: "Feeds the scalp",
-      body: "Jojoba, olive and rosemary go on where it counts — the scalp — to soften flaking and soothe tightness between washes. Peppermint and menthol are why it tingles.",
+      body: "Jojoba, olive and rosemary go on where it counts, the scalp, to soften flaking and soothe tightness between washes. Peppermint and menthol are why it tingles.",
     },
     {
       title: "Seals in moisture",
@@ -150,13 +150,13 @@ export const PRODUCT = {
       step: "Part & apply",
       photo: "/photos/step-apply.webp",
       alt: "A fingertip lifting grease from an open jar",
-      body: "Section the hair. Lay a small amount along each part — damp seals it in, dry works too.",
+      body: "Section the hair. Lay a small amount along each part. Damp seals it in, dry works too.",
     },
     {
       step: "Massage in",
       photo: "/photos/step-massage.webp",
       alt: "Fingers working grease into the parts of a braided scalp",
-      body: "Work it in gently with the pads of your fingers. Small circles — this part matters most.",
+      body: "Work it in gently with the pads of your fingers. Small circles. This part matters most.",
     },
     {
       step: "Smooth the lengths",
@@ -178,11 +178,11 @@ export const PRODUCT = {
   faqs: [
     {
       q: "What does \"Hair Fertilizer\" actually mean?",
-      a: "It's the spirit of the thing — you feed soil to grow a garden, you feed the scalp to grow hair. MiMi Crack is a scalp-first conditioning grease: it moisturizes, soothes and protects the environment your hair grows out of. It is a cosmetic product, not a drug, and it isn't a treatment for hair loss.",
+      a: "It's the spirit of the thing: you feed soil to grow a garden, you feed the scalp to grow hair. MiMi Crack is a scalp-first conditioning grease: it moisturizes, soothes and protects the environment your hair grows out of. It is a cosmetic product, not a drug, and it isn't a treatment for hair loss.",
     },
     {
       q: "Will it weigh my hair down?",
-      a: "Used as directed — pea-sized, scalp-first — no. It's a grease, so a heavy hand will feel heavy. Start with less than you think you need.",
+      a: "Used as directed, a small amount worked scalp-first, no. It's a grease, so a heavy hand will feel heavy. Start with less than you think you need.",
     },
     {
       q: "Is it safe for color-treated or relaxed hair?",
@@ -194,11 +194,11 @@ export const PRODUCT = {
     },
     {
       q: "Anything in it I should know about?",
-      a: "Two things people ask about: it contains lanolin, and it's fragranced, with peppermint and menthol that give the scalp a cool tingle. The full ingredient list is on this page, grouped — read it first if you have a known allergy.",
+      a: "Two things people ask about: it contains lanolin, and it's fragranced, with peppermint and menthol that give the scalp a cool tingle. The full ingredient list is on this page, grouped. Read it first if you have a known allergy.",
     },
     {
       q: "Is it alright to use every day?",
-      a: "That's how it's meant to be used — a small amount on the scalp daily, and down the lengths when they want it. A scalp answers to consistency rather than to intensity, so little and often beats a heavy hand on a Sunday.",
+      a: "That's how it's meant to be used: a small amount on the scalp daily, and down the lengths when they want it. A scalp answers to consistency rather than to intensity, so little and often beats a heavy hand on a Sunday.",
     },
     {
       q: "How fast does it ship?",
@@ -229,7 +229,7 @@ export const PRODUCT = {
     {
       icon: "heat",
       label: "Store below 80°F",
-      full: "Store below 80°F — the grease will soften in heat and re-set as it cools, which does not affect performance.",
+      full: "Store below 80°F. The grease will soften in heat and re-set as it cools, which does not affect performance.",
     },
   ],
 

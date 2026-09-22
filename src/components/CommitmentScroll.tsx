@@ -74,7 +74,7 @@ export function CommitmentScroll({ steps }: { steps: readonly Step[] }) {
       {/* 3:2 rather than 16:9. These frames are shot on a phone in portrait,
           and a 16:9 band through one keeps the jar and loses the hands. */}
       <Shot
-        label={s.alt ?? `Step ${i + 1} — ${s.step}`}
+        label={s.alt ?? `Step ${i + 1}: ${s.step}`}
         src={s.photo}
         ratio="3 / 2"
         tone="warm"

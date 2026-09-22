@@ -25,7 +25,7 @@ export function NotifyForm() {
     e.preventDefault();
     if (!formId) {
       setState("error");
-      setMessage("The list isn't connected yet — check back shortly.");
+      setMessage("The list isn't connected yet. Check back shortly.");
       return;
     }
     setState("sending");
@@ -34,7 +34,7 @@ export function NotifyForm() {
       const res = await fetch(`https://formspree.io/f/${formId}`, {
         method: "POST",
         headers: { "content-type": "application/json", accept: "application/json" },
-        body: JSON.stringify({ email, _subject: "MiMi Crack — launch list signup" }),
+        body: JSON.stringify({ email, _subject: "MiMi Crack launch list signup" }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => null);
@@ -51,7 +51,7 @@ export function NotifyForm() {
   if (state === "done") {
     return (
       <p className="prose-airy text-center" role="status">
-        You&rsquo;re on the list. We&rsquo;ll email you the moment the jar goes live —
+        You&rsquo;re on the list. We&rsquo;ll email you the moment the jar goes live,
         and you&rsquo;ll get first go at launch pricing.
       </p>
     );

@@ -92,8 +92,8 @@ export function share({
 export function gateMetadata(): Metadata {
   return share({
     title: "Coming soon",
-    description: `${PRODUCT.name} — ${PRODUCT.tagline}. Launching ${LAUNCH_LABEL}.`,
+    description: `${PRODUCT.name}. ${PRODUCT.tagline}. Launching ${LAUNCH_LABEL}.`,
     banner: teaserBanner(),
-    alt: `MiMi Crack — opens ${LAUNCH_LABEL}`,
+    alt: `MiMi Crack, opens ${LAUNCH_LABEL}`,
   });
 }
