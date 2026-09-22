@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Shot } from "./Shot";
+import { Loop } from "./Loop";
 
 type Benefit = { title: string; body: string };
 
@@ -23,7 +24,7 @@ type Benefit = { title: string; body: string };
 /** One frame per claim, in the order the claims appear. */
 const SCENES = [
   {
-    label: "Grease worked into the parts of a freshly braided scalp",
+    label: "Braids greased along their length, the open jar in hand",
     src: "/photos/claim-scalp.webp",
     tone: "pistachio",
   },
@@ -33,13 +34,13 @@ const SCENES = [
     tone: "warm",
   },
   {
-    label: "Braids being greased along their length, jar in hand",
+    label: "Grease worked into the parts of a freshly braided scalp",
     src: "/photos/claim-breakage.webp",
     tone: "clay",
   },
   {
-    label: "A finished protective style, greased and holding",
-    src: "/photos/claim-protective.webp",
+    label: "The jar held to camera against a wall of greenery",
+    video: "/video/claim-protective",
     tone: "pistachio",
   },
 ] as const;
@@ -89,14 +90,23 @@ export function PinnedBenefits({ benefits }: { benefits: readonly Benefit[] }) {
                   active === i ? "scale-100 opacity-100" : "scale-[1.03] opacity-0"
                 }`}
               >
-                <Shot
-                  label={scene.label}
-                  src={scene.src}
-                  ratio="4 / 5"
-                  tone={scene.tone}
-                  className="h-full rounded-[1.75rem]"
-                  sizes="(min-width: 1024px) 45vw, 100vw"
-                />
+                {"video" in scene ? (
+                  <Loop
+                    src={scene.video}
+                    label={scene.label}
+                    ratio="4 / 5"
+                    className="h-full rounded-[1.75rem]"
+                  />
+                ) : (
+                  <Shot
+                    label={scene.label}
+                    src={scene.src}
+                    ratio="4 / 5"
+                    tone={scene.tone}
+                    className="h-full rounded-[1.75rem]"
+                    sizes="(min-width: 1024px) 45vw, 100vw"
+                  />
+                )}
               </div>
             ))}
           </div>
