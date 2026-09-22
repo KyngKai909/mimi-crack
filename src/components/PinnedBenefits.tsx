@@ -32,9 +32,9 @@ const SCENES = [
   {
     label: "The jar held up beside long, conditioned hair",
     src: PHOTOS.claimMoisture,
-    // The hair is the point of this one and it sits high in the frame, so
-    // where the phone crop has to take height it takes it off the bottom.
-    position: "50% 22%",
+    // The part is the point of this one, and it's at the very top of the
+    // frame, so a phone crop takes its height off the bottom instead.
+    position: "50% 0%",
     tone: "warm",
   },
   {
