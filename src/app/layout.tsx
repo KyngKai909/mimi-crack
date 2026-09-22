@@ -10,7 +10,7 @@ const OG_DEFAULT = {
   url: "/og/default.png",
   width: 1200,
   height: 630,
-  alt: "MiMi Crack — Hair Fertilizer",
+  alt: "MiMi Crack Hair Fertilizer",
 };
 
 const fraunces = Fraunces({
@@ -37,7 +37,7 @@ const parisienne = Parisienne({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: `${PRODUCT.name} — ${PRODUCT.tagline}`,
+    default: `${PRODUCT.name} · ${PRODUCT.tagline}`,
     template: "%s · MiMi Crack",
   },
   description:

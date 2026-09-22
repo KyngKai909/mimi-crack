@@ -61,7 +61,7 @@ export default function HomePage() {
             <Reveal delay={400}>
               <div className="mt-10 flex flex-wrap items-center gap-6">
                 <Link href="/product" className="pill pill-solid">
-                  Shop the jar — {formatPrice(PRODUCT.priceCents)}
+                  Shop the jar · {formatPrice(PRODUCT.priceCents)}
                 </Link>
                 <Link href="#commitment" className="link-draw text-[0.95rem] text-ink-soft">
                   See the commitment
@@ -124,7 +124,7 @@ export default function HomePage() {
           <Reveal delay={300}>
             <p className="prose-airy max-w-md">
               Most of what gets sold for hair treats the strand. This treats the
-              ground it comes out of — so the part stays soft, the ends stay
+              ground it comes out of, so the part stays soft, the ends stay
               conditioned, and length gets to hold on to what it&rsquo;s grown.
             </p>
           </Reveal>
@@ -156,7 +156,7 @@ export default function HomePage() {
             {/* texture, large */}
             <Reveal className="col-span-2 row-span-2 lg:col-span-2">
               <Shot
-                label="The jar surrounded by what's in it — mango butter, jojoba, coconut, olive, rosemary, peppermint, honey, sage and eucalyptus"
+                label="The jar surrounded by what's in it: mango butter, jojoba, coconut, olive, rosemary, peppermint, honey, sage and eucalyptus"
                 src="/photos/formula-ingredients.webp"
                 ratio="1 / 1"
                 tone="pistachio"

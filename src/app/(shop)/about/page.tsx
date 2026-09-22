@@ -59,7 +59,7 @@ export default function AboutPage() {
             <p className="prose-airy text-[1.15rem]">
               MiMi Crack came out of a simple idea: hair doesn&rsquo;t respond
               to intensity, it responds to being shown up for. Not a
-              twelve-step routine you abandon in a fortnight — one jar, one
+              twelve-step routine you abandon in a fortnight. One jar, one
               honest step, kept every day.
             </p>
           </Reveal>
@@ -71,7 +71,7 @@ export default function AboutPage() {
         <div className="shell-x">
           <Reveal>
             <h2 className="display display-xl max-w-2xl">
-              Mind, body, soul — in that order.
+              Mind, body, soul, in that order.
             </h2>
           </Reveal>
         </div>
@@ -228,7 +228,7 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={140}>
             <Link href="/product" className="pill pill-solid">
-              Shop the jar — {formatPrice(PRODUCT.priceCents)}
+              Shop the jar · {formatPrice(PRODUCT.priceCents)}
             </Link>
           </Reveal>
         </div>

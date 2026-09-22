@@ -83,7 +83,7 @@ export async function POST(request: Request) {
             unit_amount: PRODUCT.priceCents,
             product_data: {
               name: PRODUCT.name,
-              description: `${PRODUCT.tagline} — ${PRODUCT.size.label}`,
+              description: `${PRODUCT.tagline}, ${PRODUCT.size.label}`,
               images: [`${origin}/product/jar-front.webp`],
             },
           },

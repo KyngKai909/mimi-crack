@@ -103,7 +103,7 @@ export default function ProductPage() {
             </Reveal>
             <Reveal delay={260}>
               <p className="prose-airy mt-7 max-w-md">{PRODUCT.tagline}. Jojoba,
-                rosemary and peppermint in a pure mango butter base — built to soften the
+                rosemary and peppermint in a pure mango butter base, built to soften the
                 part and keep ends conditioned between washes.
               </p>
             </Reveal>
@@ -143,7 +143,7 @@ export default function ProductPage() {
         <div className="shell-x mt-10 flex justify-end">
           <Reveal delay={160}>
             <p className="prose-airy max-w-md">
-              Not a mask, not a serum. A grease you work into the part — the one
+              Not a mask, not a serum. A grease you work into the part, the one
               step that most routines skip and most scalps miss.
             </p>
           </Reveal>
@@ -156,7 +156,7 @@ export default function ProductPage() {
           <div className="grid auto-rows-[minmax(0,auto)] grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
             <Reveal className="col-span-2 row-span-2">
               <Shot
-                label="The grease itself, close — a spatula drawn through it"
+                label="The grease itself, close, with a spatula drawn through it"
                 src="/photos/texture-macro.webp"
                 ratio="1 / 1"
                 tone="pistachio"
