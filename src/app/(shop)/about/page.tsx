@@ -4,6 +4,7 @@ import { share } from "@/lib/seo";
 import { BRAND } from "@/lib/brand";
 import { PRODUCT, formatPrice } from "@/lib/product";
 import { Shot } from "@/components/Shot";
+import { FounderNote } from "@/components/FounderNote";
 import { Reveal } from "@/components/Reveal";
 import { FitText } from "@/components/FitText";
 
@@ -152,38 +153,8 @@ export default function AboutPage() {
           <Reveal delay={140} className="lg:pt-8">
             <p className="eyebrow">In her words</p>
 
-            {BRAND.founderStatement ? (
-              <blockquote className="display display-lg mt-7 max-w-2xl">
-                {BRAND.founderStatement}
-              </blockquote>
-            ) : (
-              <div className="mt-7 max-w-xl rounded-[1.5rem] bg-pistachio-soft p-8">
-                <p className="display display-md">
-                  This is where your note goes, Carmel.
-                </p>
-                <p className="prose-airy mt-4">
-                  A few sentences in your own voice — why you made this, who you
-                  made it for, what commitment has meant for your own hair.
-                  We&rsquo;ve deliberately left it blank rather than write a
-                  founder story on your behalf.
-                </p>
-                <p className="mt-5 text-sm text-ink-mute">
-                  Drop it into{" "}
-                  <code className="rounded bg-ink/5 px-1.5 py-0.5">
-                    src/lib/brand.ts
-                  </code>{" "}
-                  as{" "}
-                  <code className="rounded bg-ink/5 px-1.5 py-0.5">
-                    founderStatement
-                  </code>{" "}
-                  and this box is replaced by the quote.
-                </p>
-              </div>
-            )}
+            <FounderNote className="mt-7 max-w-2xl" />
 
-            <p className="mt-8 text-[0.95rem] text-ink-soft">
-              — {BRAND.founder}
-            </p>
           </Reveal>
         </div>
       </section>

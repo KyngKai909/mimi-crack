@@ -47,9 +47,24 @@ export const BRAND = {
   ],
 
   /**
-   * TODO(carmel): replace with your own words — why you made this, who you
-   * made it for. Until this is filled in, the About page shows a note saying
-   * it's missing rather than inventing a founder story.
+   * Carmel's own words, cut down for the page but not rewritten — her phrases,
+   * her order, her sign-off. The full-length version is hers to publish
+   * wherever she likes; this is the reading length.
+   *
+   * Spelt MiMi Crack here, as the product and the rest of the site are.
    */
-  founderStatement: "",
+  founderStatement: {
+    paragraphs: [
+      "MiMi Crack began with my own hair-care journey and one simple realization: everything we care for consistently has the chance to grow and flourish — including us.",
+      "I mixed, perfected and poured this formula myself, for anyone ready to stop chasing quick fixes and start committing to their crown.",
+      "But this is bigger than what's in the jar. Your hair is a part of you, and you deserve the same love and care you give so freely to everyone else. When you pour into yourself, you show up for others whole — not in pieces.",
+      "We are not chasing perfection. We are choosing commitment. One routine, one application, one loving act of self-care at a time.",
+    ],
+    closing: ["Care for yourself. Stay consistent. Stay committed.", "Commitment is the Key."],
+    signature: {
+      salutation: "With love,",
+      name: "Carmel Gaines",
+      roles: ["Creator of MiMi Crack Hair Fertilizer", "Commit with Carmel: The Journey"],
+    },
+  },
 } as const;
