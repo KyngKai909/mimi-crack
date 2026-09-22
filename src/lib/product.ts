@@ -167,7 +167,7 @@ export const PRODUCT = {
     {
       step: "Style & repeat",
       photo: "/photos/step-style.webp",
-      alt: "A fingertip lifting grease from an open jar",
+      alt: "Mother and daughter, the jar held between them",
       body: "Style as you like, then again tomorrow. A scalp answers to consistency, not intensity.",
     },
   ],

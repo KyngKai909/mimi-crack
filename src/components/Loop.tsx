@@ -24,12 +24,15 @@ export function Loop({
   label,
   ratio = "3 / 4",
   className = "",
+  position,
 }: {
   /** Path without extension: /video/howto → howto.webm, howto.mp4, -poster.webp */
   src: string;
   label: string;
   ratio?: string;
   className?: string;
+  /** CSS object-position, for a frame whose subject isn't centred. */
+  position?: string;
 }) {
   const [motion, setMotion] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
@@ -67,6 +70,7 @@ export function Loop({
           ref={video}
           className="absolute inset-0 h-full w-full object-cover"
           poster={`${src}-poster.webp`}
+          style={position ? { objectPosition: position } : undefined}
           autoPlay
           muted
           loop
@@ -82,6 +86,7 @@ export function Loop({
         <img
           src={`${src}-poster.webp`}
           alt={label}
+          style={position ? { objectPosition: position } : undefined}
           className="absolute inset-0 h-full w-full object-cover"
         />
       )}
