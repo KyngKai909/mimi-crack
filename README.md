@@ -114,9 +114,23 @@ photograph, object-cover inside the slot's own aspect ratio; leave `src` off and
 it stays a quiet tinted panel captioned with the shot that belongs there. Adding
 a photo is one prop, and the layout doesn't move either way.
 
-Source frames live outside the repo. What ships is in `public/photos`, cropped
-to each slot's ratio with sharp and encoded as webp — Next's image optimiser
-handles the responsive sizes from there, so one file per slot is enough.
+Source frames live outside the repo. What ships is in `src/photos`, cropped to
+each slot's ratio with sharp and encoded as webp. One file per slot: Next's
+image optimiser handles the responsive sizes.
+
+They live in `src/photos` rather than `public/` on purpose, and are reached
+through `src/lib/photos.ts` rather than by path. A file under `public/` keeps
+one URL for life, so replacing the picture behind it leaves browsers, the CDN
+and the image optimiser all holding the old bytes with nothing to tell them
+otherwise — which is exactly what happened, repeatedly, while the photography
+was being placed. Imported through the build, each file's URL carries a hash of
+its own contents, so a changed picture is a new address and a stale one is
+impossible.
+
+Adding a photo means dropping the file in `src/photos`, adding a line to
+`PHOTOS`, and passing `PHOTOS.thatOne` to a `<Shot/>`. The clips in
+`public/video` are the exception, since video can't be imported that way: if
+one of those is ever replaced, rename the file.
 
 The **home page is shot**. Product, about and checkout are still placeholders.
 

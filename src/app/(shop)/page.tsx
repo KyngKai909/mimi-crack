@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BOTANICAL_OIL_COUNT, PRODUCT, formatPrice } from "@/lib/product";
+import { PHOTOS } from "@/lib/photos";
 import { AddToCart } from "@/components/AddToCart";
 import { Shot } from "@/components/Shot";
 import { Reveal } from "@/components/Reveal";
@@ -73,7 +74,7 @@ export default function HomePage() {
           <Reveal delay={260} className="order-1 lg:order-2">
             <Shot
               label="MiMi Crack jars on a bed of greenery, one open"
-              src="/photos/hero-jars.webp"
+              src={PHOTOS.heroJars}
               ratio="16 / 10"
               tone="pistachio"
               className="rounded-[1.75rem]"
@@ -157,7 +158,7 @@ export default function HomePage() {
             <Reveal className="col-span-2 row-span-2 lg:col-span-2">
               <Shot
                 label="The jar surrounded by what's in it: mango butter, jojoba, coconut, olive, rosemary, peppermint, honey, sage and eucalyptus"
-                src="/photos/formula-ingredients.webp"
+                src={PHOTOS.formulaIngredients}
                 ratio="1 / 1"
                 tone="pistachio"
                 className="h-full rounded-[1.5rem]"

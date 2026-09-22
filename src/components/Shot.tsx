@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 
 /**
  * A photography slot.
@@ -25,8 +25,9 @@ export function Shot({
 }: {
   /** What belongs here, e.g. "Jar, three-quarter, soft daylight". */
   label: string;
-  /** The photograph. Without it the slot renders as a captioned placeholder. */
-  src?: string;
+  /** The photograph, imported from src/photos. Without it the slot renders as
+   *  a captioned placeholder. */
+  src?: string | StaticImageData;
   ratio?: string;
   tone?: "clay" | "pistachio" | "warm";
   className?: string;

@@ -1,10 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { StaticImageData } from "next/image";
 import { useScrollProgress } from "@/lib/useScrollProgress";
 import { Shot } from "./Shot";
 
-type Step = { step: string; body: string; photo?: string; alt?: string };
+type Step = {
+  step: string;
+  body: string;
+  photo?: StaticImageData;
+  alt?: string;
+};
 
 /**
  * The commitment, as a pinned scene that scrolls sideways.
