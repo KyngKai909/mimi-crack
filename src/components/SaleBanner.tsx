@@ -13,6 +13,10 @@ import { SaleCountdown } from "./SaleCountdown";
 /**
  * The sale, stated on the product page directly above the buy controls.
  *
+ * Built on the site's dark card — forest, 1.5rem corners, shell type — the
+ * same one the net-weight panel uses further down the page, so it reads as
+ * part of the page rather than something bolted onto it.
+ *
  * `saleOn` is what the server believed when it rendered; the hook takes over
  * after hydration so a page left open past the deadline puts itself away
  * rather than advertising a price checkout will no longer honour.
@@ -22,37 +26,36 @@ export function SaleBanner({ saleOn }: { saleOn: boolean }) {
   if (!on) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-[1.5rem] bg-ink px-6 py-6 text-shell sm:px-7">
-      {/* The one spot of colour, kept soft so the type stays the loudest
-          thing in the block. */}
+    <div className="relative overflow-hidden rounded-[1.5rem] bg-forest p-7 text-shell">
+      {/* The product's own green, thrown soft behind the type — the one
+          flourish, and it stays under everything. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-pistachio/25 blur-3xl"
+        className="pointer-events-none absolute -right-20 -top-24 h-56 w-56 rounded-full bg-pistachio/20 blur-3xl"
       />
 
       <div className="relative">
-        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.6rem] uppercase tracking-[0.2em] text-pistachio">
+        <p className="eyebrow text-pistachio">
           {SALE_NAME}
-          <span aria-hidden="true" className="text-shell/25">
+          <span aria-hidden="true" className="px-2.5 text-shell/25">
             ·
           </span>
-          <span className="text-shell/55">One week only</span>
+          <span className="text-shell/45">One week only</span>
         </p>
 
-        <p className="display mt-4 text-[clamp(1.9rem,8vw,2.6rem)] leading-none">
-          {SALE_DEAL_LINE}
-        </p>
-        <p className="mt-2.5 text-[0.95rem] text-shell/65">
-          {SALE_SINGLE_LINE}{" "}
-          <span aria-hidden="true" className="text-shell/25">
+        <p className="display display-lg mt-5">{SALE_DEAL_LINE}</p>
+
+        <p className="mt-3 text-[0.95rem] leading-relaxed text-shell/60">
+          {SALE_SINGLE_LINE}
+          <span aria-hidden="true" className="px-2 text-shell/25">
             ·
-          </span>{" "}
+          </span>
           {SALE_TIER_NOTE}
         </p>
 
-        <SaleCountdown className="mt-6" />
+        <SaleCountdown className="mt-7" />
 
-        <p className="mt-4 text-xs text-shell/45">Ends {SALE_END_LABEL}.</p>
+        <p className="mt-5 text-sm text-shell/40">Ends {SALE_END_LABEL}.</p>
       </div>
     </div>
   );

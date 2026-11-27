@@ -27,13 +27,21 @@ const SCROLL_TOLERANCE = 24;
 /** Long enough that it reads as an invitation rather than an ambush. */
 const APPEAR_DELAY = 1100;
 
+/**
+ * The sale, offered once on the home page.
+ *
+ * Same dark card as the rest of the site — forest, shell type, a script line
+ * in pistachio, a house pill for the way out — so it reads as the shop
+ * talking rather than an ad someone dropped on top of it. Nothing here
+ * animates faster than the page's own easing.
+ */
 export function SalePopup({ saleOn }: { saleOn: boolean }) {
   const on = useSaleLive(saleOn);
   const [open, setOpen] = useState(false);
-  const [shown, setShown] = useState(false);
+  const [closing, setClosing] = useState(false);
 
   const close = useCallback(() => {
-    setShown(false);
+    setClosing(true);
     try {
       window.sessionStorage.setItem(STORAGE_KEY, "closed");
     } catch {
@@ -41,7 +49,7 @@ export function SalePopup({ saleOn }: { saleOn: boolean }) {
       // come back on the next page, which is the harmless failure.
     }
     // Let it fade before it leaves the tree.
-    window.setTimeout(() => setOpen(false), 260);
+    window.setTimeout(() => setOpen(false), 420);
   }, []);
 
   // Open it, once, a beat after the page settles.
@@ -52,11 +60,7 @@ export function SalePopup({ saleOn }: { saleOn: boolean }) {
     } catch {
       // Unreadable storage is treated as "not dismissed".
     }
-    const id = window.setTimeout(() => {
-      setOpen(true);
-      // A second frame so the entrance transition has a state to move from.
-      requestAnimationFrame(() => requestAnimationFrame(() => setShown(true)));
-    }, APPEAR_DELAY);
+    const id = window.setTimeout(() => setOpen(true), APPEAR_DELAY);
     return () => window.clearTimeout(id);
   }, [on]);
 
@@ -86,35 +90,34 @@ export function SalePopup({ saleOn }: { saleOn: boolean }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[70] flex items-end justify-center p-4 transition-opacity duration-300 ease-soft sm:items-center ${
-        shown ? "opacity-100" : "opacity-0"
+      className={`fixed inset-0 z-[70] flex items-end justify-center p-4 transition-opacity duration-[420ms] ease-soft sm:items-center ${
+        closing ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      {/* The backdrop is the outside-click target. It's a button so a
-          keyboard can reach the same way out, and it's hidden from screen
-          readers because the X below says the same thing properly. */}
+      {/* The backdrop is the outside-click target. It's a button so the
+          pointer behaviour and the hit area are one thing, and it's hidden
+          from screen readers because the X below says the same thing
+          properly. */}
       <button
         type="button"
         aria-hidden="true"
         tabIndex={-1}
         onClick={close}
-        className="absolute inset-0 cursor-default bg-ink/60 backdrop-blur-[3px]"
+        className="popup-fade absolute inset-0 cursor-default bg-forest/55 backdrop-blur-[3px]"
       />
 
       <div
         role="dialog"
         aria-modal="false"
         aria-labelledby="sale-popup-title"
-        className={`relative w-full max-w-[26rem] overflow-hidden rounded-[1.75rem] bg-ink text-shell shadow-[0_30px_80px_-20px_rgba(26,22,19,0.55)] transition-all duration-500 ease-soft motion-reduce:transition-none ${
-          shown ? "translate-y-0 scale-100" : "translate-y-3 scale-[0.98]"
-        }`}
+        className="popup-rise relative w-full max-w-[25rem] overflow-hidden rounded-[1.75rem] bg-forest text-shell shadow-[0_30px_80px_-24px_rgba(26,22,19,0.5)]"
       >
         <div className="relative aspect-[16/9] w-full">
           <Image
             src={PHOTOS.productArray}
             alt="A batch of MiMi Crack jars, one open with a spatula resting in it"
             fill
-            sizes="(min-width: 640px) 26rem, 100vw"
+            sizes="(min-width: 640px) 25rem, 100vw"
             className="object-cover"
             style={{ objectPosition: "50% 45%" }}
           />
@@ -122,55 +125,52 @@ export function SalePopup({ saleOn }: { saleOn: boolean }) {
               sit on a hard seam. */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-ink via-ink/25 to-transparent"
+            className="absolute inset-0 bg-gradient-to-t from-forest via-forest/25 to-transparent"
           />
           <button
             type="button"
             onClick={close}
             aria-label="Close"
-            className="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full bg-ink/55 text-[1.05rem] text-shell backdrop-blur transition-colors duration-300 hover:bg-ink/80"
+            className="icon-btn absolute right-3 top-3 bg-forest/50 text-shell backdrop-blur hover:bg-forest/80 hover:text-shell"
           >
-            <span aria-hidden="true">✕</span>
+            <span aria-hidden="true" className="text-[1.05rem] leading-none">
+              ✕
+            </span>
           </button>
         </div>
 
-        <div className="px-6 pb-7 pt-1 sm:px-7">
-          <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.6rem] uppercase tracking-[0.2em] text-pistachio">
+        <div className="px-7 pb-8 pt-1">
+          <p className="eyebrow text-pistachio">
             {SALE_NAME}
-            <span aria-hidden="true" className="text-shell/25">
+            <span aria-hidden="true" className="px-2.5 text-shell/25">
               ·
             </span>
-            <span className="text-shell/55">One week only</span>
+            <span className="text-shell/45">One week only</span>
           </p>
 
-          <p id="sale-popup-title" className="display mt-3 text-[clamp(2rem,9vw,2.6rem)] leading-none">
+          <p id="sale-popup-title" className="display display-lg mt-4">
             {SALE_DEAL_LINE}
           </p>
-          <p className="font-script mt-2 text-[1.75rem] leading-none text-pistachio-deep">
+          <p className="font-script mt-1.5 text-[1.9rem] leading-tight text-pistachio">
             Stock the shelf.
           </p>
-          <p className="mt-3 text-[0.95rem] text-shell/65">
-            {SALE_SINGLE_LINE}{" "}
-            <span aria-hidden="true" className="text-shell/25">
+
+          <p className="mt-3.5 text-[0.95rem] leading-relaxed text-shell/60">
+            {SALE_SINGLE_LINE}
+            <span aria-hidden="true" className="px-2 text-shell/25">
               ·
-            </span>{" "}
+            </span>
             {SALE_TIER_NOTE}
           </p>
 
-          <SaleCountdown className="mt-5" />
+          <SaleCountdown className="mt-6" />
 
-          <Link
-            href="/product"
-            onClick={close}
-            className="mt-6 flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-shell px-6 text-[0.95rem] text-ink transition-transform duration-500 ease-soft hover:-translate-y-0.5 motion-reduce:transition-none"
-          >
+          <Link href="/product" onClick={close} className="pill pill-invert mt-7 w-full">
             Shop the jar
             <span aria-hidden="true">→</span>
           </Link>
 
-          <p className="mt-4 text-center text-[0.7rem] text-shell/40">
-            Ends {SALE_END_LABEL}
-          </p>
+          <p className="mt-5 text-center text-xs text-shell/40">Ends {SALE_END_LABEL}</p>
         </div>
       </div>
     </div>

@@ -55,7 +55,7 @@ export function AddToCart({
           </div>
 
           {pricing.onSale && (
-            <p className="mt-3.5 inline-flex items-center rounded-full bg-ink px-3.5 py-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-shell">
+            <p className="eyebrow mt-4 inline-flex items-center rounded-full bg-forest px-4 py-2 text-[0.62rem] tracking-[0.16em] text-shell">
               {SALE_NAME} · save {formatPrice(pricing.savingsCents)}
             </p>
           )}

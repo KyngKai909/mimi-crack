@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { timeUntilSaleEnds } from "@/lib/sale";
+import { RollingNumber } from "./RollingNumber";
 
 const UNITS = [
   { key: "days", label: "Days" },
@@ -11,20 +12,18 @@ const UNITS = [
 ] as const;
 
 /**
- * How long the sale has left, in four cells.
+ * How long the sale has left, in four cells, on the same rolling digits as
+ * the pre-launch teaser's clock.
  *
  * Starts blank rather than guessing: the server has no idea what time it is
  * where the visitor is, and rendering its own clock would be a hydration
  * mismatch on every load. The cells hold their size while empty so nothing
  * jumps when the first tick lands.
+ *
+ * Only ever drawn on the dark cards, so it takes the forest surface for
+ * granted and tints itself in shell.
  */
-export function SaleCountdown({
-  tone = "dark",
-  className = "",
-}: {
-  tone?: "dark" | "light";
-  className?: string;
-}) {
+export function SaleCountdown({ className = "" }: { className?: string }) {
   const [left, setLeft] = useState<ReturnType<typeof timeUntilSaleEnds> | null>(null);
 
   useEffect(() => {
@@ -33,12 +32,6 @@ export function SaleCountdown({
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
   }, []);
-
-  const cell =
-    tone === "dark"
-      ? "bg-shell/10 text-shell"
-      : "bg-ink/[0.045] text-ink";
-  const caption = tone === "dark" ? "text-shell/45" : "text-ink-mute";
 
   return (
     <div
@@ -49,21 +42,19 @@ export function SaleCountdown({
           ? `${left.days} days, ${left.hours} hours, ${left.minutes} minutes and ${left.seconds} seconds left in the sale`
           : "Counting down to the end of the sale"
       }
-      className={`flex gap-1.5 transition-opacity duration-500 ${
+      className={`flex gap-2 transition-opacity duration-700 ${
         left ? "opacity-100" : "opacity-0"
       } ${className}`}
     >
       {UNITS.map((u) => (
         <div
           key={u.key}
-          className={`flex-1 rounded-xl px-1 py-2 text-center ${cell}`}
+          className="flex flex-1 flex-col items-center rounded-2xl bg-shell/[0.07] px-1 py-3"
         >
-          <span className="display block text-[1.3rem] leading-none tabular-nums sm:text-[1.5rem]">
-            {String(left?.[u.key] ?? 0).padStart(2, "0")}
+          <span className="display flex text-[1.45rem] leading-none text-shell">
+            <RollingNumber value={left?.[u.key] ?? 0} />
           </span>
-          <span
-            className={`mt-1.5 block text-[0.55rem] uppercase tracking-[0.16em] ${caption}`}
-          >
+          <span className="eyebrow mt-2 text-[0.55rem] tracking-[0.14em] text-shell/45">
             {u.label}
           </span>
         </div>
