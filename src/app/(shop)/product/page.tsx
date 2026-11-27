@@ -8,7 +8,9 @@ import {
   NAMED_OIL_COUNT,
   PRODUCT,
 } from "@/lib/product";
+import { SALE_END_ISO, isSaleOn, salePricing } from "@/lib/sale";
 import { AddToCart } from "@/components/AddToCart";
+import { SaleBanner } from "@/components/SaleBanner";
 import { ShotGallery, type ShotSpec } from "@/components/ShotGallery";
 import { Shot } from "@/components/Shot";
 import { Faq } from "@/components/Faq";
@@ -28,6 +30,15 @@ export const metadata: Metadata = share({
   description: `${PRODUCT.tagline}. ${PRODUCT.size.label} of premium scalp-first hair grease.`,
   banner: "product",
 });
+
+/**
+ * The sale window moves, so the page can't be built once and kept. Ten
+ * minutes is close enough for marketing copy and cheap enough that the page
+ * stays static in between; the price Stripe charges is decided per request in
+ * the checkout route regardless, and the blocks that show a price correct
+ * themselves on the client.
+ */
+export const revalidate = 600;
 
 /** The data names a rule; this decides what it looks like. */
 const HANDLING_ICONS = {
@@ -62,6 +73,9 @@ const shots: ShotSpec[] = [
 ];
 
 export default function ProductPage() {
+  const saleOn = isSaleOn();
+  const single = salePricing(1, PRODUCT.priceCents);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -70,9 +84,10 @@ export default function ProductPage() {
     brand: { "@type": "Brand", name: "MiMi Crack" },
     offers: {
       "@type": "Offer",
-      price: (PRODUCT.priceCents / 100).toFixed(2),
+      price: (single.unitCents / 100).toFixed(2),
       priceCurrency: PRODUCT.currency.toUpperCase(),
       availability: "https://schema.org/InStock",
+      ...(single.onSale && { priceValidUntil: SALE_END_ISO }),
     },
   };
 
@@ -109,9 +124,17 @@ export default function ProductPage() {
               </p>
             </Reveal>
 
+            {saleOn && (
+              <Reveal delay={320}>
+                <div className="mt-9 max-w-md">
+                  <SaleBanner saleOn={saleOn} />
+                </div>
+              </Reveal>
+            )}
+
             <Reveal delay={340}>
               <div className="mt-10 max-w-md">
-                <AddToCart withPrice />
+                <AddToCart withPrice saleOn={saleOn} />
               </div>
             </Reveal>
 

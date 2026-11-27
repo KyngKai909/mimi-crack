@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { MAX_QUANTITY, PRODUCT } from "@/lib/product";
+import { SALE_NAME, salePricing } from "@/lib/sale";
 import { getStripe, isStripeConfigured } from "@/lib/stripe";
 import { getRate, isShippoConfigured } from "@/lib/shippo";
 import { siteUrl } from "@/lib/siteUrl";
@@ -67,6 +68,13 @@ export async function POST(request: Request) {
 
   const origin = siteUrl(request);
 
+  // Sale pricing is decided here, from the clock on the server and the tier
+  // table in src/lib/sale.ts. The browser sends a quantity and nothing else
+  // about money, so a tampered request can't award itself a discount, and a
+  // page cached from inside the sale window can't sell at sale prices once
+  // the window has closed.
+  const pricing = salePricing(quantity, PRODUCT.priceCents);
+
   try {
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
@@ -80,10 +88,12 @@ export async function POST(request: Request) {
           quantity,
           price_data: {
             currency: PRODUCT.currency,
-            unit_amount: PRODUCT.priceCents,
+            unit_amount: pricing.unitCents,
             product_data: {
               name: PRODUCT.name,
-              description: `${PRODUCT.tagline}, ${PRODUCT.size.label}`,
+              description: pricing.onSale
+                ? `${PRODUCT.tagline}, ${PRODUCT.size.label} — ${SALE_NAME} price`
+                : `${PRODUCT.tagline}, ${PRODUCT.size.label}`,
               images: [`${origin}/product/jar-front.webp`],
             },
           },
@@ -135,6 +145,11 @@ export async function POST(request: Request) {
       metadata: {
         sku: PRODUCT.id,
         quantity: String(quantity),
+        unit_cents: String(pricing.unitCents),
+        ...(pricing.onSale && {
+          sale: SALE_NAME,
+          sale_savings_cents: String(pricing.savingsCents),
+        }),
         shippo_rate_id: shipping.rateId,
         ship_to: JSON.stringify(address),
       },

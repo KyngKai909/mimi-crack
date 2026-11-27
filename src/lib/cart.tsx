@@ -9,6 +9,8 @@ import {
   useState,
 } from "react";
 import { MAX_QUANTITY, PRODUCT } from "./product";
+import { isSaleOn, salePricing, type Pricing } from "./sale";
+import { useSaleLive } from "./useSaleLive";
 
 const STORAGE_KEY = "mimi-crack.cart.v1";
 
@@ -21,7 +23,10 @@ type CartState = {
   add: (n?: number) => void;
   setQuantity: (n: number) => void;
   remove: () => void;
+  /** What the jars cost, sale applied. */
   subtotalCents: number;
+  /** The same jars at the everyday price, and the difference. */
+  pricing: Pricing;
   justAdded: boolean;
 };
 
@@ -34,6 +39,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [quantity, setQuantityState] = useState(0);
   const [ready, setReady] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+
+  // The cart renders nothing until the persisted quantity has been read, so
+  // this is only ever consulted after mount — no server render depends on it.
+  const saleOn = useSaleLive(isSaleOn());
 
   useEffect(() => {
     try {
@@ -70,6 +79,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const remove = useCallback(() => setQuantityState(0), []);
 
+  const pricing = useMemo(
+    () => salePricing(quantity, PRODUCT.priceCents, saleOn),
+    [quantity, saleOn],
+  );
+
   const value = useMemo<CartState>(
     () => ({
       quantity,
@@ -77,10 +91,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       add,
       setQuantity,
       remove,
-      subtotalCents: quantity * PRODUCT.priceCents,
+      subtotalCents: pricing.totalCents,
+      pricing,
       justAdded,
     }),
-    [quantity, ready, add, setQuantity, remove, justAdded],
+    [quantity, ready, add, setQuantity, remove, pricing, justAdded],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

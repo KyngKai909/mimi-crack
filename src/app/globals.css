@@ -217,6 +217,16 @@ code {
     color: var(--color-shell);
   }
 
+  /* The solid pill inverted, for the dark forest cards, where pill-solid
+     would be ink on near-ink. */
+  .pill-invert {
+    background: var(--color-shell);
+    color: var(--color-ink);
+  }
+  .pill-invert:hover {
+    background: var(--color-pistachio);
+  }
+
   /* A square, comfortably tappable control for icon-only chrome. */
   .icon-btn {
     display: inline-flex;
@@ -294,6 +304,42 @@ code {
       rgba(232, 220, 205, 0.28) 45%,
       transparent 72%
     );
+  }
+}
+
+/* The sale card's entrance.
+   A CSS animation rather than a React state flip, because the flip needed a
+   requestAnimationFrame to have something to transition from — and a tab that
+   never runs a frame (opened in the background, or a pane the app has hidden)
+   never fired one, leaving a full-screen card sitting at opacity zero over
+   the page, invisible but still catching clicks. An animation with `both`
+   needs no frame of ours and can't get stuck before its first keyframe. */
+@keyframes popup-rise {
+  from {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes popup-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  .popup-rise {
+    animation: popup-rise 760ms var(--ease-soft) both;
+  }
+  .popup-fade {
+    animation: popup-fade 520ms var(--ease-soft) both;
   }
 }
 

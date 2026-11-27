@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { CAUTIONS, PRODUCT, formatPrice } from "@/lib/product";
+import { CAUTIONS, PRODUCT } from "@/lib/product";
+import { isSaleOn } from "@/lib/sale";
+import { ShopPrice } from "@/components/ShopPrice";
 
 export function Footer() {
   return (
@@ -53,7 +55,9 @@ export function Footer() {
             className="display display-lg group inline-flex min-h-11 flex-wrap items-baseline gap-x-4 gap-y-1 text-shell"
           >
             Get the jar
-            <span className="text-pistachio">{formatPrice(PRODUCT.priceCents)}</span>
+            <span className="text-pistachio">
+              <ShopPrice saleOn={isSaleOn()} />
+            </span>
             <span aria-hidden="true" className="transition-transform duration-500 group-hover:translate-x-2">
               →
             </span>

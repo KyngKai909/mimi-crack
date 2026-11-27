@@ -2,36 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { timeUntilLaunch } from "@/lib/launch";
-
-/** A digit column that rolls to its value rather than swapping in place. */
-function Digit({ value }: { value: number }) {
-  return (
-    <span
-      className="relative inline-block overflow-hidden align-baseline tabular-nums"
-      style={{ width: "0.62em", height: "1em" }}
-      aria-hidden="true"
-    >
-      <span
-        className="absolute inset-x-0 top-0 flex flex-col transition-transform duration-[650ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-        style={{ transform: `translateY(${-value * 10}%)` }}
-      >
-        {Array.from({ length: 10 }, (_, n) => (
-          <span key={n} className="flex h-[1em] items-center justify-center leading-none">
-            {n}
-          </span>
-        ))}
-      </span>
-    </span>
-  );
-}
+import { RollingNumber } from "./RollingNumber";
 
 function Unit({ value, label }: { value: number; label: string }) {
-  const [tens, ones] = String(value).padStart(2, "0").split("").map(Number);
   return (
     <div className="flex flex-col items-center">
       <span className="display flex text-[clamp(1.9rem,min(10.5vw,12vh),7.5rem)] leading-none">
-        <Digit value={tens} />
-        <Digit value={ones} />
+        <RollingNumber value={value} />
       </span>
       <span className="eyebrow mt-2.5 text-[0.55rem] tracking-[0.14em] sm:mt-3 sm:text-[0.7rem] sm:tracking-[0.22em]">
         {label}

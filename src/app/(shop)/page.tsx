@@ -1,7 +1,10 @@
 import Link from "next/link";
-import { BOTANICAL_OIL_COUNT, PRODUCT, formatPrice } from "@/lib/product";
+import { BOTANICAL_OIL_COUNT, PRODUCT } from "@/lib/product";
 import { PHOTOS } from "@/lib/photos";
+import { isSaleOn } from "@/lib/sale";
 import { AddToCart } from "@/components/AddToCart";
+import { SalePopup } from "@/components/SalePopup";
+import { ShopPrice } from "@/components/ShopPrice";
 import { Shot } from "@/components/Shot";
 import { Reveal } from "@/components/Reveal";
 import { Highlights } from "@/components/Highlights";
@@ -10,9 +13,17 @@ import { FitText } from "@/components/FitText";
 import { PinnedBenefits } from "@/components/PinnedBenefits";
 import { CommitmentScroll } from "@/components/CommitmentScroll";
 
+/** See the note on the product page: the sale window moves, so the page
+ *  can't be built once and kept. */
+export const revalidate = 600;
+
 export default function HomePage() {
+  const saleOn = isSaleOn();
+
   return (
     <>
+      {saleOn && <SalePopup saleOn={saleOn} />}
+
       {/* ═══════════════════════════════════════════ hero — full bleed */}
       <section className="relative pb-10">
         <div className="shell-x flex flex-wrap items-end justify-between gap-6 pb-5 sm:pb-8">
@@ -62,7 +73,7 @@ export default function HomePage() {
             <Reveal delay={400}>
               <div className="mt-10 flex flex-wrap items-center gap-6">
                 <Link href="/product" className="pill pill-solid">
-                  Shop the jar · {formatPrice(PRODUCT.priceCents)}
+                  Shop the jar · <ShopPrice saleOn={saleOn} />
                 </Link>
                 <Link href="#commitment" className="link-draw text-[0.95rem] text-ink-soft">
                   See the commitment
@@ -262,7 +273,7 @@ export default function HomePage() {
             </p>
           </Reveal>
           <Reveal delay={140} className="w-full max-w-sm">
-            <AddToCart />
+            <AddToCart saleOn={saleOn} />
           </Reveal>
         </div>
       </section>
