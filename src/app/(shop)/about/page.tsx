@@ -3,7 +3,9 @@ import Link from "next/link";
 import { share } from "@/lib/seo";
 import { PHOTOS } from "@/lib/photos";
 import { BRAND } from "@/lib/brand";
-import { PRODUCT, formatPrice } from "@/lib/product";
+import { PRODUCT } from "@/lib/product";
+import { isSaleOn } from "@/lib/sale";
+import { ShopPrice } from "@/components/ShopPrice";
 import { Shot } from "@/components/Shot";
 import { FounderNote } from "@/components/FounderNote";
 import { Reveal } from "@/components/Reveal";
@@ -34,6 +36,10 @@ const practices = [
     v: "One price, live carrier rates at checkout, and nothing added to your bag that you didn't put there.",
   },
 ];
+
+/** See the note on the product page: the footer and the shop button
+ *  quote a sale price, so the page can't be built once and kept. */
+export const revalidate = 600;
 
 export default function AboutPage() {
   return (
@@ -229,7 +235,7 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={140}>
             <Link href="/product" className="pill pill-solid">
-              Shop the jar · {formatPrice(PRODUCT.priceCents)}
+              Shop the jar · <ShopPrice saleOn={isSaleOn()} />
             </Link>
           </Reveal>
         </div>

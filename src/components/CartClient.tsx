@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { MAX_QUANTITY, PRODUCT, formatPrice } from "@/lib/product";
 import { useCart } from "@/lib/cart";
+import { SALE_NAME, isSaleOn } from "@/lib/sale";
+import { ShopPrice } from "@/components/ShopPrice";
 import { Shot } from "./Shot";
 import { PHOTOS } from "@/lib/photos";
 import { FitText } from "./FitText";
@@ -60,7 +62,7 @@ function failureMessage(err: unknown, fallback: string): string {
 }
 
 export function CartClient() {
-  const { quantity, setQuantity, remove, subtotalCents, ready } = useCart();
+  const { quantity, setQuantity, remove, subtotalCents, pricing, ready } = useCart();
 
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState<Address>(EMPTY);
@@ -167,7 +169,7 @@ export function CartClient() {
             day.
           </p>
           <Link href="/product" className="pill pill-solid">
-            Shop the jar · {formatPrice(PRODUCT.priceCents)}
+            Shop the jar · <ShopPrice saleOn={isSaleOn()} />
           </Link>
         </div>
       </section>
@@ -226,9 +228,17 @@ export function CartClient() {
                     Remove
                   </button>
                 </div>
-                <p className="display text-2xl tabular-nums">
-                  {formatPrice(subtotalCents)}
-                </p>
+                <div className="text-right">
+                  <p className="display text-2xl tabular-nums">
+                    {formatPrice(subtotalCents)}
+                  </p>
+                  {pricing.onSale && (
+                    <p className="mt-1 text-sm tabular-nums text-ink-mute line-through">
+                      <span className="sr-only">Usually </span>
+                      {formatPrice(pricing.listTotalCents)}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -382,8 +392,20 @@ export function CartClient() {
                 <dt className="text-ink-soft">
                   {PRODUCT.shortName} × {quantity}
                 </dt>
-                <dd className="tabular-nums">{formatPrice(subtotalCents)}</dd>
+                <dd className="tabular-nums">
+                  {formatPrice(pricing.listTotalCents)}
+                </dd>
               </div>
+              {/* Shown as its own line rather than folded into the subtotal,
+                  so the numbers above the total add up on the page. */}
+              {pricing.onSale && (
+                <div className="flex justify-between gap-4">
+                  <dt className="text-ink-soft">{SALE_NAME}</dt>
+                  <dd className="tabular-nums text-pistachio-deep">
+                    −{formatPrice(pricing.savingsCents)}
+                  </dd>
+                </div>
+              )}
               <div className="flex justify-between gap-4">
                 <dt className="text-ink-soft">Shipping</dt>
                 <dd className="text-right tabular-nums">

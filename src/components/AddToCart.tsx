@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { MAX_QUANTITY, PRODUCT, formatPrice } from "@/lib/product";
 import { useCart } from "@/lib/cart";
+import { SALE_NAME, isSaleOn, salePricing } from "@/lib/sale";
+import { useSaleLive } from "@/lib/useSaleLive";
 
 export function AddToCart({
   withQuantity = true,
@@ -14,24 +16,54 @@ export function AddToCart({
    * further up the page can't react to it.
    */
   withPrice = false,
+  /**
+   * Whether the sale was running when the server rendered this page. Seeding
+   * from the server keeps the first paint's price identical to the markup;
+   * the hook then follows the clock, so a tab left open past the deadline
+   * stops quoting a price checkout will no longer honour.
+   */
+  saleOn,
 }: {
   withQuantity?: boolean;
   withPrice?: boolean;
+  saleOn?: boolean;
 }) {
   const { add, justAdded } = useCart();
   const [qty, setQty] = useState(1);
+  const live = useSaleLive(saleOn ?? isSaleOn());
+  const pricing = useMemo(
+    () => salePricing(qty, PRODUCT.priceCents, live),
+    [qty, live],
+  );
 
   return (
     <div>
       {withPrice && (
         <div className="mb-8">
-          <p className="display text-5xl tabular-nums" aria-live="polite">
-            {formatPrice(PRODUCT.priceCents * qty)}
-          </p>
+          <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p className="display text-5xl tabular-nums" aria-live="polite">
+              {formatPrice(pricing.totalCents)}
+            </p>
+            {/* The everyday price stays visible beside the sale one, struck
+                through, so the discount is shown rather than asserted. */}
+            {pricing.onSale && (
+              <p className="text-xl tabular-nums text-ink-mute line-through">
+                <span className="sr-only">Usually </span>
+                {formatPrice(pricing.listTotalCents)}
+              </p>
+            )}
+          </div>
+
+          {pricing.onSale && (
+            <p className="mt-3.5 inline-flex items-center rounded-full bg-ink px-3.5 py-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-shell">
+              {SALE_NAME} · save {formatPrice(pricing.savingsCents)}
+            </p>
+          )}
+
           {/* Only worth saying once the total stops matching the unit price. */}
           {qty > 1 && (
-            <p className="mt-2 text-sm text-ink-mute">
-              {qty} jars · {formatPrice(PRODUCT.priceCents)} each
+            <p className="mt-2.5 text-sm text-ink-mute">
+              {qty} jars · {formatPrice(pricing.unitCents)} each
             </p>
           )}
         </div>
